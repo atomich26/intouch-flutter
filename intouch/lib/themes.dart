@@ -9,7 +9,7 @@ ThemeData lightTheme = ThemeData(
       primary: Colors.purple[700]!,
       onPrimary: Colors.white,
       primaryContainer: Colors.white70 ,
-      secondary: Colors.indigo[400]!,
+      secondary: Colors.grey[600]!,
       onSecondary: Colors.white,
       onSecondaryContainer: Colors.black,
       tertiary: Colors.red[300]!,
@@ -21,6 +21,7 @@ ThemeData lightTheme = ThemeData(
       background: Colors.grey[50]!,
       onBackground: Colors.black,
       surface: Colors.grey[50]!,
-      onSurface: Colors.black
+      onSurface: Colors.black,
+      
    ),
 );

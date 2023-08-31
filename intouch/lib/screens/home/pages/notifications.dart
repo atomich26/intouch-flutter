@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets.dart';
 
 class Notifications extends StatelessWidget {
   const Notifications({super.key});
+  final String title = 'Notifications';
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      
+      appBar: inTouchAppBar(context,'$this' ),
       body: Center(
         child: Text('This is the Notifications Screen'),
         ),

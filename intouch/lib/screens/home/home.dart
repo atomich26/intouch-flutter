@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/search.dart';
 import 'package:intouch/screens/home/pages/event_form.dart';
+import 'package:intouch/themes.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,7 +21,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
         body: PageView(
           controller: controller,
           children: <Widget>[

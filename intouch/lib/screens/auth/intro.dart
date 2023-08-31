@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intouch/screens/home/home.dart';
+import 'package:intouch/screens/auth/login.dart';
 import 'package:lottie/lottie.dart';
+import 'package:intouch/intouch_widgets.dart';
 
 class Intro extends StatelessWidget {
-  const Intro({super.key});
+  Intro({super.key});
+  final TextEditingController test = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,26 +28,27 @@ class Intro extends StatelessWidget {
                      children: [
                        Container(
                         child: Image(image: AssetImage("assets/images/intouch_full_logo.png")),
-                        padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 48.0),
+                        padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 64.0),
                        ),
-                       SizedBox(height: 6,),
-                       Text("Demo Version"),
+                       SizedBox(height: 24.0),
+                       Text("Demo Version", textScaleFactor: 1.5,),
                      ],
                    ),
-                   FilledButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=>Home())
-                        );
-                    }, 
-                    child: Text("Enter"))
-                   
-
-                ],
+                    Container(
+                      width: 150.0,
+                      child:inTouchLongButton(context, 'Enter', null, true, 
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context)=>Login()));
+                            }
+                          ),
+                        ),
+ 
+                      ],
+                    ),
               ),
-              ),
-          )
+            )
         ],)
       
     );
