@@ -62,7 +62,8 @@ class _LoginState extends State<Login> {
                     Expanded(
                       child: inTouchLongButton(context, 'Login', null, true, () async {
                         if(_formKey.currentState!.validate())
-                        {dynamic result = await _auth.signInWithEmailAndPassword(emailController.text, passwordController.text)
+                        {
+                        await _auth.signInWithEmailAndPassword(emailController.text, passwordController.text)
                         .then((result) {
                             if (result == null){
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Something went wrong!')));

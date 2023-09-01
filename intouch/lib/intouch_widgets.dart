@@ -53,6 +53,7 @@ String? emailValidator (String? email){
   if(!regex.hasMatch(email)) {
     return 'Please insert a valid Email Address';
   }
+  else return null;
 }
 
 Container inTouchLongButton(BuildContext context, String text, IconData? icon, bool isConfirm, Function onTap){

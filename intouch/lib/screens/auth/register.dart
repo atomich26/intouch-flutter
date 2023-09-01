@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/wrapper.dart';
 import '../../intouch_widgets.dart';
@@ -106,7 +104,7 @@ class _RegisterState extends State<Register> {
                     Expanded(
                       child: inTouchLongButton(context, 'Confirm', null, true, () async {
                         if(_formKey.currentState!.validate()){
-                          dynamic result = await _auth.registerWithEmailAndPassword(_emailController.text, _passwordController.text)
+                          await _auth.registerWithEmailAndPassword(_emailController.text, _passwordController.text)
                           .then((result) {
                             if (result == null){
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Something went wrong!')));
