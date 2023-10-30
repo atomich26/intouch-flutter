@@ -39,21 +39,17 @@ class AuthService{
       return _userFromFirebaseUser(user);
     } on FirebaseAuthException catch (e){
       return null;
- 
     }
   }
   
 
   //sign out
-
   Future signOut() async {
     try {
       return await _auth.signOut();
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       return null;
-   
-      
     }
   }
 

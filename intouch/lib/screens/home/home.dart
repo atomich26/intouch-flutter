@@ -1,5 +1,8 @@
+import 'dart:math';
+
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:intouch/intouch_widgets.dart';
+import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
@@ -7,14 +10,26 @@ import 'package:intouch/screens/home/pages/search.dart';
 import 'package:intouch/screens/home/pages/event_form.dart';
 import 'package:intouch/themes.dart';
 
+import '../../models/category.dart';
+import '../../services/cloud_functions.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
+
+
   @override
   State<Home> createState() => _HomeState();
+
+
 }
 
 class _HomeState extends State<Home> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
   final PageController controller = PageController();
   int _destinationIndex = 0;
   int _pageIndex = 0;
@@ -25,7 +40,7 @@ class _HomeState extends State<Home> {
           controller: controller,
           children: <Widget>[
             Feed(),
-            Search(),
+            Search(widget),
             Notifications(),
             Profile(),
           ],
@@ -56,7 +71,7 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>eventForm()));
+              getCategories();
             }, 
             icon: Icon(Icons.add_circle_rounded)
             ),

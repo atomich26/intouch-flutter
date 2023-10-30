@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/screens/auth/login.dart';
+import 'package:intouch/screens/auth/register.dart';
 import 'package:lottie/lottie.dart';
-import 'package:intouch/intouch_widgets.dart';
+import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 
 class Intro extends StatelessWidget {
   Intro({super.key});
@@ -34,17 +35,36 @@ class Intro extends StatelessWidget {
                        Text("Demo Version", textScaleFactor: 1.5,),
                      ],
                    ),
-                    Container(
-                      width: 150.0,
-                      child:inTouchLongButton(context, 'Enter', null, true, 
-                          () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context)=>Login()));
-                            }
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget> [
+                              InTouchLongButton(
+                                context, 
+                                "Login", 
+                                null, 
+                                true, 
+                                (){ 
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Login()));
+                                  }),
+                              SizedBox(height: 12.0),
+                              InTouchLongButton(
+                                context, 
+                                "Sign Up", 
+                                null, 
+                                false, 
+                                (){ 
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Register()));
+                                  }),
+                              ]
+                            ),
                         ),
- 
+                        
                       ],
                     ),
               ),

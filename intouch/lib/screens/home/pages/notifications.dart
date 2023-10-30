@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intouch/intouch_widgets.dart';
+import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 
 class Notifications extends StatelessWidget {
   const Notifications({super.key});
