@@ -30,33 +30,41 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
   }
+
+  Future<List<Category>> _categories = getCategories();
+
   final PageController controller = PageController();
   int _destinationIndex = 0;
   int _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: PageView(
-          controller: controller,
-          children: <Widget>[
-            Feed(),
-            Search(widget),
-            Notifications(),
-            Profile(),
-          ],
-          onPageChanged: (page) {
-            setState(() {
-                  _pageIndex = page;
-                    
-                    if(page > 1)  {
-                    _destinationIndex = page+1;
-                     }
-                   else {
-                   _destinationIndex = page;
-                  }
+        body: FutureBuilder<List<Category>>(
+          future: _categories,
+          builder: (context, categories) {
+            return PageView(
+              controller: controller,
+              children: <Widget>[
+                Feed(),
                 
-               });
-          }),
+                categories.hasData? Search(categories: categories.data!): Notifications(),
+                Notifications(),
+                Profile(),
+              ],
+              onPageChanged: (page) {
+                setState(() {
+                      _pageIndex = page;
+                        if(page > 1)  {
+                        _destinationIndex = page+1;
+                         }
+                       else {
+                       _destinationIndex = page;
+                      }
+                    
+                   });
+              });
+          }
+        ),
       bottomNavigationBar: NavigationBar(
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: _destinationIndex,
@@ -96,7 +104,7 @@ class _HomeState extends State<Home> {
               else {
                 _pageIndex = _destinationIndex;
               }
-              controller.jumpToPage(_pageIndex);
+              controller.jumpToPage(_pageIndex,);
             }
           }
           ) ,

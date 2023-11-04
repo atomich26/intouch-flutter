@@ -4,6 +4,10 @@ import '../models/category.dart';
 
     Future<List<Category>> getCategories() async {
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('categories-list');
-    var result = await callable.call();
-    return result.data;  
+    final result = await callable.call();
+    var casted = result.data as List;
+    //PORCO DIEGO 
+    return casted.map(
+      (e) => Category(id: e!["id"].toString(), name: e!["name"].toString(), cover: e!["cover"].toString())
+    ).toList();
 }

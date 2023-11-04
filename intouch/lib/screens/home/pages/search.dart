@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/category_box.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 
+import '../../../models/category.dart';
+
 class Search extends StatefulWidget {
-  const Search(categories, {super.key});
+  Search({
+    super.key,
+    required this.categories});
+
+  List<Category> categories;
 
   @override
   State<Search> createState() => _SearchState();
@@ -11,6 +17,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   final String title = 'Search';
+  
   
   @override
   void initState() {
@@ -21,20 +28,20 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return  Scaffold(
         appBar: inTouchAppBar(context, '$title'),
-        body: CustomScrollView(
-          slivers: [
-            SliverGrid(
+        body: 
+            GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return CategoryBox(context: context, index: index);
-                },
-                childCount: 25,
-              ),
-            ),
-          ]
-        ),
+                crossAxisCount: 3,
+                childAspectRatio: 0.75),
+              itemBuilder: (context, i){
+                return CategoryBox(
+                  context: context, 
+                  id: widget.categories[i].id, 
+                  name: widget.categories[i].name, 
+                  cover: "assets/images/concert.png");
+              }, 
+              itemCount: widget.categories.length)
+          
     );
   }
 }
