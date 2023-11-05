@@ -46,7 +46,6 @@ class _HomeState extends State<Home> {
               controller: controller,
               children: <Widget>[
                 Feed(),
-                
                 categories.hasData? Search(categories: categories.data!): Notifications(),
                 Notifications(),
                 Profile(),

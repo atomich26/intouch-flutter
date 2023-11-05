@@ -1,3 +1,5 @@
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/category_box.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
@@ -7,16 +9,18 @@ import '../../../models/category.dart';
 class Search extends StatefulWidget {
   Search({
     super.key,
-    required this.categories});
+    this.categories});
 
-  List<Category> categories;
+  List<Category>? categories;
 
   @override
   State<Search> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
+  bool get wantKeepAlive => true;
   final String title = 'Search';
+  
   
   
   @override
@@ -26,7 +30,8 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    super.build(context);
+    return Scaffold(
         appBar: inTouchAppBar(context, '$title'),
         body: 
             GridView.builder(
@@ -36,12 +41,11 @@ class _SearchState extends State<Search> {
               itemBuilder: (context, i){
                 return CategoryBox(
                   context: context, 
-                  id: widget.categories[i].id, 
-                  name: widget.categories[i].name, 
-                  cover: "assets/images/concert.png");
+                  id: widget.categories![i].id, 
+                  name: widget.categories![i].name, 
+                  cover: widget.categories![i].cover);
               }, 
-              itemCount: widget.categories.length)
-          
-    );
+              itemCount: widget.categories!.length)
+      );
   }
 }

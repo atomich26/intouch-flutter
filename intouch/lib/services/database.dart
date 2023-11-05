@@ -8,6 +8,8 @@ class UserDatabaseService{
 
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
 
+  
+
  // Future updateUserData(String)
 
 }
