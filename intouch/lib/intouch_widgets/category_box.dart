@@ -28,7 +28,7 @@ class _CategoryBoxState extends State<CategoryBox> {
   @override
   Widget build(BuildContext context) {
 
-    Future<String> imageUrl = _storageRef.getImageUrl(widget.cover);
+    Future<String>? imageUrl = _storageRef.getImageUrl(widget.cover);
     return FutureBuilder(
       future: imageUrl,
       builder: (context, imageUrl) {
