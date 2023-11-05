@@ -59,7 +59,7 @@ class _CategoryBoxState extends State<CategoryBox> {
                   Expanded(
                     flex: 1,
                     child: Center(
-                      child: Text(widget.name)))
+                      child: Text(widget.name, textAlign: TextAlign.center, textScaleFactor: 0.98, style: TextStyle(fontWeight: FontWeight.bold),)))
                 ],
             )
           )
