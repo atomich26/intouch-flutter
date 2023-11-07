@@ -9,7 +9,6 @@ class EventCard extends StatelessWidget {
   String image;
   DateTime date;
   String city;
-
   
   EventCard({
     super.key,
@@ -23,8 +22,6 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 320,
-      width: double.maxFinite,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
         child: Card(

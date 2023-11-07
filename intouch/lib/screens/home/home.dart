@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
             return PageView(
               controller: controller,
               children: <Widget>[
-                Feed(),
+                Feed(categories: categories.data,),
                 Search(categories: categories.data),
                 Notifications(),
                 Profile(),
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              getCategories();
+              EventForm();
             }, 
             icon: Icon(Icons.add_circle_rounded)
             ),

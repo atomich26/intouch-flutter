@@ -19,9 +19,7 @@ Padding CategoryEmpty() {
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0)),
-                      image: DecorationImage(
-                          image:const AssetImage("assets/images/intouch-default.png"),
-                          fit: BoxFit.cover,)
+                        color: Colors.white30
                   ),
               ),
           ),

@@ -1,4 +1,3 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/services/firebase_storage.dart';
 
@@ -20,14 +19,17 @@ class CategoryBox extends StatefulWidget {
   State<CategoryBox> createState() => _CategoryBoxState();
 }
 
-class _CategoryBoxState extends State<CategoryBox> {
+class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClientMixin{
   //bool _isSelected = false;
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
   final StorageService _storageRef = StorageService();
   
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     Future<String>? imageUrl = _storageRef.getImageUrl(widget.cover);
     return FutureBuilder(
       future: imageUrl,
@@ -37,7 +39,7 @@ class _CategoryBoxState extends State<CategoryBox> {
           child: Container( // to modify height, go to Search/gridDelegate/childAspectRatio
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.grey[200],
+              color: Colors.purple[50],
               ),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,7 +61,12 @@ class _CategoryBoxState extends State<CategoryBox> {
                   Expanded(
                     flex: 1,
                     child: Center(
-                      child: Text(widget.name, textAlign: TextAlign.center, textScaleFactor: 0.98, style: TextStyle(fontWeight: FontWeight.bold),)))
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
+                        child: Text(widget.name, textAlign: TextAlign.center, textScaleFactor: 0.9, style: TextStyle(fontWeight: FontWeight.bold),),
+                      )
+                    )
+                  )
                 ],
             )
           )
