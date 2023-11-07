@@ -55,7 +55,8 @@ Container InTouchLongButton(BuildContext context, String text, IconData? icon, b
     height:50,
     margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(90)
+      borderRadius: BorderRadius.circular(90),
+      color: Colors.transparent
       ),
     child: isConfirm ? 
       ElevatedButton(

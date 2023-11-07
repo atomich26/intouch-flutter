@@ -25,12 +25,9 @@ class _EventPageState extends State<EventPage> with AutomaticKeepAliveClientMixi
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    
     return Scaffold(
-      body:Container(
-        decoration: BoxDecoration(
-          color:Colors.purple[50]),
-        child: Column(
+      backgroundColor: Colors.purple[50],
+      body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:<Widget> [
               Hero(
@@ -91,9 +88,19 @@ class _EventPageState extends State<EventPage> with AutomaticKeepAliveClientMixi
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(dummy),
-                            ),
-                            
-                            InTouchLongButton(
+                            ),  
+                          ],
+                        ),
+                      ],
+                    ),
+                  ), 
+                ],
+              ),
+              )
+          ],
+        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: InTouchLongButton(
                               context, 
                               isSelected? "I'll Pass": "I'll be there!", 
                               null, 
@@ -102,24 +109,9 @@ class _EventPageState extends State<EventPage> with AutomaticKeepAliveClientMixi
                                 setState(() {
                                   isSelected = !isSelected;
                                 });
-                              })
-                          ],
-                        ),
-                        ],
-                      ),
-                    ),
-                    
-                  ],
-                ),
-              )
-            
-            
-          ],
-        ),
-      )
-    );
+                              }),);
   }
 }
 
 
-String dummy= "In our definition of deterministic automaton, the initial state is a single state, all transitions have event labels e ∈ E, and the transition function is deterministic in the sense that if event e ∈ Γ(x), then e causes a transition from x to a unique state y=f (x, e). For modeling and analysis purposes, it becomes necessary to relax these three requirements. First, an event e at state x may cause transitions to more than one states. The reason why we may want to allow for this possibility could simply be our own ignorance. Sometimes, we cannot say with certainty what the effect of an event might be. Othertimes, key instruments are malfunctioning or yet to be implemented";
+String dummy= "In our definition of deterministic automaton, the initial state is a single state, all transitions have event labels e ∈ E, and the transition function is deterministic in the sense that if event e ∈ Γ(x), then e causes a transition from x to a unique state y=f (x, e). For modeling and analysis purposes, it becomes necessary to relax these three requirements. ";
