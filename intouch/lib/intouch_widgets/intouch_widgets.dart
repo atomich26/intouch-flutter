@@ -7,7 +7,7 @@ AppBar inTouchAppBar(BuildContext context, String? title){
     title: Text(
               '$title',
               textAlign: TextAlign.left,
-              textScaleFactor: 1.7,
+              textScaleFactor: MediaQueryData(textScaleFactor: 1.6).textScaleFactor,
               ),
     foregroundColor: Theme.of(context).colorScheme.onSurface,
     backgroundColor: Theme.of(context).colorScheme.surface,

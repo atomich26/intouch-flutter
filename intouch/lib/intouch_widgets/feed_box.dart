@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets/event_sliver.dart';
 import 'package:intouch/models/event.dart';
 import '../models/category.dart';
 import '../screens/home/pages/event_page.dart';
@@ -36,7 +37,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
           onTap:() {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (BuildContext context) => EventPage(event: widget.category, image: imageUrl.data! )));
+              MaterialPageRoute(builder: (BuildContext context) => EventSliver(event: widget.category, image: imageUrl.data! )));
             
           },
           child: Padding(
