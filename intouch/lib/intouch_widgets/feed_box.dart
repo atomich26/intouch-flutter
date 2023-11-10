@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/event_sliver.dart';
 import 'package:intouch/models/event.dart';
 import '../models/category.dart';
-import '../screens/home/pages/event_page.dart';
+
 import '../services/firebase_storage.dart';
 
 class FeedBox extends StatefulWidget {
