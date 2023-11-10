@@ -55,7 +55,6 @@ class _EventSliverState extends State<EventSliver> {
                     ),
                   ),
               expandedHeight: 300.0,
-              
               elevation: 0.0,
               backgroundColor: Colors.purple[50],
               flexibleSpace: Stack(
@@ -68,7 +67,7 @@ class _EventSliverState extends State<EventSliver> {
                               image: DecorationImage(
                                 image: NetworkImage(widget.image),
                                 fit: BoxFit.cover,
-                                alignment: Alignment.topCenter)
+                                alignment: Alignment.center)
                             ),
                           ),
                         )
