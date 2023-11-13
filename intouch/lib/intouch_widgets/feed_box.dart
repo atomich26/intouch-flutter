@@ -61,7 +61,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                                 topLeft: Radius.circular(10.0),
                                 topRight: Radius.circular(10.0)),
                               image: DecorationImage(
-                                  image: imageUrl.hasData? NetworkImage(imageUrl.data!) : const AssetImage("assets/images/intouch-default.png") as ImageProvider,
+                                  image: /*imageUrl.hasData? NetworkImage(imageUrl.data!) :*/  AssetImage("assets/images/${widget.category.name}.png") as ImageProvider,
                                   fit: BoxFit.cover,)
                         )
                       ),

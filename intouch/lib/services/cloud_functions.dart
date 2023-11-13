@@ -3,11 +3,15 @@ import 'package:cloud_functions/cloud_functions.dart';
 import '../models/category.dart';
 
     Future<List<Category>> getCategories() async {
-    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('categories-list');
+    /*HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('categories-list');
     final result = await callable.call();
     var casted = result.data as List;
     //PORCO DIEGO 
     return casted.map(
       (e) => Category(id: e!["id"].toString(), name: e!["name"].toString(), cover: e!["cover"].toString())
-    ).toList();
+    ).toList();*/
+    List<String> dummyList =["concert", "countryside", "library", "mountain","rpg-meeting"];
+    await Duration(seconds: 2);
+    return dummyList.map((e) => Category(id: e, name: e, cover: e),).toList();
 }
+

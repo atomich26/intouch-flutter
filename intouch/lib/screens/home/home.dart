@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
           future: _categories,
           builder: (context, categories) {
             return PageView(
+              
               controller: controller,
               children: <Widget>[
                 Feed(categories: categories.data,),
