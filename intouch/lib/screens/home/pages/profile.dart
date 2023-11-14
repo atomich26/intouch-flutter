@@ -19,6 +19,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     print('Profile function activation');
+    
   }
 
   final String title = 'Profile';

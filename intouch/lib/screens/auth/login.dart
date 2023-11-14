@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/intouch_widgets/loading_spinner.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/screens/auth/register.dart';
 import 'package:intouch/services/auth_service.dart';
 import 'package:intouch/wrapper.dart';
@@ -95,9 +96,7 @@ class _LoginState extends State<Login> {
                     }) : LoadingSpinner()),
                     Expanded(
                       child: InTouchLongButton(context, 'Sign Up', null, false, (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Register()));
+                        Navigator.of(context).push(fromTheRight(Register()));
                       })),
                   ],
                 ),

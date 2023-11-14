@@ -53,7 +53,7 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0)),
                         image: DecorationImage(
-                            image: /*imageUrl.hasData? NetworkImage(imageUrl.data!) : */const AssetImage("assets/images/intouch-default.png") as ImageProvider,
+                            image: imageUrl.hasData? NetworkImage(imageUrl.data!) : const AssetImage("assets/images/intouch-default.png") as ImageProvider,
                             fit: BoxFit.cover,)
                       ),
                     ),

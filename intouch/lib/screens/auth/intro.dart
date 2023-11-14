@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/screens/auth/login.dart';
 import 'package:intouch/screens/auth/register.dart';
 import 'package:lottie/lottie.dart';
@@ -46,9 +47,7 @@ class Intro extends StatelessWidget {
                                 null, 
                                 true, 
                                 (){ 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => Login()));
+                                  Navigator.of(context).push(fromTheRight(Login()));
                                   }),
                               SizedBox(height: 12.0),
                               InTouchLongButton(
@@ -57,9 +56,7 @@ class Intro extends StatelessWidget {
                                 null, 
                                 false, 
                                 (){ 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => Register()));
+                                  Navigator.of(context).push(fromTheRight(Register()));
                                   }),
                               ]
                             ),

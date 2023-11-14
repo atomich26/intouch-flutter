@@ -65,8 +65,8 @@ class _EventSliverState extends State<EventSliver> {
                           Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                //image: NetworkImage(widget.image),
-                                image: AssetImage("assets/images/${widget.event.name}.png"),
+                                image: NetworkImage(widget.image),
+                                //image: AssetImage("assets/images/${widget.event.name}.png"),
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center)
                             ),

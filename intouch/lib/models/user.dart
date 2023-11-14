@@ -17,7 +17,7 @@ class AppUserData{
   late final String? email;
   late final double? birthdate;
   late final String? biography;
-  late final String? profileImg;
+  late final String? img;
   late final List<String>? friendsRef;
   late final List<String>? eventsRef;
   late final List<String>? preferences;
@@ -29,20 +29,20 @@ class AppUserData{
     this.email,
     this.birthdate,
     this.biography,
-    this.profileImg,
+    this.img,
     this.friendsRef,
     this.eventsRef,
     this.preferences,
     });
 
-    AppUserData.fromJson (Map<String,dynamic> data){
+    AppUserData.fromMap (Map<String,dynamic> data){
       uid = data[uid];
       name = data[name];
       username = data[username];
       email = data[email];
       birthdate = data[birthdate];
       biography = data[biography];
-      profileImg = data[profileImg];
+      img = data[img];
       friendsRef = data[friendsRef];
       eventsRef = data[eventsRef];
       preferences = data[preferences];

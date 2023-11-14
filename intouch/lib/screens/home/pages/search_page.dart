@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 
-
-class EventForm extends StatelessWidget {
-  const EventForm({super.key});
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +12,12 @@ class EventForm extends StatelessWidget {
         backgroundColor: Colors.transparent, 
         iconTheme: IconThemeData(color: Colors.black),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
-        ),
-      body:Center(
-        child: Text('This is the Event Form')
-      ),
+        title: TextField(
+          decoration: InputDecoration(
+            suffixIcon: IconButton(onPressed: (){}, icon: Icon(Icons.search_rounded))
+          ),
+        ),),
+      body: Center(),
     );
   }
 }

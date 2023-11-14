@@ -40,14 +40,17 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, i){
+                        while (i<20){
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CircleAvatar(
                             radius: 40.0,
                             backgroundColor: Colors.amber[100 * (i % 9)],
                             child: Text("${i}")),
-                        );
-                      }),
+                            );
+                          }
+                        }
+                      ),
                     ),
                   Expanded(
                     flex: 5,

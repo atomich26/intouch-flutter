@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intouch/intouch_widgets/event_sliver.dart';
+import 'package:intouch/screens/home/pages/event_sliver.dart';
 import 'package:intouch/models/event.dart';
 import '../models/category.dart';
 
@@ -61,7 +61,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                                 topLeft: Radius.circular(10.0),
                                 topRight: Radius.circular(10.0)),
                               image: DecorationImage(
-                                  image: /*imageUrl.hasData? NetworkImage(imageUrl.data!) :*/  AssetImage("assets/images/${widget.category.name}.png") as ImageProvider,
+                                  image: imageUrl.hasData? NetworkImage(imageUrl.data!) :  AssetImage("assets/images/intouch-default.png") as ImageProvider,
                                   fit: BoxFit.cover,)
                         )
                       ),

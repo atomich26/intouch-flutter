@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
@@ -79,7 +80,7 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              EventForm();
+              Navigator.of(context).push(fromTheBottom(EventForm()));
             }, 
             icon: Icon(Icons.add_circle_rounded)
             ),
