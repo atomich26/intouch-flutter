@@ -32,7 +32,7 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin {
     super.build(context);
     if(widget.categories != null){
     return Scaffold(
-        appBar: inTouchAppBar(context, '$title'),
+        appBar: inTouchAppBar(context, '$title', null, (){}),
         body: 
               Column(
                 children:[
@@ -71,7 +71,7 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin {
             );
       }
     else return Scaffold(
-        appBar: inTouchAppBar(context, '$title'),
+        appBar: inTouchAppBar(context, '$title', null, (){}),
         body: 
             GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

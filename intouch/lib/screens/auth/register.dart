@@ -1,7 +1,11 @@
 
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/date_picker.dart';
+import 'package:intouch/services/cloud_functions.dart';
 import 'package:intouch/wrapper.dart';
 import '../../intouch_widgets/intouch_widgets.dart';
 import '../../intouch_widgets/text_form_field.dart';
@@ -21,17 +25,36 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
   
+  bool isUsernameError = false;
+  bool isUserError = false;
+  bool isPasswordError = false;
+  bool isEmailError = false;
+  bool isBirthdayError = false;
+
+  String usernameError = "";
+  String userError = "";
+  String emailError = "";
+  String passwordError = "";
+  String birthdayError = "";
+
+  late inTouchTextFormField usernameTextField;
+
   @override
   void initState(){
     super.initState();
     _usernameController.addListener(() {
       final String text = _usernameController.text.toString();
       _usernameController.value = _usernameController.value.copyWith(text: text);
+    });
+    _nameController.addListener(() {
+      final String text = _nameController.text.toString();
+      _nameController.value = _nameController.value.copyWith(text: text);
     });
     _emailController.addListener(() {
       final String text = _emailController.text.toString();
@@ -46,8 +69,9 @@ class _RegisterState extends State<Register> {
       _confirmPasswordController.value = _confirmPasswordController.value.copyWith(text: text);
     });
     _birthdayController.addListener((){
-      final String text = _birthdayController.text.toString();
-      _birthdayController.value = _birthdayController.value.copyWith(text: text);
+      if(_birthdayController.text.isNotEmpty){
+        final String text = _birthdayController.text.toString();
+        _birthdayController.value = _birthdayController.value.copyWith(text: text);}
     });
     
   }
@@ -62,11 +86,17 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
+  
+
+  
+
   @override
   Widget build(BuildContext context) {
+    
+    var parser= DateFormat('dd/MM/yyyy');
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: inTouchAppBar(context, 'Register'),
+      appBar: inTouchAppBar(context, 'Register', null, (){}),
       body:Container(
         child: Form(
           key: _formKey,
@@ -75,14 +105,35 @@ class _RegisterState extends State<Register> {
             child: Column(
               children: <Widget> [
 
+                usernameTextField = inTouchTextFormField(
+                context: context, 
+                title: 'Username', 
+                icon: Icons.near_me,
+                isPassword: false, 
+                isEmail: false,
+                isError: isUsernameError,
+                errorText: usernameError,
+                controller: _usernameController, 
+                //validator: (value) => value!.isEmpty ? "You must insert a username" : null
+                      ),
+                      
+                
+                
+                  
+
+                SizedBox(height: 12.0),
+
                 inTouchTextFormField(
                   context: context, 
-                  title: 'Username', 
+                  title: 'Name', 
                   icon: Icons.person_2_rounded, 
                   isPassword: false, 
                   isEmail: false, 
-                  controller: _usernameController, 
-                  validator: (value) => value!.isEmpty ? "You must insert a username" : null),
+                  isError: isUserError,
+                  errorText: userError,
+                  controller: _nameController, 
+                  //validator: (value) => value!.isEmpty ? "You must insert a name" : null
+                  ),
 
                 SizedBox(height: 12.0),
                 
@@ -92,8 +143,11 @@ class _RegisterState extends State<Register> {
                   icon: Icons.alternate_email_rounded, 
                   isPassword: false, 
                   isEmail: false, 
+                  isError: isEmailError,
+                  errorText: emailError,
                   controller: _emailController, 
-                  validator: emailValidator),
+                  //validator: emailValidator
+                  ),
 
                 SizedBox(height: 12.0),
 
@@ -102,13 +156,16 @@ class _RegisterState extends State<Register> {
                   title: 'Password', 
                   icon: Icons.password_rounded, 
                   isPassword: true, 
-                  isEmail: false, 
+                  isEmail: false,
+                  isError: isPasswordError,
+                  errorText: passwordError,
                   controller: _passwordController, 
-                  validator: passwordValidator),
+                  //validator: passwordValidator
+                  ),
 
                 SizedBox(height: 12.0),
 
-                inTouchTextFormField(
+                /*inTouchTextFormField(
                   context: context, 
                   title: 'Confirm Password', 
                   icon: Icons.password_rounded, 
@@ -117,14 +174,15 @@ class _RegisterState extends State<Register> {
                   controller: _confirmPasswordController, 
                   validator: (value) => value == _passwordController.text ? null: 'Please enter the same password'),
 
-                SizedBox(height: 12.0),
+                SizedBox(height: 12.0),*/
 
                 DatePicker(
                   context: context, 
                   title: 'Birthday',
                   icon: Icons.calendar_month_outlined,
                   controller: _birthdayController, 
-                  validator: birthdayValidator),
+                  //validator: birthdayValidator
+                  ),
 
                 Expanded(
                   child: SizedBox.expand()),
@@ -134,19 +192,57 @@ class _RegisterState extends State<Register> {
                     Expanded(
                       child: InTouchLongButton(context, 'Confirm', null, true, () async {
                         if(_formKey.currentState!.validate()){
-                          await _auth.registerWithEmailAndPassword(_emailController.text, _passwordController.text)
-                          .then((result) {
-                            if (result == null){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Something went wrong!')));
-                            } else{
-                              Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (BuildContext context) => Wrapper()),
-                              (route) => false);
-                              }
+                          var data = <String, dynamic>{
+                            'name': _nameController.text,
+                            'username': _usernameController.text,
+                            'email': _emailController.text,
+                            'password': _passwordController.text,
+                            'birthdate': _birthdayController.text.isNotEmpty ? parser.parse(_birthdayController.text).millisecondsSinceEpoch: null,
+                          };
+                          try{
+                              await FirebaseFunctions.instance.httpsCallable('users-upsert').call(data);
+                              FirebaseAuth.instance.signInWithEmailAndPassword(email: data["email"].toString(), password: data["password"].toString())
+                              .then((result) {
+                                Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (BuildContext context) => Wrapper()),
+                                (route) => false);
+                            });
+                            } on FirebaseFunctionsException catch (e){
+                          if (e.code == "invalid-argument" && e.details != null){
+                          String errorMessage = e.message.toString();
+                          List errorList = e.details as List;
+                          List<ErrorRegisterParser> errorParser = errorList.map(
+                            (e) => ErrorRegisterParser(field: e["field"].toString(), message: e["message"].toString())).toList();
+                          for (ErrorRegisterParser errorItem in errorParser){
+
+                              
+
+                            if (errorItem.field == "username"){
+                              setState(() {
+                                usernameError = e.details.toString();
+                                isUsernameError = true;
+                                
+                              });
+                              print(e.details);
+                              
                             }
-                          );
+                          }
+                          
+                          
+
+
+
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${errorMessage}')));
+                          } else {
+
+                          }
                         }
+                      }
+                          
+                          
+  
+                        
                       })),
                     Expanded(
                       child: InTouchLongButton(context, 'Reset', null, false, (){

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_file.dart';
 
 class DatePicker extends StatefulWidget {
   
@@ -10,14 +11,14 @@ class DatePicker extends StatefulWidget {
     required this.title,
     this.icon,
     required this.controller,
-    required this.validator,
+    //required this.validator,
   });
 
   BuildContext context;
   String title;
   IconData? icon;
   TextEditingController controller;
-  FormFieldValidator<String> validator;
+  //FormFieldValidator<String> validator;
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -34,7 +35,8 @@ class _DatePickerState extends State<DatePicker> {
       lastDate: DateTime(2050, 12));
     if (picked != null){
       setState(() {
-        widget.controller.text = DateFormat('yMd').format(picked);
+        widget.controller.text = DateFormat('dd/MM/yyyy').format(picked);
+        
       });
     }
   }
@@ -44,7 +46,7 @@ class _DatePickerState extends State<DatePicker> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 8.0),
       child: TextFormField(
-        validator: widget.validator,
+        //validator: widget.validator,
         controller: widget.controller,
         readOnly: true,
         style: TextStyle(color: Theme.of(context).colorScheme.onSurface),

@@ -30,7 +30,7 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    Future<String>? imageUrl = _storageRef.getImageUrl(widget.cover);
+    Future<String>? imageUrl = _storageRef.getCategoryImageUrl(widget.cover);
     return FutureBuilder(
       future: imageUrl,
       builder: (context, imageUrl) {

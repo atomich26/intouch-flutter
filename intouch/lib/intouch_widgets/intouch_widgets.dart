@@ -4,7 +4,7 @@ import 'package:intouch/screens/home/pages/search_page.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 
 
-AppBar inTouchAppBar(BuildContext context, String? title){
+AppBar inTouchAppBar(BuildContext context, String? title, IconData? icon, Function? onTap()){
   return AppBar(
     title: Text(
               '$title',
@@ -16,17 +16,13 @@ AppBar inTouchAppBar(BuildContext context, String? title){
     systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
     elevation: 0.0,
     actions: <Widget>[
+
         IconButton(
-          icon: Icon(Icons.search_rounded),
+          icon: Icon(icon),
           onPressed: () {
-             Navigator.of(context).push(fromTheRight(SearchPage()));
+             onTap();
           }),
-        IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () {
-            
-          },
-        ),
+        
       ],
     );
 }

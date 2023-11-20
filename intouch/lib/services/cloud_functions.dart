@@ -2,6 +2,9 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:intouch/models/user.dart';
 import '../models/category.dart';
 
@@ -24,5 +27,20 @@ import '../models/category.dart';
     var casted = result.data as List;
     return casted.map(
       (e) => AppUserData(uid: e["id"].toString(), name: e["name"].toString(), img: e["img"], username: e["username"])).toList();
+  }
+
+  class ErrorRegisterParser{
+    late String field;
+    late String message;
+
+    ErrorRegisterParser({
+      required this.field,
+      required this.message
+    });
+
+    String get getField => field;
+    String get getMessage => message;
+
+
   }
 

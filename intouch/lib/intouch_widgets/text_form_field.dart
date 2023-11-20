@@ -10,7 +10,9 @@ class inTouchTextFormField extends StatefulWidget {
     required this.isPassword,
     required this.isEmail,
     required this.controller,
-    required this.validator,
+    required this.errorText,
+    required this.isError,
+    this.validator,
   });
 
   BuildContext context;
@@ -18,43 +20,98 @@ class inTouchTextFormField extends StatefulWidget {
   IconData? icon;
   bool isPassword;
   bool isEmail;
+  bool isError;
   TextEditingController controller;
-  FormFieldValidator<String> validator;
+  FormFieldValidator<String>? validator;
+  String errorText;
+
+  
   
   @override
   State<inTouchTextFormField> createState() => _inTouchTextFormFieldState();
 }
 
 class _inTouchTextFormFieldState extends State<inTouchTextFormField> {
+  late FocusNode myFocusNode;
+  @override
+  void initState() {
+    super.initState();
+    myFocusNode = FocusNode();
+  }
+  @override
+  void dispose() {
+    myFocusNode.dispose();
+    super.dispose();
+  }
   late bool _isPasswordVisible = widget.isPassword;
+  
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 8.0),
-      child: TextFormField(
-        validator: widget.validator,
-        controller: widget.controller,
-        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-        obscureText: _isPasswordVisible,
-        keyboardType: widget.isEmail ? TextInputType.emailAddress : null,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(style: BorderStyle.none),
-            borderRadius: BorderRadius.circular(15.0)
-            ),
-          floatingLabelBehavior: FloatingLabelBehavior.auto,
-          labelText: widget.title,
-          prefixIcon: Icon(widget.icon),
-          suffixIcon: widget.isPassword? IconButton(
-            onPressed: (){
-              setState((){
-                _isPasswordVisible = !_isPasswordVisible;
-              });
-    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 8.0),
+          child: TextFormField(
+            //validator: widget.validator,
+            focusNode: myFocusNode,
+            onTap: () {
+              setState(() {
+                FocusScope.of(context).requestFocus(myFocusNode);
+            });
             },
-            icon: _isPasswordVisible? Icon(Icons.visibility) : Icon(Icons.visibility_off)): null
-          ),
+            controller: widget.controller,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+            obscureText: _isPasswordVisible,
+            keyboardType: widget.isEmail ? TextInputType.emailAddress : null,
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  style: BorderStyle.solid,
+                  color: widget.isError? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary),
+                borderRadius: BorderRadius.circular(15.0),
+                ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  style: BorderStyle.solid,
+                  color: widget.isError? Theme.of(context).colorScheme.error : Colors.black),
+                borderRadius: BorderRadius.circular(15.0)
+                ),
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+              labelText: widget.title,
+              labelStyle: myFocusNode.hasFocus? TextStyle(color: widget.isError? Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.primary)
+                : TextStyle(color: widget.isError? Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.onBackground),
+                  
+              prefixIcon: Icon(widget.icon, color: myFocusNode.hasFocus? (widget.isError? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary)
+                    : widget.isError? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onBackground,
+                
+              ),
+              suffixIcon: widget.isPassword? IconButton(
+                color: myFocusNode.hasFocus? (widget.isError? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary) 
+                  :widget.isError? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onBackground,
+                onPressed: (){
+                  setState((){
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+                icon: _isPasswordVisible? Icon(Icons.visibility) : Icon(Icons.visibility_off)): null,
+                
+              ),
+            ),
         ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12.0, 0, 0, 0),
+          child: Text(
+            widget.isError? widget.errorText: "",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.error,
+              fontSize: 12),
+            textAlign: TextAlign.left,
+            
+            ),
+        )
+      ],
     );
   }
 }
+

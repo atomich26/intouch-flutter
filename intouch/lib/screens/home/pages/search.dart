@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/category_box.dart';
 import 'package:intouch/intouch_widgets/category_empty.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/screens/home/pages/search_page.dart';
 
 import '../../../models/category.dart';
 
@@ -34,7 +36,11 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
     super.build(context);
     if(widget.categories != null){
     return Scaffold(
-        appBar: inTouchAppBar(context, '$title'),
+        appBar: inTouchAppBar(
+          context, 
+          '$title', 
+          Icons.search_rounded, 
+          () {Navigator.of(context).push(fromTheRight(SearchPage()));}),
         body: 
             GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -50,7 +56,7 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
               itemCount: widget.categories!.length)
       );}
     else return Scaffold(
-        appBar: inTouchAppBar(context, '$title'),
+        appBar: inTouchAppBar(context, '$title', null, (){}),
         body: 
             GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

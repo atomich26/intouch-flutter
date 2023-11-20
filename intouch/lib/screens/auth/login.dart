@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: inTouchAppBar(context ,'Log In'),
+      appBar: inTouchAppBar(context ,'Log In', null, (){}),
       body:Container(
         child: Form(
           key: _formKey,
@@ -48,7 +48,9 @@ class _LoginState extends State<Login> {
                   title: 'E-Mail', 
                   icon: Icons.alternate_email_rounded, 
                   isPassword: false, 
-                  isEmail: true, 
+                  isEmail: true,
+                  isError: false,
+                  errorText: "",
                   controller: emailController, 
                   validator: emailValidator,),
 
@@ -59,7 +61,9 @@ class _LoginState extends State<Login> {
                   title: 'Password', 
                   icon: Icons.password_rounded, 
                   isPassword: true, 
-                  isEmail: false, 
+                  isEmail: false,
+                  isError: false, 
+                  errorText: "",
                   controller: passwordController, 
                   validator: (value) => value!.isEmpty ? 'Please enter the password': null),
 

@@ -28,7 +28,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     String city = "Civitanova Marche";
     super.build(context);
-    Future<String>? imageUrl = _storageRef.getImageUrl(widget.category.cover);
+    Future<String>? imageUrl = _storageRef.getCategoryImageUrl(widget.category.cover);
     return FutureBuilder(
       future: imageUrl,
       builder: (context, imageUrl){

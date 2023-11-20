@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: inTouchAppBar(context, '$title'),
+        appBar: inTouchAppBar(context, '$title', null, (){}),
             body: Container(
               margin: EdgeInsets.all(8.0),
               child: CustomScrollView (

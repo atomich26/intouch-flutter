@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 
 ThemeData lightTheme = ThemeData(
-  fontFamily: 'righteous', 
+  fontFamily: 'righteous',
+  useMaterial3: true,
   colorScheme: ColorScheme(
       brightness: Brightness.light,
       primary: Colors.purple[700]!,
