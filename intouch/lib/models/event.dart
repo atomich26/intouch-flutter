@@ -9,7 +9,7 @@ class Event{
   late String city;
   late String cover;
   late String createdBy;
-  late DateTime date;
+  late double date;
   late String? description;
   late String name;
   late GeoPoint place;

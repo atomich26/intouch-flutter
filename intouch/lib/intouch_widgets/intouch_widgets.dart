@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intouch/screens/home/pages/search_page.dart';
-import 'package:intouch/intouch_widgets/route_animations.dart';
 
 
-AppBar inTouchAppBar(BuildContext context, String? title, IconData? icon, Function? onTap()){
+
+AppBar inTouchAppBar(BuildContext context, String? title, IconData? icon, Function? Function() onTap){
   return AppBar(
     title: Text(
               '$title',
               textAlign: TextAlign.left,
-              textScaleFactor: MediaQueryData(textScaleFactor: 1.6).textScaleFactor,
+              textScaler: const TextScaler.linear(1.6),
               ),
     foregroundColor: Theme.of(context).colorScheme.onSurface,
     backgroundColor: Theme.of(context).colorScheme.surface,
-    systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
+    systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
+    shadowColor: Colors.transparent,
+    surfaceTintColor: Colors.transparent,
     elevation: 0.0,
     actions: <Widget>[
-
         IconButton(
           icon: Icon(icon),
           onPressed: () {
@@ -37,7 +37,9 @@ String? emailValidator (String? email){
   if(!regex.hasMatch(email)) {
     return 'Please insert a valid Email Address';
   }
-  else return null;
+  else {
+    return null;
+    }
 }
 
 String? passwordValidator (String? password){
@@ -49,7 +51,9 @@ String? passwordValidator (String? password){
   if(!regex.hasMatch(password)){
     return ('Please insert a password with at least: \n - 6 Characters \n - 1 Uppercase character \n - 1 Lowercase character \n - 1 number');
   }
-  else return null;
+  else {
+    return null;
+  }
 }
 
 Container InTouchLongButton(BuildContext context, String text, IconData? icon, bool isConfirm, Function onTap){
@@ -68,7 +72,7 @@ Container InTouchLongButton(BuildContext context, String text, IconData? icon, b
           onTap();
         },
         style: ButtonStyle(
-          elevation: MaterialStatePropertyAll(0.0),
+          elevation: const MaterialStatePropertyAll(0.0),
           backgroundColor: 
               MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
@@ -85,9 +89,9 @@ Container InTouchLongButton(BuildContext context, String text, IconData? icon, b
               )
             ),
         child: Text(
-          '$text',
+          text,
           style: TextStyle(
-            color:Theme.of(context).colorScheme.onPrimary, 
+            color:Theme.of(context).colorScheme.onSecondary, 
           )
         ),
     ) : 
@@ -97,14 +101,14 @@ Container InTouchLongButton(BuildContext context, String text, IconData? icon, b
         onTap();
       },
       style: ButtonStyle(
-        elevation: MaterialStatePropertyAll(0.0),
+        elevation: const MaterialStatePropertyAll(0.0),
         foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))
         ),
           ),
       child: Text(
-        '$text',
+        text,
         style: TextStyle(
           color:Theme.of(context).colorScheme.primary, 
         )

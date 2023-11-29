@@ -1,15 +1,13 @@
-import 'dart:math';
 
-import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intouch/intouch_widgets/intouch_widgets.dart';
-import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/models/user.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/search.dart';
-import 'package:intouch/screens/home/pages/event_form.dart';
-import 'package:intouch/themes.dart';
+
+
 
 import '../../models/category.dart';
 import '../../services/cloud_functions.dart';
@@ -26,13 +24,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  
+  
+  Future<List<Category>>? _categories;
+  Future<AppUserData>? _userData;
 
   @override
   void initState() {
     super.initState();
+     _categories = getCategories();
+    _userData = getProfileData(FirebaseAuth.instance.currentUser!.uid);
+    
   }
 
-  Future<List<Category>> _categories = getCategories();
+
+  
+  
 
   final PageController controller = PageController();
   int _destinationIndex = 0;
@@ -44,13 +51,12 @@ class _HomeState extends State<Home> {
           future: _categories,
           builder: (context, categories) {
             return PageView(
-              
               controller: controller,
               children: <Widget>[
                 Feed(categories: categories.data,),
                 Search(categories: categories.data),
-                Notifications(),
-                Profile(),
+                const Notifications(),
+                Profile(user: _userData),                 
               ],
               onPageChanged: (page) {
                 setState(() {
@@ -70,25 +76,27 @@ class _HomeState extends State<Home> {
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: _destinationIndex,
         destinations: [
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.home_filled), 
             label: "Feed",
             ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.search_outlined), 
             label: "Search",
             ),
           IconButton(
             onPressed: (){
-              Navigator.of(context).push(fromTheBottom(EventForm()));
+              //Navigator.of(context).push(fromTheBottom(EventForm()));
+              //print(FirebaseAuth.instance.currentUser!.uid);
+              getProfileData(FirebaseAuth.instance.currentUser!.uid);
             }, 
-            icon: Icon(Icons.add_circle_rounded)
+            icon: const Icon(Icons.add_circle_rounded)
             ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.notifications), 
             label: "Notification",
             ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.person), 
             label: "Profile",
             ),

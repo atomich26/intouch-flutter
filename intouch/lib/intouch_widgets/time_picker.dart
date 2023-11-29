@@ -1,45 +1,37 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import "package:flutter/material.dart";
+import "package:intl/intl.dart";
 
-class DatePicker extends StatefulWidget {
-  
-   DatePicker({
+class TimePicker extends StatefulWidget {
+  TimePicker({
     super.key,
-    required this.context,
     required this.title,
     this.icon,
     required this.controller,
     required this.errorText,
-    required this.isError,
-    //required this.validator,
-  });
+    required this.isError});
 
-  BuildContext context;
-  String title;
-  IconData? icon;
-  TextEditingController controller;
-  String errorText;
-  bool isError;
-  //FormFieldValidator<String> validator;
+
+    String title;
+    IconData? icon;
+    TextEditingController controller;
+    String errorText;
+    bool isError;
 
   @override
-  State<DatePicker> createState() => _DatePickerState();
+  State<TimePicker> createState() => _TimePickerState();
 }
 
-class _DatePickerState extends State<DatePicker> {
+class _TimePickerState extends State<TimePicker> {
 
-
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(), 
-      firstDate: DateTime(1900, 1), 
-      lastDate: DateTime(2050, 12));
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context, 
+      initialTime: TimeOfDay.now());
     if (picked != null){
       setState(() {
-        widget.controller.text = DateFormat('dd/MM/yyyy').format(picked);
-        
+        String minutes="";
+        minutes = picked.minute <= 9?  "0${picked.minute}" : "${picked.minute}";
+        widget.controller.text = "${picked.hour}:${minutes}";
       });
     }
   }
@@ -70,8 +62,8 @@ class _DatePickerState extends State<DatePicker> {
               
             ),
             onTap:() {
-              FocusScope.of(context).requestFocus(FocusNode());
-              _selectDate(context);
+              FocusScope.of(context).requestFocus(new FocusNode());
+              _selectTime(context);
             },
           ),
         ),
@@ -89,23 +81,3 @@ class _DatePickerState extends State<DatePicker> {
     ); 
   }
 }
-
-String? birthdayValidator (String? birthday){
-  if(birthday == null || birthday.isEmpty){
-    return 'Please insert your birthday';
-  }
-  else{
-  String datePattern = "yMd";
-  DateTime birthdayDate = DateFormat(datePattern).parse(birthday);
-  DateTime today = DateTime.now();
-  
-  if(birthdayDate.isAfter(today)){
-    return 'Please insert a proper date';
-  }
-  else {
-    return null;
-    }
-  }
-  
-}
-

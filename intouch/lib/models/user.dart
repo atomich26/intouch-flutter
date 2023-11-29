@@ -3,49 +3,52 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser{
   
-  final String uid;
-  AppUser ({ required this.uid });
+  final String id;
+  AppUser ({ required this.id });
 
 }
 
 
 class AppUserData{
   
-  late final String uid;
-  late final String? name;
-  late final String? username;
-  late final String? email;
-  late final double? birthdate;
-  late final String? biography;
-  late final String? img;
-  late final List<String>? friendsRef;
-  late final List<String>? eventsRef;
-  late final List<String>? preferences;
+  late String? id;
+  late String? name;
+  late String? username;
+  late String? email;
+  late int? birthdate;
+  late String? biography;
+  late String? img;
+  late int? friends;
+  late int? joined;
+  late int? created;
+  late List<String>? preferences;
 
   AppUserData ({
-    required this.uid,
+    this.id,
     this.name,
     this.username,
     this.email,
     this.birthdate,
     this.biography,
     this.img,
-    this.friendsRef,
-    this.eventsRef,
+    this.friends,
+    this.joined,
+    this.created,
     this.preferences,
     });
 
-    AppUserData.fromMap (Map<String,dynamic> data){
-      uid = data[uid];
-      name = data[name];
-      username = data[username];
-      email = data[email];
-      birthdate = data[birthdate];
-      biography = data[biography];
-      img = data[img];
-      friendsRef = data[friendsRef];
-      eventsRef = data[eventsRef];
-      preferences = data[preferences];
+    AppUserData.fromJson (Map<String,dynamic> data){
+      id = data['id'];
+      name = data['name'] ?? 'Unknown';
+      username = data['username'] ?? 'Unknown';
+      email = data['email'] ?? 'Unknown';
+      birthdate = data['birthdate'];
+      biography = data['biography'] ?? 'this user hasn\'t written a bio yet';
+      img = data['img'] ?? 'intouch-default.png';
+      friends = data['friends'] ?? 0;
+      joined = data['joined'] ?? 0;
+      created = data['created'] ?? 0;
+      //preferences = data['preferences'];
     }
       
 }

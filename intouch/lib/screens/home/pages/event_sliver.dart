@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/models/category.dart';
 
@@ -46,7 +45,7 @@ class _EventSliverState extends State<EventSliver> {
                     ),
                     child: IconButton.filled(
                       onPressed: Navigator.of(context).pop, 
-                      icon: Icon(Icons.arrow_back_outlined), 
+                      icon: const Icon(Icons.arrow_back_outlined), 
                       color: Colors.white,
                       style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll<Color>(Colors.black.withOpacity(0.8))),
@@ -82,14 +81,13 @@ class _EventSliverState extends State<EventSliver> {
                 child: Text(
                   widget.event.name,
                   textAlign: TextAlign.left,
-                  textScaleFactor: 2.5,
-                  style: TextStyle(fontWeight: FontWeight.bold),),
+                  textScaler: const TextScaler.linear(2.5),
+                  style: const TextStyle(fontWeight: FontWeight.bold),),
                 ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: Row(
+                child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget> [
                       CircleAvatar(
@@ -100,7 +98,7 @@ class _EventSliverState extends State<EventSliver> {
                       Text('Some Stupid Fool')
                     ],
                   )
-                ),
+                
               ),
               Column(
                 children:[

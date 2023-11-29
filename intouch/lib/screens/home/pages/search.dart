@@ -24,8 +24,6 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
   final String title = 'Search';
   
-  
-  
   @override
   void initState() {
     super.initState();

@@ -9,7 +9,7 @@ class Notifications extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       
-      appBar: inTouchAppBar(context,'$this', null,(){} ),
+      appBar: inTouchAppBar(context,'$this', null,(){}),
       body: Center(
         child: Text('This is the Notifications Screen'),
         ),

@@ -1,11 +1,8 @@
-import 'dart:collection';
-import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:intouch/models/post.dart';
 import 'package:intouch/models/user.dart';
+
 import '../models/category.dart';
 
     Future<List<Category>> getCategories() async {
@@ -23,11 +20,41 @@ import '../models/category.dart';
 
   Future<List<AppUserData>>? searchUserByName(String query) async{
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('users-search');
-    final result = await callable.call({"query": "${query}"});
+    final result = await callable.call({"query" : query});
     var casted = result.data as List;
     return casted.map(
-      (e) => AppUserData(uid: e["id"].toString(), name: e["name"].toString(), img: e["img"], username: e["username"])).toList();
+      (e) => AppUserData(id: e["id"].toString(), name: e["name"].toString(), img: e["img"], username: e["username"])
+    ).toList();
   }
+
+  Future<List<Post>>? feedPost() async{
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('posts-feed');
+    final result = await callable.call();
+    var casted = result.data as List;
+    print(casted);
+    return casted.map(
+      (e) => Post(id: e["id"].toString(), userId: e["userId"],  description: e["description"].toString(), album: e["list"], userImg: e["userImg"], username: e["username"])
+    ).toList();
+  }
+
+
+
+  Future<AppUserData>? getProfileData(String id) async {
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('users-profile');
+    final result = await callable.call({"userId": id});
+    print(result.data);
+    AppUserData casted = AppUserData.fromJson(result.data);
+    return casted;
+  }
+
+  
+
+
+
+
+
+
+
 
   class ErrorRegisterParser{
     late String field;
@@ -38,9 +65,37 @@ import '../models/category.dart';
       required this.message
     });
 
-    String get getField => field;
-    String get getMessage => message;
-
-
   }
+  final class ErrorRegisterUtil{
+    Map<String, String> errorMap = <String,String> {
+    "INVALID_ARGUMENT" : "I valori inseriti non sono validi",
+    "PERMISSION_DENIED" : "Non hai i permessi per effettuare questa operazione",
+    "USER_NOT_EXISTS" : "Utente non valido o non più esistente",
 
+    "INVALID_USERNAME" : "Il nome utente deve contenere almeno 3 caratteri e sono ammessi solo lettere minuscole, numeri e . _",
+    "USERNAME_ALREADY_EXISTS" : "Nome utente non disponibile",
+    "EMPTY_USERNAME" : "Il nome utente non può essere vuoto",	
+
+    "INVALID_NAME" : "La lunghezza del nome deve essere compresa fra i 3 e i 40 caratteri",
+    "INVALID_SPECIAL_CHARS_NAME" : "Il nome non può contenere caratteri speciali",
+    "EMPTY_NAME" : "Il nome non può esser vuoto",
+
+    "INVALID_EMAIL_LENGTH" : "L'indirizzo email può contenere massimo 90 caratteri",
+    "INVALID_EMAIL" : "Indirizzo email non valido",
+    "EMAIL_ALREADY_EXISTS" : "Indirizzo email già in uso",
+    "EMPTY_EMAIL" : "L'email non può essere vuota",
+
+    "INVALID_PASSWORD" : "La password deve contenere almeno 8 caratteri, un numero e un carattere speciale tra questi: @ \$ ! % * # ?",
+    "EMPTY_PASSWORD" : "La password non puo essere vuota",
+
+    "INVALID_DATE" : "Data non valida",
+    "DATE_AFTER_NOW" : "Data successiva a quella corrente",
+    "EMPTY_BIRTHDATE" : "La data di nascita non può essere vuota",
+
+    };
+
+    String getError(String key){
+      return errorMap[key] ?? "Errore interno";
+    }
+  }
+  

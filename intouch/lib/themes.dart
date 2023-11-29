@@ -8,7 +8,7 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme(
       brightness: Brightness.light,
       primary: Colors.purple[700]!,
-      onPrimary: Colors.white,
+      onPrimary: Colors.black,
       primaryContainer: Colors.white70 ,
       secondary: Colors.grey[600]!,
       onSecondary: Colors.white,
@@ -19,9 +19,9 @@ ThemeData lightTheme = ThemeData(
       error: Colors.red[500]!,
       onError: Colors.white,
       onErrorContainer: Colors.red[900]!,
-      background: Colors.grey[50]!,
+      background: Colors.white,
       onBackground: Colors.black,
-      surface: Colors.grey[50]!,
+      surface: Colors.white,
       onSurface: Colors.black,
       
    ),

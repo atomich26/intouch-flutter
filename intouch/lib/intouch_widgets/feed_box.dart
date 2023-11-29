@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/screens/home/pages/event_sliver.dart';
-import 'package:intouch/models/event.dart';
 import '../models/category.dart';
 
 import '../services/firebase_storage.dart';
@@ -20,6 +19,7 @@ class FeedBox extends StatefulWidget {
 }
 
 class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
+  @override
   bool get wantKeepAlive => true;
   final StorageService _storageRef = StorageService();
 
@@ -41,7 +41,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
             
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical:6.0, horizontal: 12.0),
+            padding: const EdgeInsets.symmetric(vertical:6.0, horizontal: 12.0),
               child: Container(
                 decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
@@ -51,24 +51,24 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget> [
                 Expanded(
-                  flex: 3,
+                  flex: 7,
                   child:Hero(
                     tag: 'eventImage${widget.category.name}',
                     child: Container(
                             height: double.infinity,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10.0),
                                 topRight: Radius.circular(10.0)),
                               image: DecorationImage(
-                                  image: imageUrl.hasData? NetworkImage(imageUrl.data!) :  AssetImage("assets/images/intouch-default.png") as ImageProvider,
+                                  image: imageUrl.hasData? NetworkImage(imageUrl.data!) :  const AssetImage("assets/images/intouch-default.png") as ImageProvider,
                                   fit: BoxFit.cover,)
                         )
                       ),
                   )
                   ),
                 Expanded(
-                  flex:1,
+                  flex:3,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -77,8 +77,8 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                       children: <Widget>[
                         Text(
                           widget.category.name,
-                          textScaleFactor: 1.7, 
-                          style:TextStyle(fontWeight: FontWeight.bold)),
+                          textScaler: const TextScaler.linear(1.7), 
+                          style:const TextStyle(fontWeight: FontWeight.bold)),
                         Text("By some random"),
                         SizedBox(height: 5.0),
                         Row(
@@ -86,12 +86,12 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                           children: <Widget> [
                             Row(
                               children: <Widget> [
-                                Icon(Icons.place, size: 18.0,),
-                                Text(city.length>= 25 ? city.substring(0,23)+"..." : city)
+                                const Icon(Icons.place, size: 18.0,),
+                                Text(city.length>= 25 ? city.substring(0,23) + "..." : city)
                               ], 
                             ),
                             //PORCO DIEGO
-                            Row(
+                            const Row(
                               children: <Widget> [
                                 Icon(Icons.calendar_month, size: 18.0,),
                                 Text("01/01/00 20:30")

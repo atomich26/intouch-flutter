@@ -6,9 +6,8 @@ class LoadingSpinner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SpinKitRing(
-        color: Theme.of(context).colorScheme.primary)
-    );
+    return SpinKitRing(
+        color: Theme.of(context).colorScheme.primary);
+    
   }
 }

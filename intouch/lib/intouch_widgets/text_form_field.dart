@@ -12,6 +12,7 @@ class inTouchTextFormField extends StatefulWidget {
     required this.controller,
     required this.errorText,
     required this.isError,
+    required this.isMultiline,
     this.validator,
   });
 
@@ -21,6 +22,7 @@ class inTouchTextFormField extends StatefulWidget {
   bool isPassword;
   bool isEmail;
   bool isError;
+  bool isMultiline;
   TextEditingController controller;
   FormFieldValidator<String>? validator;
   String errorText;
@@ -54,6 +56,7 @@ class _inTouchTextFormFieldState extends State<inTouchTextFormField> {
           padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 8.0),
           child: TextFormField(
             //validator: widget.validator,
+            maxLines: widget.isMultiline? null : 1,
             focusNode: myFocusNode,
             onTap: () {
               setState(() {
@@ -107,7 +110,6 @@ class _inTouchTextFormFieldState extends State<inTouchTextFormField> {
               color: Theme.of(context).colorScheme.error,
               fontSize: 12),
             textAlign: TextAlign.left,
-            
             ),
         )
       ],

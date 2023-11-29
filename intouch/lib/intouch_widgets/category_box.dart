@@ -22,7 +22,6 @@ class CategoryBox extends StatefulWidget {
 class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClientMixin{
   //bool _isSelected = false;
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
   final StorageService _storageRef = StorageService();
   
@@ -49,7 +48,7 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
                     child: Container(
                       height: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0)),
                         image: DecorationImage(
@@ -63,7 +62,7 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
-                        child: Text(widget.name, textAlign: TextAlign.center, textScaleFactor: 0.9, style: TextStyle(fontWeight: FontWeight.bold),),
+                        child: Text(widget.name, textAlign: TextAlign.center, textScaler: const TextScaler.linear(0.9), style: const TextStyle(fontWeight: FontWeight.bold),),
                       )
                     )
                   )

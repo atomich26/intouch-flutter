@@ -14,7 +14,7 @@ class Intro extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: Lottie.asset('assets/anim/intro_background_anim.json', fit:BoxFit.fill)
@@ -29,12 +29,12 @@ class Intro extends StatelessWidget {
                    Column(
                      children: [
                        Container(
-                        child: Image(image: AssetImage("assets/images/intouch_full_logo.png")),
-                        padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 64.0),
+                        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 64.0),
+                        child: const Image(image: AssetImage("assets/images/intouch_full_logo.png")),
                        ),
-                       SizedBox(height: 24.0),
-                       Text("Demo Version", textScaleFactor: 1.5,),
-                     ],
+                       const SizedBox(height: 24.0),
+                       const Text("Demo Version", textScaler: TextScaler.linear(1.5),),                     
+                       ],
                    ),
                         Padding(
                           padding: const EdgeInsets.all(12.0),
@@ -49,14 +49,14 @@ class Intro extends StatelessWidget {
                                 (){ 
                                   Navigator.of(context).push(fromTheRight(Login()));
                                   }),
-                              SizedBox(height: 12.0),
+                              const SizedBox(height: 12.0),
                               InTouchLongButton(
                                 context, 
                                 "Sign Up", 
                                 null, 
                                 false, 
                                 (){ 
-                                  Navigator.of(context).push(fromTheRight(Register()));
+                                  Navigator.of(context).push(fromTheRight(const Register()));
                                   }),
                               ]
                             ),

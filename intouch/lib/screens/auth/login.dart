@@ -27,6 +27,14 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -40,7 +48,7 @@ class _LoginState extends State<Login> {
               children: <Widget> [
                 Container(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Insert your credentials to access your account", textScaleFactor: 1.7,)
+                  child: Text("Insert your credentials to access your account", textScaler: TextScaler.linear(1.7),)
                 ),
                 
                 inTouchTextFormField(
@@ -50,6 +58,7 @@ class _LoginState extends State<Login> {
                   isPassword: false, 
                   isEmail: true,
                   isError: false,
+                  isMultiline: false,
                   errorText: "",
                   controller: emailController, 
                   validator: emailValidator,),
@@ -63,6 +72,7 @@ class _LoginState extends State<Login> {
                   isPassword: true, 
                   isEmail: false,
                   isError: false, 
+                  isMultiline: false,
                   errorText: "",
                   controller: passwordController, 
                   validator: (value) => value!.isEmpty ? 'Please enter the password': null),

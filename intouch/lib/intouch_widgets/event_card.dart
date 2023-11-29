@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
+
 
 class EventCard extends StatelessWidget {
   
@@ -26,8 +26,8 @@ class EventCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
         child: Card(
           elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             side: BorderSide(
               color: Colors.black,
               width: 2.0,
@@ -40,7 +40,7 @@ class EventCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.0),
                   child: Image.asset(
-                    '${image}',
+                    image,
                     fit: BoxFit.cover,
                     height: double.maxFinite,
                     width: double.maxFinite,),
@@ -52,23 +52,23 @@ class EventCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget> [
                       Text(
-                        '${title}',
-                        textScaleFactor: 1.5,
+                        title,
+                        textScaler: const TextScaler.linear(1.5),
                         textAlign: TextAlign.start,),
                       Row(
                         children: <Widget> [
                           Row(
                             children: <Widget> [
-                              Icon(Icons.calendar_month),
+                              const Icon(Icons.calendar_month),
                               Text(dateFormatter(date))
                             ],
                           ),
-                          Expanded(
+                          const Expanded(
                             child: SizedBox( width: double.infinity,) ),
                           Row(
                             children: <Widget> [
-                              Icon(Icons.location_pin),
-                              Text('${city}')
+                              const Icon(Icons.location_pin),
+                              Text(city)
                             ],
                           )
                         ],

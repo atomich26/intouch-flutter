@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: lightTheme,
-        home: Wrapper(),
+        home: const Wrapper(),
       ),
     );
   }

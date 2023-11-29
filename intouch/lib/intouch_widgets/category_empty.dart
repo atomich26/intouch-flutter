@@ -15,7 +15,7 @@ Padding CategoryEmpty() {
                   flex: 3,
                   child: Container(
                     height: double.infinity,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0)),
@@ -23,7 +23,7 @@ Padding CategoryEmpty() {
                   ),
               ),
           ),
-        Expanded(
+        const Expanded(
           flex: 1,
           child: Center(
             child: SizedBox(width: 1.0)))

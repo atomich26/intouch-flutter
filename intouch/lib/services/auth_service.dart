@@ -10,7 +10,7 @@ class AuthService{
 
   //mapping user in costum obj
   AppUser? _userFromFirebaseUser (User? user){
-    return user != null ? AppUser(uid: user.uid) : null;
+    return user != null ? AppUser(id: user.uid) : null;
   }
 
   //auth change stream
