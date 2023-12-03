@@ -11,6 +11,7 @@ import 'package:intouch/screens/home/pages/search.dart';
 
 import '../../models/category.dart';
 import '../../services/cloud_functions.dart';
+import '../../services/database.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,13 +27,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   
   
-  Future<List<Category>>? _categories;
+  late Future<List<Category>?> _categories;
   Future<AppUserData>? _userData;
+  CategoryDatabaseService _categoryDatabaseService = CategoryDatabaseService();
 
   @override
   void initState() {
     super.initState();
-     _categories = getCategories();
+     _categories = _categoryDatabaseService.getCategoriesFirestore();
     _userData = getProfileData(FirebaseAuth.instance.currentUser!.uid);
     
   }
@@ -47,7 +49,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<List<Category>>(
+        body: FutureBuilder<List<Category>?>(
           future: _categories,
           builder: (context, categories) {
             return PageView(
@@ -88,7 +90,7 @@ class _HomeState extends State<Home> {
             onPressed: (){
               //Navigator.of(context).push(fromTheBottom(EventForm()));
               //print(FirebaseAuth.instance.currentUser!.uid);
-              getProfileData(FirebaseAuth.instance.currentUser!.uid);
+              _categoryDatabaseService.getCategoriesFirestore();
             }, 
             icon: const Icon(Icons.add_circle_rounded)
             ),

@@ -67,22 +67,22 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                               children: <Widget> [
                                                 Column(
                                                   children: <Widget> [
-                                                    Text(user.data!.friends.toString()),
-                                                    Text('Friends'),
+                                                    Text(user.hasData? user.data!.friends.toString(): "null"),
+                                                    const Text('Friends'),
                                                   ],
                                                 ),
                                                 SizedBox( width: 12.0),
                                                 Column(
                                                   children: <Widget> [
-                                                    Text(user.data!.joined.toString()),
-                                                    Text('Events'),
+                                                    Text(user.hasData? user.data!.joined.toString(): "null"),
+                                                    const Text('Events'),
                                                   ],
                                                 ),
                                                 SizedBox( width: 12.0),
                                                 Column(
                                                   children: <Widget> [
-                                                    Text(user.data!.created.toString()),
-                                                    Text('Created'),
+                                                    Text(user.hasData? user.data!.created.toString(): "null"),
+                                                    const Text('Created'),
                                                   ],
                                                 ),
                                               ],

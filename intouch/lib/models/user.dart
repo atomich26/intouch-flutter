@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intouch/models/post.dart';
 
 class AppUser{
   
@@ -22,6 +23,7 @@ class AppUserData{
   late int? joined;
   late int? created;
   late List<String>? preferences;
+  late List<Post>? posts;
 
   AppUserData ({
     this.id,
@@ -35,6 +37,7 @@ class AppUserData{
     this.joined,
     this.created,
     this.preferences,
+    this.posts,
     });
 
     AppUserData.fromJson (Map<String,dynamic> data){
@@ -49,6 +52,7 @@ class AppUserData{
       joined = data['joined'] ?? 0;
       created = data['created'] ?? 0;
       //preferences = data['preferences'];
+      posts = data['posts'];
     }
       
 }

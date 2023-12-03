@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/models/post.dart';
-import 'package:intouch/models/user.dart';
 import 'package:intouch/services/database.dart';
 import 'package:intouch/services/firebase_storage.dart';
 
@@ -51,8 +49,8 @@ class _PostCircleState extends State<PostCircle> {
             mainAxisSize: MainAxisSize.min,
             children: [
               CircleAvatar(
-                foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): AssetImage("assets/images/intouch-default.png") as ImageProvider,
-                radius: 36,
+                foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,
+                radius: 36  ,
               ),
               Text(widget.post.username!)
             ],

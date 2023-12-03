@@ -41,6 +41,7 @@ class _RegisterState extends State<Register> {
   String birthdayError = "";
 
   late inTouchTextFormField usernameTextField;
+  bool _isLoading = false;
 
   
 
@@ -187,6 +188,9 @@ class _RegisterState extends State<Register> {
                     Expanded(
                       child: InTouchLongButton(context, 'Confirm', null, true, () async {
                         if(_formKey.currentState!.validate()){
+                          setState(() {
+                          _isLoading = true;
+                        });
                           var data = <String, dynamic>{
                             'name': _nameController.text,
                             'username': _usernameController.text,
@@ -280,7 +284,8 @@ class _RegisterState extends State<Register> {
                       })),
                   ],
                 ),
-               const SizedBox(height: 24.0,)
+               const SizedBox(height: 24.0),
+               _isLoading ? LinearProgressIndicator(): SizedBox(height:1),
               ],
             ),
           )

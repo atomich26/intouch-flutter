@@ -64,6 +64,7 @@ class _inTouchTextFormFieldState extends State<inTouchTextFormField> {
             });
             },
             controller: widget.controller,
+            validator: widget.validator,
             style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             obscureText: _isPasswordVisible,
             keyboardType: widget.isEmail ? TextInputType.emailAddress : null,

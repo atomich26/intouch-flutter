@@ -27,7 +27,7 @@ class AuthService{
       return _userFromFirebaseUser(user);
     } on FirebaseAuthException catch (e){
       print(e.toString());
-      return null;
+      return e;
     } 
   }
 

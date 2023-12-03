@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Category{
   late String id;
   late String name;
@@ -11,11 +13,17 @@ class Category{
     required this.cover
   });
 
-  factory Category.fromMap(HashMap<String, dynamic> data){
+  factory Category.fromFirestore(DocumentSnapshot snapshot, SnapshotOptions? options){
+    final data = snapshot.data() as Map<String,dynamic>;
     return Category(
-      id : data['id']!, 
-      name : data['name']!,
-      cover : data['cover']!);
-    
+      id: snapshot.id, 
+      name: data?['name'], 
+      cover: data?['cover']);
+  }
+
+  Map<String, dynamic> toFirestore(){
+    return{
+      "name": name,
+    };
   }
 }
