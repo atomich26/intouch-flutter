@@ -67,21 +67,21 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                               children: <Widget> [
                                                 Column(
                                                   children: <Widget> [
-                                                    Text(user.hasData? user.data!.friends.toString(): "null"),
+                                                    Text(user.hasData? user.data!.friends.toString(): "0"),
                                                     const Text('Friends'),
                                                   ],
                                                 ),
                                                 SizedBox( width: 12.0),
                                                 Column(
                                                   children: <Widget> [
-                                                    Text(user.hasData? user.data!.joined.toString(): "null"),
+                                                    Text(user.hasData? user.data!.joined.toString(): "0"),
                                                     const Text('Events'),
                                                   ],
                                                 ),
                                                 SizedBox( width: 12.0),
                                                 Column(
                                                   children: <Widget> [
-                                                    Text(user.hasData? user.data!.created.toString(): "null"),
+                                                    Text(user.hasData? user.data!.created.toString(): "0"),
                                                     const Text('Created'),
                                                   ],
                                                 ),

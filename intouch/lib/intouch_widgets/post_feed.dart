@@ -27,17 +27,22 @@ class _PostFeedState extends State<PostFeed> {
     return FutureBuilder(
       future: posts, 
       builder: (context, posts){
-        if(posts.hasData){
-          print(posts.data);
-          return ListView.builder(
+        if(posts.hasData){ 
+          if(posts.data!.length == 0){
+            return SizedBox(height: 0);
+          } else {
+            return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: posts.data!.length,
             itemBuilder: (context, i){
               return PostCircle(post :posts.data![i]);
             },
           );
+          }
+          
         } else {
-          return ListView.builder(
+          return SizedBox(height:0);
+          /*return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount : 10,
             itemBuilder: (context, i){
@@ -49,7 +54,7 @@ class _PostFeedState extends State<PostFeed> {
                             ),
                             );
 
-            });
+            });*/
         }
       });
   }
