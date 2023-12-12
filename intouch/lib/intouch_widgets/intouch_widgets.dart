@@ -77,7 +77,7 @@ Container InTouchLongButton(BuildContext context, String text, IconData? icon, b
               MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
                   if(states.contains(MaterialState.pressed)){
-                    return Theme.of(context).colorScheme.primary.withOpacity(0.5); 
+                    Theme.of(context).colorScheme.primary.withOpacity(0.5);
                   }
                   else {
                     return Theme.of(context).colorScheme.primary;

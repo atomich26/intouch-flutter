@@ -14,12 +14,13 @@ class PostFeed extends StatefulWidget {
 
 class _PostFeedState extends State<PostFeed> {
   
-  Future<List<Post>>? posts;
+  Future<List<Post>?>? posts;
 
   @override
   void initState() {
     super.initState();
     posts = feedPost();
+
   }
 
   @override
@@ -27,10 +28,7 @@ class _PostFeedState extends State<PostFeed> {
     return FutureBuilder(
       future: posts, 
       builder: (context, posts){
-        if(posts.hasData){ 
-          if(posts.data!.length == 0){
-            return SizedBox(height: 0);
-          } else {
+        if(posts.hasData && posts.data!.isNotEmpty){ 
             return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: posts.data!.length,
@@ -38,11 +36,8 @@ class _PostFeedState extends State<PostFeed> {
               return PostCircle(post :posts.data![i]);
             },
           );
-          }
-          
         } else {
-          return SizedBox(height:0);
-          /*return ListView.builder(
+          return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount : 10,
             itemBuilder: (context, i){
@@ -50,11 +45,11 @@ class _PostFeedState extends State<PostFeed> {
                           padding: const EdgeInsets.all(8.0),
                           child: CircleAvatar(
                             radius: 40.0,
-                            backgroundColor: Colors.grey[50],
+                            foregroundColor: Colors.grey[150],
                             ),
                             );
 
-            });*/
+            });
         }
       });
   }

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/models/user.dart';
+import 'package:intouch/screens/home/pages/profile.dart';
+import 'package:intouch/screens/home/pages/profile_page.dart';
+import 'package:intouch/services/database.dart';
 import 'package:intouch/services/firebase_storage.dart';
 
 class UserSearchTile extends StatelessWidget {
@@ -17,20 +22,22 @@ class UserSearchTile extends StatelessWidget {
   String? username;
 
   StorageService _storageService = new StorageService();
+  UserDatabaseService _userDatabaseService = UserDatabaseService();
 
+  
 
   @override
   Widget build(context) {
-    
-  if(img != null){
-    Future<String>? imageUrl = _storageService.getUserImageUrl(img!);
+  Future<AppUserData>? user = _userDatabaseService.getUserById(id!);  
+  Future<String>? imageUrl = _storageService.getUserImageUrl(img ?? "intouch-default-user.png");
+     
     return FutureBuilder(
-      future: imageUrl, 
-      builder: (context, imageUrl){
+      future: Future.wait([user, imageUrl]), 
+      builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
       return InkWell(
         splashColor: Colors.purple[500]!.withOpacity(0.1),
         onTap:() {
-          
+          snapshot.hasData? Navigator.of(context).push(fromTheRight(ProfilePage(user: snapshot.data![0]))): null;
         },
         child: Card(
           elevation: 0.0,
@@ -44,7 +51,7 @@ class UserSearchTile extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: 36,
-                    foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!) : AssetImage("assets/images/intouch-default.png") as ImageProvider,
+                    foregroundImage: snapshot.hasData? NetworkImage(snapshot.data![1]) : AssetImage("assets/images/intouch-default-user.png") as ImageProvider,
                   ),
                 ),
                 Column(
@@ -65,44 +72,8 @@ class UserSearchTile extends StatelessWidget {
           ),
       );
       }
-    );}
-    else {
-      return InkWell(
-        splashColor: Colors.purple[500]!.withOpacity(0.1),
-        onTap:(){},
-        child: Card(
-        elevation: 0.0,
-        borderOnForeground: true,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  radius: 36,
-                  foregroundImage: AssetImage("assets/images/intouch-default.png") as ImageProvider,
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                      username ?? "",
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24.0),
-                      ),
-                  Text(
-                      name ?? ""
-                    )
-                  ],
-                )
-              ]
-            ),
-          ),
-        ),
-      );
-      }
+    );
+  
+    
   }
 }

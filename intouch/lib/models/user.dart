@@ -16,12 +16,12 @@ class AppUserData{
   late String? name;
   late String? username;
   late String? email;
-  late int? birthdate;
+  late Timestamp? birthdate;
   late String? biography;
   late String? img;
-  late int? friends;
-  late int? joined;
-  late int? created;
+  late List<dynamic>? friends;
+  late List<dynamic>? joined;
+  late List<dynamic>? created;
   late List<String>? preferences;
   late List<Post>? posts;
 
@@ -54,5 +54,24 @@ class AppUserData{
       //preferences = data['preferences'];
       posts = data['posts'];
     }
+
+      factory  AppUserData.fromFirestore (DocumentSnapshot snapshot){
+      final data = snapshot.data() as Map<String,dynamic>;
+      print(data);
+      return AppUserData(
+        id :snapshot.id,
+        name :data['name'] ?? 'Unknown',
+        username : data['username'] ?? 'Unknown',
+        email :data['email'] ?? 'Unknown',
+        birthdate : data['birthdate'],
+        biography : data['biography'] ?? 'this user hasn\'t written a bio yet',
+        img : data['img'] ?? 'intouch-default.png',
+        friends : data['friends'] ?? List.empty(),
+        joined : data['joined'] ?? List.empty(),
+        created : data['created'] ?? List.empty(),
+        //preferences = data['preferences'],
+        posts : data['posts'],);
+    }
+      
       
 }

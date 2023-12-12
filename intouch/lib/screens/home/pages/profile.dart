@@ -2,14 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/screens/home/pages/friends_list_page.dart';
 import 'package:intouch/services/auth_service.dart';
 import '../../../models/user.dart';
 
 class Profile extends StatefulWidget {
-  Future<AppUserData>? user;
+  Future<AppUserData> user;
   Profile({
     super.key,
-    this.user});
+    required this.user});
   
 
 
@@ -40,17 +42,20 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           _auth.signOut();
             return null;}
             ),
-            body: FutureBuilder<AppUserData>(
+            body: FutureBuilder<AppUserData?>(
                future: widget.user,
                builder: (context, user){
-                print(user.data);
                 return Container(
                   margin: EdgeInsets.all(8.0),
                   child: CustomScrollView (
                     slivers:<Widget>[
                       SliverAppBar(
                         backgroundColor: Colors.white,
-                        expandedHeight: 350,
+                        floating: true,
+                        expandedHeight: MediaQuery.of(context).size.height/2,
+                        bottom: PreferredSize(
+                          preferredSize: Size.fromHeight(60), 
+                          child: Text('')),
                         flexibleSpace: FlexibleSpaceBar(
                           background: Container(
                             color: Colors.transparent,
@@ -61,29 +66,44 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget> [
-                                        user.hasData? ProfileCircle(user: user.data): CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default.png") as ImageProvider,),
+                                        user.hasData? ProfileCircle(user: user.data): CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png") as ImageProvider, radius: 64,),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: <Widget> [
-                                                Column(
-                                                  children: <Widget> [
-                                                    Text(user.hasData? user.data!.friends.toString(): "0"),
-                                                    const Text('Friends'),
-                                                  ],
+                                                InkWell(
+                                                  onTap: (){
+                                                    if(user.hasData){
+                                                      if(user.data!.friends!.isNotEmpty){
+                                                        Navigator.of(context).push(fromTheRight(FriendsListPage(friendId: user.data!.friends!)));
+                                                      }
+                                                    }
+                                                  },
+                                                  child: Column(
+                                                    children: <Widget> [
+                                                      Text(user.hasData? user.data!.friends!.length.toString(): "0"),
+                                                      const Text('Friends'),
+                                                    ],
+                                                  ),
                                                 ),
                                                 SizedBox( width: 12.0),
-                                                Column(
-                                                  children: <Widget> [
-                                                    Text(user.hasData? user.data!.joined.toString(): "0"),
-                                                    const Text('Events'),
-                                                  ],
+                                                InkWell(
+                                                  onTap: (){},
+                                                  child: Column(
+                                                    children: <Widget> [
+                                                      Text(user.hasData? user.data!.joined!.length.toString(): "0"),
+                                                      const Text('Events'),
+                                                    ],
+                                                  ),
                                                 ),
                                                 SizedBox( width: 12.0),
-                                                Column(
-                                                  children: <Widget> [
-                                                    Text(user.hasData? user.data!.created.toString(): "0"),
-                                                    const Text('Created'),
-                                                  ],
+                                                InkWell(
+                                                  onTap: (){},
+                                                  child: Column(
+                                                    children: <Widget> [
+                                                      Text(user.hasData? user.data!.created!.length.toString(): "0"),
+                                                      const Text('Created'),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),

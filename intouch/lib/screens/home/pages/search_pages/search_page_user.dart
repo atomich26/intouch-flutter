@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/search_tile_user.dart';
 import 'package:intouch/models/user.dart';
 import 'package:intouch/services/cloud_functions.dart';
+import 'package:intouch/services/database.dart';
 
 class SearchPageUser extends StatelessWidget {
   
@@ -12,10 +13,11 @@ class SearchPageUser extends StatelessWidget {
       });
   
   String query;
+  UserDatabaseService _userDatabaseService = UserDatabaseService();
 
   @override
   Widget build(BuildContext context) {
-    Future<List<AppUserData>>? userByName = searchUserByName(query);
+    Future<List<String>>? userByName = searchUserByName(query);
     return FutureBuilder(
       future: userByName, 
       builder: (context, users){
@@ -33,12 +35,23 @@ class SearchPageUser extends StatelessWidget {
             return ListView.builder(
               itemCount: users.data!.length,
               itemBuilder: ((context, i){
-                return UserSearchTile(
-                  context: context,
-                  id: users.data?[i].id,
-                  name: users.data?[i].name,
-                  img: users.data?[i].img,
-                  username: users.data?[i].username,
+                Future<AppUserData>? userById = _userDatabaseService.getUserById(users.data![i]);
+                return FutureBuilder(
+                  future: userById,
+                  builder: (context, users){
+                  if(users.hasData)
+                    {
+                      return UserSearchTile(
+                        context: context,
+                        id: users.data?.id,
+                        name: users.data?.name,
+                        img: users.data?.img,
+                        username: users.data?.username,
+                        );
+                    } else {
+                      return const Text("");
+                    }
+                  } 
                 );
               }),
             );

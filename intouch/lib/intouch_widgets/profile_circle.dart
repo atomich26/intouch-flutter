@@ -18,7 +18,7 @@ class ProfileCircle extends StatelessWidget  {
   Widget build(BuildContext context) {
     if(user!.img!.isEmpty){
       return CircleAvatar(
-        foregroundImage: AssetImage("assets/images/intouch-default.png"),
+        foregroundImage: AssetImage("assets/images/intouch-default-user.png"),
         radius: 64,
       );
 

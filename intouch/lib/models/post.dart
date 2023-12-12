@@ -2,10 +2,12 @@
 
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Post{
 
   late String id;
-  late String userId;
+  late String? userId;
   late String? userImg;
   late String? username;
   late String? eventName;
@@ -13,11 +15,13 @@ class Post{
   late DateTime? createdBy;
   late String? description;
   late List<String>? album;
+  late bool? viewed;
+  late Timestamp? createdAt;
 
   Post({
 
     required this.id,
-    required this.userId,
+    this.userId,
     this.username,
     this.userImg,
     this.eventName,
@@ -25,6 +29,8 @@ class Post{
     this.createdBy,
     this.description,
     this.album,
+    this.viewed,
+    this.createdAt
   });
 
   Post.fromMap(HashMap<String, dynamic> data){
@@ -37,6 +43,8 @@ class Post{
     createdBy = data["createdBy"];
     description = data["description"];
     album = data["album"];
+    viewed = data["viewed"];
+    createdAt = data["createdAt"];
 
   }
 

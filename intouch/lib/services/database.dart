@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intouch/models/category.dart';
+import 'package:intouch/models/post.dart';
 import 'package:intouch/models/user.dart';
 
 class UserDatabaseService{
@@ -14,7 +15,7 @@ class UserDatabaseService{
 
 
   Future<String?> getUserNameById (String id) async {
-    var value =await userCollection.where('id', isEqualTo: id).get().then((value) => {
+    var value = await userCollection.where('id', isEqualTo: id).get().then((value) => {
        value.docs.map((doc){
         final casted = doc.data() as HashMap<String, dynamic>;
         final user = AppUserData.fromJson(casted);
@@ -25,7 +26,14 @@ class UserDatabaseService{
       }
     );
   }
+  
+  Future<AppUserData> getUserById (String id) async {
+  var value = await userCollection.doc(id).get();
+  return AppUserData.fromFirestore(value);
+  }
 }
+
+
 
 class CategoryDatabaseService{
 
@@ -40,6 +48,14 @@ class CategoryDatabaseService{
   }
 }
 
+class PostDatabaseService{
+
+  PostDatabaseService();
+
+  final CollectionReference postCollection = FirebaseFirestore.instance.collection('posts');
+
+  //Future<Post> getPostbyId(){ return}
+}
 
 
   

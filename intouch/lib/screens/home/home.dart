@@ -28,14 +28,15 @@ class _HomeState extends State<Home> {
   
   
   late Future<List<Category>?> _categories;
-  Future<AppUserData>? _userData;
+  late Future<AppUserData> _userData;
   CategoryDatabaseService _categoryDatabaseService = CategoryDatabaseService();
+  UserDatabaseService _userDatabaseService =UserDatabaseService();
 
   @override
   void initState() {
     super.initState();
      _categories = _categoryDatabaseService.getCategoriesFirestore();
-    _userData = getProfileData(FirebaseAuth.instance.currentUser!.uid);
+    _userData = _userDatabaseService.getUserById(FirebaseAuth.instance.currentUser!.uid);
     
   }
 
