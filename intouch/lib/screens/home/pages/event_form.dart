@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intouch/intouch_widgets/date_picker.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/intouch_widgets/text_form_field.dart';
@@ -15,16 +18,28 @@ class EventForm extends StatefulWidget {
 
 class _EventFormState extends State<EventForm> {
 
-  final _errorUtil = "TBA";
-
   //Controller di ogni voce della textview
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
-  
   final TextEditingController _descriptionController = TextEditingController();
+
+  File? _image;
+
+  // This is the image picker
+  final _picker = ImagePicker();
+  // Implementing the image picker
+  Future<void> _openImagePicker(bool isCamera) async {
+    final XFile? pickedImage =
+        isCamera ? await _picker.pickImage(source: ImageSource.camera): await _picker.pickImage(source:ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
+  }
 
   //riceve la presenza di errori da parte del server
   bool isTitleError = false;
@@ -77,7 +92,7 @@ class _EventFormState extends State<EventForm> {
                     controller: _titleController, 
                           ),
                     
-                    DatePicker(
+                  DatePicker(
                       context: context, 
                       title: 'Date',
                       icon: Icons.calendar_month_outlined,
@@ -87,14 +102,14 @@ class _EventFormState extends State<EventForm> {
                       ),
                     
                     
-                    TimePicker(
+                  TimePicker(
                           title: 'Start Time', 
                           icon: Icons.access_time_outlined,
                           controller: _startController, 
                           isError: isStartError,
                           errorText: startError),
                     
-                    inTouchTextFormField(
+                  inTouchTextFormField(
                     context: context, 
                     title: 'Address', 
                     icon: Icons.location_on,
@@ -106,7 +121,7 @@ class _EventFormState extends State<EventForm> {
                     controller: _addressController, 
                           ),
                     
-                    inTouchTextFormField(
+                  inTouchTextFormField(
                     context: context, 
                     title: 'City', 
                     icon: Icons.maps_home_work,
@@ -118,8 +133,57 @@ class _EventFormState extends State<EventForm> {
                     controller: _cityController, 
                           ),
 
-                    
-                    inTouchTextFormField(
+                                    
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(12.0),
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.all(Radius.circular(16.0))
+                          ),
+                          
+                          child: _image != null ?
+                              Image.file(_image!, fit:BoxFit.cover) 
+                            : Center(child: Text("Image not selected"))),
+                        
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: InTouchLongButton(
+                                  context, 
+                                  "Take Photo", 
+                                  Icons.camera,
+                                  true, 
+                                  (){
+                                    _openImagePicker(true);
+                                  }),
+                              
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child:
+                                  InTouchLongButton(
+                                  context, 
+                                  "From Gallery", 
+                                  Icons.browse_gallery,
+                                  false, 
+                                  (){
+                                    _openImagePicker(false);
+                                  }),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  inTouchTextFormField(
                     context: context, 
                     title: 'Description', 
                     icon: Icons.description,
@@ -130,6 +194,7 @@ class _EventFormState extends State<EventForm> {
                     errorText: descriptionError,
                     controller: _descriptionController, 
                       ),
+
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -145,8 +210,9 @@ class _EventFormState extends State<EventForm> {
                           }),
                       ],
                     ),
+
                     
-                    Row(
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget> [
@@ -166,7 +232,17 @@ class _EventFormState extends State<EventForm> {
                           "Reset",
                           null,
                           false, 
-                          (){}),
+                          (){
+                            setState(() {
+                              _image = null;
+                              _titleController.text = "";
+                              _dateController.text = "";
+                              _startController.text = "";
+                              _addressController.text = "";
+                              _cityController.text = "";
+                              _descriptionController.text = "";
+                            });
+                          }),
                           )
                         ],
                         ), 
@@ -176,7 +252,7 @@ class _EventFormState extends State<EventForm> {
               ),
             ]
           ),
-      ]
+        ]
       ),
     );
   }
