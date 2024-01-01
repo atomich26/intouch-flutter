@@ -208,6 +208,7 @@ class _RegisterState extends State<Register> {
                                 (route) => false);
                             });
                             } on FirebaseFunctionsException catch (e){
+                          _isLoading = false;
                           if (e.code == "invalid-argument" && e.details != null){
                           String errorMessage = e.message.toString();
                           List errorList = e.details as List;

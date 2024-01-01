@@ -5,10 +5,12 @@ import 'package:intouch/services/firebase_storage.dart';
 class ProfileCircle extends StatelessWidget  {
   
   AppUserData? user;
+  double radius;
 
   ProfileCircle({
     super.key,
-    this.user
+    this.user,
+    required this.radius,
     });
 
   final StorageService _storage = StorageService();
@@ -19,7 +21,7 @@ class ProfileCircle extends StatelessWidget  {
     if(user!.img!.isEmpty){
       return CircleAvatar(
         foregroundImage: AssetImage("assets/images/intouch-default-user.png"),
-        radius: 64,
+        radius: radius,
       );
 
     }else{
@@ -29,7 +31,7 @@ class ProfileCircle extends StatelessWidget  {
           builder: (context, imageUrl){
             return CircleAvatar(
               foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): AssetImage("assets/images/intouch-default.png") as ImageProvider,
-              radius: 64,
+              radius: radius,
             );
          
         

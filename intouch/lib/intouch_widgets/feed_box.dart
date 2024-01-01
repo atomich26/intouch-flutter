@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intouch/models/event.dart';
+import 'package:intouch/models/user.dart';
 import 'package:intouch/screens/home/pages/event_sliver.dart';
+import 'package:intouch/services/database.dart';
 import '../models/category.dart';
 
 import '../services/firebase_storage.dart';
@@ -7,12 +11,12 @@ import '../services/firebase_storage.dart';
 class FeedBox extends StatefulWidget {
   
   BuildContext context;
-  Category category;
+  Event event;
 
   FeedBox({
     super.key,
     required this.context,
-    required this.category});
+    required this.event});
 
   @override
   State<FeedBox> createState() => _FeedBoxState();
@@ -22,24 +26,24 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   final StorageService _storageRef = StorageService();
+  final UserDatabaseService _userDatabaseService =UserDatabaseService();
 
 
   @override
   Widget build(BuildContext context) {
-    String city = "Civitanova Marche";
     super.build(context);
-    Future<String>? imageUrl = _storageRef.getCategoryImageUrl(widget.category.cover);
+    Future<String>? imageUrl = _storageRef.getEventImageUrl(widget.event.cover);
+    Future<String?> userId = _userDatabaseService.getUserNameById(widget.event.userId);
     return FutureBuilder(
-      future: imageUrl,
-      builder: (context, imageUrl){
-        
+      future: Future.wait([imageUrl, userId]),
+      builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
+        print(snapshot.data?[1]);
         return GestureDetector(
           onTap:() {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (BuildContext context) => EventSliver(event: widget.category, image: imageUrl.data! )));
-            
-          },
+              MaterialPageRoute(builder: (BuildContext context) => EventSliver(event: widget.event, image: snapshot.data![0])));
+            },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical:6.0, horizontal: 12.0),
               child: Container(
@@ -53,7 +57,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                 Expanded(
                   flex: 7,
                   child:Hero(
-                    tag: 'eventImage${widget.category.name}',
+                    tag: 'eventImage${widget.event.name}',
                     child: Container(
                             height: double.infinity,
                             decoration: BoxDecoration(
@@ -61,7 +65,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                                 topLeft: Radius.circular(10.0),
                                 topRight: Radius.circular(10.0)),
                               image: DecorationImage(
-                                  image: imageUrl.hasData? NetworkImage(imageUrl.data!) :  const AssetImage("assets/images/intouch-default.png") as ImageProvider,
+                                  image: snapshot.hasData? NetworkImage(snapshot.data![0]) :  const AssetImage("assets/images/intouch-default.png") as ImageProvider,
                                   fit: BoxFit.cover,)
                         )
                       ),
@@ -76,10 +80,14 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.category.name,
+                          widget.event.name,
                           textScaler: const TextScaler.linear(1.7), 
-                          style:const TextStyle(fontWeight: FontWeight.bold)),
-                        Text("By some random"),
+                          maxLines: 1,
+                          style:const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis)
+                          ),
+                        Text(widget.event.userId),
                         SizedBox(height: 5.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,14 +95,14 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                             Row(
                               children: <Widget> [
                                 const Icon(Icons.place, size: 18.0,),
-                                Text(city.length>= 25 ? city.substring(0,23) + "..." : city)
+                                Text(widget.event.city, overflow: TextOverflow.ellipsis,)
                               ], 
                             ),
                             //PORCO DIEGO
-                            const Row(
+                             Row(
                               children: <Widget> [
                                 Icon(Icons.calendar_month, size: 18.0,),
-                                Text("01/01/00 20:30")
+                                Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.startAt.toDate()))
                               ],
                             ),
                           ],
@@ -106,7 +114,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
               ]
             ),
           )
-              ),
+        ),
         );
       }
       

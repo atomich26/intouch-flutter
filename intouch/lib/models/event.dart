@@ -8,11 +8,12 @@ class Event{
   late String address;
   late String city;
   late String cover;
-  late String createdBy;
-  late double date;
+  late String userId;
+  late Timestamp startAt;
+  late Timestamp endAt;
   late String? description;
   late String name;
-  late GeoPoint place;
+  late GeoPoint? place;
   late bool restricted;
 
   Event({
@@ -20,11 +21,12 @@ class Event{
     required this.address,
     required this.city,
     required this.cover,
-    required this.createdBy,
-    required this.date,
+    required this.userId,
+    required this.startAt,
+    required this.endAt,
     this.description,
     required this.name,
-    required this.place,
+    this.place,
     required this.restricted
 
   });
@@ -35,12 +37,29 @@ class Event{
     address = data[address];
     city = data[city];
     cover = data[cover];
-    createdBy = data[createdBy];
-    date = data[date];
+    userId = data[userId];
+    startAt = data[startAt];
+    endAt = data[endAt];
     description = data[description];
     name = data[name];
     place = data[place];
     restricted = data[restricted];
 
+  }
+
+  factory Event.fromFirestore(DocumentSnapshot snapshot, SnapshotOptions? options){
+    final data = snapshot.data() as Map<String,dynamic>;
+    return Event(
+      id: snapshot.id,
+      address : data['address'],
+      city : data['city'],
+      cover : data['cover'],
+      userId : data['userId'],
+      startAt : data['startAt'],
+      endAt : data['endAt'],
+      description : data['description'],
+      name : data['name'],
+      place : data['place'],
+      restricted : data['restricted'],);
   }
 }

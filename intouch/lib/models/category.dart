@@ -17,8 +17,8 @@ class Category{
     final data = snapshot.data() as Map<String,dynamic>;
     return Category(
       id: snapshot.id, 
-      name: data?['name'], 
-      cover: data?['cover']);
+      name: data['name'], 
+      cover: data['cover']);
   }
 
   Map<String, dynamic> toFirestore(){

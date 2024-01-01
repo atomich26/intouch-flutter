@@ -2,12 +2,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
 import 'package:intouch/screens/home/pages/event_form.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/search.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 
 
@@ -31,15 +33,17 @@ class _HomeState extends State<Home> {
   
   late Future<List<Category>?> _categories;
   late Future<AppUserData> _userData;
+  late Future<List<Event>?> _events;
   CategoryDatabaseService _categoryDatabaseService = CategoryDatabaseService();
-  UserDatabaseService _userDatabaseService =UserDatabaseService();
+  UserDatabaseService _userDatabaseService = UserDatabaseService();
+  EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override
   void initState() {
     super.initState();
-     _categories = _categoryDatabaseService.getCategoriesFirestore();
+    _categories = _categoryDatabaseService.getCategoriesFirestore();
     _userData = _userDatabaseService.getUserById(FirebaseAuth.instance.currentUser!.uid);
-    
+    _events = _eventDatabaseService.getEventsFirestore();
   }
 
 
@@ -52,14 +56,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<List<Category>?>(
-          future: _categories,
-          builder: (context, categories) {
+        body: FutureBuilder(
+          future: Future.wait([_categories, _events]),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
             return PageView(
               controller: controller,
               children: <Widget>[
-                Feed(categories: categories.data,),
-                Search(categories: categories.data),
+                Feed(events: snapshot.data?[1],),
+                Search(categories: snapshot.data?[0]),
                 const Notifications(),
                 Profile(user: _userData),                 
               ],
@@ -91,8 +95,10 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              Navigator.of(context).push(fromTheBottom(EventForm()));
+              //Navigator.of(context).push(fromTheBottom(EventForm()));
               //print(FirebaseAuth.instance.currentUser!.uid);
+              //_eventDatabaseService.getEventsFirestore;
+              launchUrlString('https://www.google.it/maps/place/X+Bike+%26+Cars+Di+Paoli+Eugenio+Massimo/@43.6935264,12.6426732,17z/data=!4m6!3m5!1s0x132cf87e69794723:0xcbe409dec17c92a2!8m2!3d43.692822!4d12.6455533!16s%2Fg%2F1tkp26yj?entry=ttu');
              
             }, 
             icon: const Icon(Icons.add_circle_rounded)

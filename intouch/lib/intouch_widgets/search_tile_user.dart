@@ -67,7 +67,8 @@ class UserSearchTile extends StatelessWidget {
                     )
                   ],
                 )
-              ]),
+              ]
+            ),
           ) ,
           ),
       );

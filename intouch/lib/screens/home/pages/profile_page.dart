@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget> [
-                                          ProfileCircle(user: widget.user),
+                                          ProfileCircle(user: widget.user, radius: 64.0),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: <Widget> [

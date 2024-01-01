@@ -142,15 +142,37 @@ class _EventFormState extends State<EventForm> {
                         Container(
                           padding: EdgeInsets.all(12.0),
                           height: 300,
+                          width: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.grey[300],
                             borderRadius: BorderRadius.all(Radius.circular(16.0))
                           ),
                           
-                          child: _image != null ?
-                              Image.file(_image!, fit:BoxFit.cover) 
-                            : Center(child: Text("Image not selected"))),
-                        
+                          child: Container(
+                            child: _image != null ?
+                                Stack(
+                                  alignment: Alignment.topRight,
+                                  children: <Widget>[
+                                    Container(
+                                      width: double.infinity,
+                                      child: Image.file(_image!, fit:BoxFit.cover)),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: FloatingActionButton(
+                                        backgroundColor: Colors.white.withOpacity(0.3),
+                                        mini: true,
+                                        child: Icon(Icons.cancel),
+                                        onPressed: (){
+                                          setState(() {
+                                            _image = null;
+                                          });
+                                        }),
+                                    )
+                                    ]
+                                  ) 
+                              : Center(child: Text("Image not selected")),
+                          )
+                        ),
                         Row(
                           children: [
                             Expanded(

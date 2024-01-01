@@ -1,6 +1,7 @@
 
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/services.dart';
+import 'package:intouch/models/event.dart';
 import 'package:intouch/models/post.dart';
 import 'package:intouch/models/user.dart';
 
@@ -30,6 +31,17 @@ import '../models/category.dart';
     }
   }
 
+  Future<List<String>>? searchEventByName(String query) async {
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('events-search');
+    try {
+      final result = await callable.call({"query" : query});
+      var casted = result.data as List;
+      return casted.map((e) => e.toString()).toList();
+    } on PlatformException catch (e){
+      return Future.error(e);
+    }
+  }
+
   Future<List<Post>?>? feedPost() async{
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('posts-feed');
     try {final result = await callable.call();
@@ -40,6 +52,23 @@ import '../models/category.dart';
           return Future.error(e);
         }
   }
+
+  Future<List<Post>?>? getPostByAuthor() async{
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('posts-getAllByAuthor');
+    try {
+      final result = await callable.call();
+      var casted = result.data as List;
+      return casted.map(
+        (e) => Post(id: e["id"].toString(),  viewed: e["viewed"], createdAt: e["createdAt"])
+        ).toList();
+        } on PlatformException catch (e){
+          return Future.error(e);
+        }
+  }
+
+  
+
+
   
 
 

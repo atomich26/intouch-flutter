@@ -66,7 +66,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget> [
-                                        user.hasData? ProfileCircle(user: user.data): CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png") as ImageProvider, radius: 64,),
+                                        user.hasData? ProfileCircle(user: user.data, radius: 24.0): CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png") as ImageProvider, radius: 64,),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: <Widget> [

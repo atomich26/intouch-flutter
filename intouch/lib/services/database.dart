@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intouch/models/category.dart';
+import 'package:intouch/models/event.dart';
 import 'package:intouch/models/post.dart';
 import 'package:intouch/models/user.dart';
 
@@ -10,8 +11,8 @@ class UserDatabaseService{
   UserDatabaseService ();
 
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
-  final CollectionReference categoryReference = FirebaseFirestore.instance.collection('categories');
-  final CollectionReference eventsReference = FirebaseFirestore.instance.collection('events');
+  //final CollectionReference categoryReference = FirebaseFirestore.instance.collection('categories');
+  //final CollectionReference eventsReference = FirebaseFirestore.instance.collection('events');
 
 
   Future<String?> getUserNameById (String id) async {
@@ -19,7 +20,6 @@ class UserDatabaseService{
        value.docs.map((doc){
         final casted = doc.data() as HashMap<String, dynamic>;
         final user = AppUserData.fromJson(casted);
-        print(user.name);
         return user.name;
 
        })
@@ -55,6 +55,27 @@ class PostDatabaseService{
   final CollectionReference postCollection = FirebaseFirestore.instance.collection('posts');
 
   //Future<Post> getPostbyId(){ return}
+}
+
+class EventDatabaseService{
+
+  EventDatabaseService();
+
+  final CollectionReference eventCollection = FirebaseFirestore.instance.collection('events');
+
+  Future<List<Event>> getEventsFirestore() async {
+    return eventCollection.orderBy("startAt").get().then((values){
+      return values.docs.map((e) => Event.fromFirestore(e, null)).toList();
+    });
+  }
+
+  Future<Event> getEventById(String id) async {
+    var value = await eventCollection.doc(id).get();
+    return Event.fromFirestore(value, null);
+  }
+
+  
+
 }
 
 

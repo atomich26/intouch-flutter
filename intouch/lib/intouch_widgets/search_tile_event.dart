@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/models/event.dart';
+import 'package:intouch/screens/home/pages/event_sliver.dart';
+import 'package:intouch/services/database.dart';
 import 'package:intouch/services/firebase_storage.dart';
 
 class EventSearchTile extends StatelessWidget {
@@ -17,13 +21,18 @@ class EventSearchTile extends StatelessWidget {
   String? city;
   String? cover;
   String? name;
-  double? date;
+  String? date;
 
   StorageService _storageService = new StorageService();
+  EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override
   Widget build(BuildContext context) {
-    if(cover != null){
+    Future<Event>? event = _eventDatabaseService.getEventById(id!);
+    return FutureBuilder(
+      future: event, 
+      builder: (context, event){
+      if(cover != null){
       Future<String>? imageUrl = _storageService.getEventImageUrl(cover!);
       return FutureBuilder(
         future: imageUrl, 
@@ -31,21 +40,21 @@ class EventSearchTile extends StatelessWidget {
           return InkWell(
             splashColor: Colors.purple[500]!.withOpacity(0.1),
             onTap:() {
+              Navigator.of(context).push(fromTheBottom(EventSliver(event: event.data!, image: imageUrl.data!)));
           
               },
             child: Card(
+              color: Colors.transparent,
               elevation: 0.0,
-              borderOnForeground: true,
+              //borderOnForeground: true,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start, 
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image:DecorationImage(image: imageUrl.hasData? NetworkImage(imageUrl.data!): AssetImage("assets/images/intouch-default.png") as ImageProvider )
-                      ),
+                    CircleAvatar(
+                      radius: 32,
+                      backgroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): AssetImage("assets/images/intouch-default.png") as ImageProvider,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,7 +63,7 @@ class EventSearchTile extends StatelessWidget {
                         Column(
                           children:<Widget>[
                             Text(date.toString()),
-                            Text(address! + " " + city!),
+                            //Text(address! + " " + city!),
                           ],
                         )
                       ],
@@ -74,13 +83,10 @@ class EventSearchTile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start, 
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image:DecorationImage(image: AssetImage("assets/images/intouch-default.png") as ImageProvider )
-                      ),
+                    CircleAvatar(
+                      foregroundColor: Colors.amber,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,5 +106,6 @@ class EventSearchTile extends StatelessWidget {
             )
       );
     }
+    });
   }
 }
