@@ -33,7 +33,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     Future<String>? imageUrl = _storageRef.getEventImageUrl(widget.event.cover);
-    Future<String?> userId = _userDatabaseService.getUserNameById(widget.event.userId);
+    Future<String> userId = _userDatabaseService.getUserById(widget.event.userId).then((value) => value.name!);
     return FutureBuilder(
       future: Future.wait([imageUrl, userId]),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
@@ -87,7 +87,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis)
                           ),
-                        Text(widget.event.userId),
+                        Text(snapshot.hasData? snapshot.data![1] : ""),
                         SizedBox(height: 5.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
