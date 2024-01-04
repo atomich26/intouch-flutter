@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/models/category.dart';
+import 'package:intouch/screens/home/pages/search_pages/search_category_page.dart';
 import 'package:intouch/services/firebase_storage.dart';
 
 class CategoryBox extends StatefulWidget {
   
   BuildContext context;
-  String id;
-  String name;
-  String cover;
+  Category category;
   
   CategoryBox({
     super.key,
     required this.context,
-    required this.id,
-    required this.name,
-    required this.cover});
+    required this.category});
 
   @override
   State<CategoryBox> createState() => _CategoryBoxState();
@@ -30,15 +29,13 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    Future<String>? imageUrl = _storageRef.getCategoryImageUrl(widget.cover);
+    Future<String>? imageUrl = _storageRef.getCategoryImageUrl(widget.category.cover);
     return FutureBuilder(
       future: imageUrl,
       builder: (context, imageUrl) {
         return InkWell(
           onTap:(){
-            setState(() {
-              _isSelected = !_isSelected;
-            });
+            Navigator.of(context).push(fromTheRight(SearchCategoryPage(category: widget.category, image:imageUrl.data!)));
           },
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -70,7 +67,7 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
                             widthFactor: MediaQuery.of(context).size.width,
                             heightFactor: MediaQuery.of(context).size.height,
                             child: Text(
-                              widget.name, 
+                              widget.category.name, 
                               textAlign: TextAlign.center, 
                               textScaler: const TextScaler.linear(0.8), 
                               style: TextStyle(

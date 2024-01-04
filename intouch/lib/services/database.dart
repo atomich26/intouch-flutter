@@ -74,6 +74,12 @@ class EventDatabaseService{
     return Event.fromFirestore(value, null);
   }
 
+  Future<List<Event>?> getEventsByCategory(String category) async {
+    return eventCollection.where('categoryId',isEqualTo: category).get().then((value){
+      return value.docs.map((e) => Event.fromFirestore(e, null)).toList();
+    });
+  }
+
   
 
 }

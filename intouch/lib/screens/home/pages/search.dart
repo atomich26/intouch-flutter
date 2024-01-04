@@ -46,10 +46,9 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
                 childAspectRatio: 0.75),
               itemBuilder: (context, i){
                 return CategoryBox(
-                  context: context, 
-                  id: widget.categories![i].id, 
-                  name: widget.categories![i].name, 
-                  cover: widget.categories![i].cover);
+                  context: context,
+                  category: widget.categories![i]
+                  );
               }, 
               itemCount: widget.categories!.length)
       );}
