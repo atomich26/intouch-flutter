@@ -95,11 +95,7 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              //Navigator.of(context).push(fromTheBottom(EventForm()));
-              //print(FirebaseAuth.instance.currentUser!.uid);
-              //_eventDatabaseService.getEventsFirestore;
-              launchUrlString('https://www.google.it/maps/place/X+Bike+%26+Cars+Di+Paoli+Eugenio+Massimo/@43.6935264,12.6426732,17z/data=!4m6!3m5!1s0x132cf87e69794723:0xcbe409dec17c92a2!8m2!3d43.692822!4d12.6455533!16s%2Fg%2F1tkp26yj?entry=ttu');
-             
+              Navigator.of(context).push(fromTheBottom(EventForm()));
             }, 
             icon: const Icon(Icons.add_circle_rounded)
             ),

@@ -8,6 +8,7 @@ import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
 import 'package:intouch/screens/home/pages/profile_page.dart';
 import 'package:intouch/services/database.dart';
+import 'package:intouch/services/google_services.dart';
 
 
 
@@ -27,8 +28,9 @@ class EventSliver extends StatefulWidget {
 
 class _EventSliverState extends State<EventSliver> {
   bool isSelected = false;
-  final UserDatabaseService _userDatabaseService =UserDatabaseService();
-  
+  final UserDatabaseService _userDatabaseService = UserDatabaseService();
+  final GoogleServices _googleServices = GoogleServices();
+
   @override
   Widget build(BuildContext context) {
     Future<AppUserData>? _user= _userDatabaseService.getUserById(widget.event.userId);
@@ -138,7 +140,9 @@ class _EventSliverState extends State<EventSliver> {
                         Row(
                           children: <Widget> [
                           Icon(Icons.place, size: 20.0,),
-                          Text(widget.event.address + "; " + widget.event.city, textScaler: TextScaler.linear(1.2))
+                          TextButton(
+                            onPressed:()=> _googleServices.launchMapsUrl(widget.event.address + " " + widget.event.city),
+                            child: Text(widget.event.address))
                             ],
                           ),
                         SizedBox(height: 12.0),
