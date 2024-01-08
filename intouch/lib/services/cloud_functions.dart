@@ -15,9 +15,7 @@ import '../models/category.dart';
     return casted.map(
       (e) => Category(id: e!["id"].toString(), name: e!["name"].toString(), cover: e!["cover"].toString())
     ).toList();
-    /*List<String> dummyList =["concert", "countryside", "library", "mountain","rpg-meeting"];
-    await Duration(seconds: 2);
-    return dummyList.map((e) => Category(id: e, name: e, cover: e),).toList();*/
+    
 }
 
   Future<List<String>>? searchUserByName(String query) async{
@@ -47,19 +45,19 @@ import '../models/category.dart';
     try {final result = await callable.call();
       var casted = result.data as List;
       return casted.map(
-        (e) => Post(id: e["id"].toString(),  viewed: e["viewed"], createdAt: e["createdAt"])
+        (e) => Post.fromFirestore(e, null)
         ).toList();} on PlatformException catch (e){
           return Future.error(e);
         }
   }
 
-  Future<List<Post>?>? getPostByAuthor() async{
+  Future<List<Post>?>? getPostByAuthor(String authorId) async{
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('posts-getAllByAuthor');
     try {
-      final result = await callable.call();
+      final result = await callable.call({"authorId": authorId});
       var casted = result.data as List;
       return casted.map(
-        (e) => Post(id: e["id"].toString(),  viewed: e["viewed"], createdAt: e["createdAt"])
+        (e) => Post(id: e["id"].toString(), createdAt: e["createdAt"])
         ).toList();
         } on PlatformException catch (e){
           return Future.error(e);

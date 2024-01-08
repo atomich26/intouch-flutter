@@ -27,7 +27,7 @@ class _PostCircleState extends State<PostCircle> {
 @override
   void initState() {
     super.initState();
-    imageUrl = _storage.getUserImageUrl(widget.post.userImg!);
+    //imageUrl = _storage.getUserImageUrl(widget.post.userImg!);
     userName = _database.getUserNameById(widget.post.id);
     
   }
@@ -52,7 +52,7 @@ class _PostCircleState extends State<PostCircle> {
                 foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,
                 radius: 36  ,
               ),
-              Text(widget.post.username!)
+              //Text(widget.post.username!)
             ],
           ),
         ),

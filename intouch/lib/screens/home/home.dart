@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Feed(events: snapshot.data?[1],),
                 Search(categories: snapshot.data?[0]),
-                const Notifications(),
+                Notifications(categories: snapshot.data?[0]),
                 Profile(user: _userData),                 
               ],
               onPageChanged: (page) {
@@ -95,7 +95,8 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              Navigator.of(context).push(fromTheBottom(EventForm()));
+              //Navigator.of(context).push(fromTheBottom(EventForm()));
+              print(getPostByAuthor(FirebaseAuth.instance.currentUser!.uid));
             }, 
             icon: const Icon(Icons.add_circle_rounded)
             ),

@@ -1,10 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
+import 'package:intouch/intouch_widgets/postgrid.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/models/post.dart';
 import 'package:intouch/screens/home/pages/friends_list_page.dart';
 import 'package:intouch/services/auth_service.dart';
+import 'package:intouch/services/cloud_functions.dart';
+import 'package:intouch/services/database.dart';
 import '../../../models/user.dart';
 
 class Profile extends StatefulWidget {
@@ -31,12 +35,14 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
 
   final String title = 'Profile';
   final AuthService _auth = AuthService();
+  PostDatabaseService _postDatabaseService = PostDatabaseService();
  
   
   
 
   @override
   Widget build(BuildContext context){
+    Future<List<Post>?>? postByAuthor;
     return Scaffold(
         appBar: inTouchAppBar(context, '$title', Icons.exit_to_app, (){
           _auth.signOut();
@@ -66,7 +72,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget> [
-                                        user.hasData? ProfileCircle(user: user.data, radius: 24.0): CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png") as ImageProvider, radius: 64,),
+                                        user.hasData? ProfileCircle(user: user.data, radius: 64.0): CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png") as ImageProvider, radius: 64,),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: <Widget> [
@@ -130,22 +136,57 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                             ),
                           ),
                         ),
-                      SliverGrid(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 0.7),
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return Container(
-                              padding:EdgeInsets.all(8.0),
-                              alignment: Alignment.center,
-                              color: Colors.teal[100 * (index % 9)],
-                              child: Text('Grid Item $index'),
-                            );
-                          },
-                          childCount: 50,
-                        ),
-                      ),
+                      user.hasData?
+                      FutureBuilder(
+                        future: postByAuthor = _postDatabaseService.getPostByAuthorId(user.data!.id!) ,
+                        builder: (context, snapshot) {
+                        return snapshot.hasData?  
+                          SliverGrid(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 8.0,
+                              mainAxisSpacing: 8.0
+                              ),
+                            delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                return PostGrid(post: snapshot.data![index]);
+                                
+                              },
+                              childCount: snapshot.data!.length,
+                            ),
+                          ) : SliverGrid(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 0.7),
+                            delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                return Container(
+                                  padding:EdgeInsets.all(8.0),
+                                  alignment: Alignment.center,
+                                  color: Colors.teal[100 * (index % 9)],
+                                  child: Text('Grid Item $index'),
+                                );
+                              },
+                              childCount: 0,
+                            ),
+                          );
+                        }
+                      ): SliverGrid(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 0.7),
+                            delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                return Container(
+                                  padding:EdgeInsets.all(8.0),
+                                  alignment: Alignment.center,
+                                  color: Colors.teal[100 * (index % 9)],
+                                  child: Text('Grid Item $index'),
+                                );
+                              },
+                              childCount: 0,
+                            ),
+                          ),
                     ]
                   ),
                 );

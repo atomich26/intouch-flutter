@@ -54,7 +54,17 @@ class PostDatabaseService{
 
   final CollectionReference postCollection = FirebaseFirestore.instance.collection('posts');
 
-  //Future<Post> getPostbyId(){ return}
+  Future<Post> getPostById(String id) async {
+    var value = await postCollection.doc(id).get();
+    return Post.fromFirestore(value, null);
+  }
+
+  Future<List<Post>?>? getPostByAuthorId(String authorId) async {
+    return postCollection.where('userId', isEqualTo: authorId).orderBy("createdAt").get().then((values){
+      return values.docs.map((e) => Post.fromFirestore(e, null)).toList();
+    });
+  }
+
 }
 
 class EventDatabaseService{
