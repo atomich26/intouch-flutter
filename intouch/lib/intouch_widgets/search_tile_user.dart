@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/user.dart';
-import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/profile_page.dart';
 import 'package:intouch/services/database.dart';
 import 'package:intouch/services/firebase_storage.dart';
@@ -21,8 +20,8 @@ class UserSearchTile extends StatelessWidget {
   String? img;
   String? username;
 
-  StorageService _storageService = new StorageService();
-  UserDatabaseService _userDatabaseService = UserDatabaseService();
+  final StorageService _storageService = StorageService();
+  final UserDatabaseService _userDatabaseService = UserDatabaseService();
 
   
 
@@ -51,7 +50,7 @@ class UserSearchTile extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: 36,
-                    foregroundImage: snapshot.hasData? NetworkImage(snapshot.data![1]) : AssetImage("assets/images/intouch-default-user.png") as ImageProvider,
+                    foregroundImage: snapshot.hasData? NetworkImage(snapshot.data![1]) : const AssetImage("assets/images/intouch-default-user.png") as ImageProvider,
                   ),
                 ),
                 Column(
@@ -60,7 +59,7 @@ class UserSearchTile extends StatelessWidget {
                 children: <Widget>[
                   Text(
                       username ?? "",
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24.0),
+                      style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 24.0),
                       ),
                   Text(
                       name ?? ""

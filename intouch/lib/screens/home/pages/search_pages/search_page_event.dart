@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/search_tile_event.dart';
 import 'package:intouch/models/event.dart';
-import 'package:intouch/models/user.dart';
 import 'package:intouch/services/cloud_functions.dart';
 import 'package:intouch/services/database.dart';
 
@@ -12,7 +11,7 @@ class SearchPageEvent extends StatelessWidget {
     });
 
   String query;
-  EventDatabaseService _eventDatabaseService = EventDatabaseService();
+  final EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class SearchPageEvent extends StatelessWidget {
       builder: (context, events){
         if(events.hasData){
           if(events.data!.isEmpty){
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -56,7 +55,7 @@ class SearchPageEvent extends StatelessWidget {
             );
           }
         } else {
-          return Center(
+          return const Center(
           child: Column(children: [
             Text("Loading...")
           ]),

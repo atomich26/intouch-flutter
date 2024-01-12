@@ -11,7 +11,7 @@ import 'package:intouch/wrapper.dart';
 import '../../intouch_widgets/text_form_field.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -51,7 +51,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: inTouchAppBar(context ,'Log In', null, (){}),
+      appBar: inTouchAppBar(context ,'Log In', null, (){
+        return null;
+      }),
       body:Container(
         child: Form(
           key: _formKey,
@@ -60,8 +62,8 @@ class _LoginState extends State<Login> {
             child: Column(
               children: <Widget> [
                 Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Insert your credentials to access your account", textScaler: TextScaler.linear(1.7),)
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Text("Insert your credentials to access your account", textScaler: TextScaler.linear(1.7),)
                 ),
                 
                 inTouchTextFormField(
@@ -76,7 +78,7 @@ class _LoginState extends State<Login> {
                   controller: _emailController, 
                   validator: emailValidator,),
 
-                SizedBox(height: 12.0),
+                const SizedBox(height: 12.0),
 
                 inTouchTextFormField(
                   context: context, 
@@ -90,9 +92,9 @@ class _LoginState extends State<Login> {
                   controller: _passwordController, 
                   validator: (value) => value == null || value.isEmpty? 'Please enter the password': null),
 
-                SizedBox(height: 12.0),
+                const SizedBox(height: 12.0),
                 
-                Expanded(
+                const Expanded(
                   child: SizedBox.expand()),
                 Row(
                   crossAxisAlignment:CrossAxisAlignment.end,
@@ -113,7 +115,7 @@ class _LoginState extends State<Login> {
                             } else {
                               Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (BuildContext context) => Wrapper()),
+                              MaterialPageRoute(builder: (BuildContext context) => const Wrapper()),
                               (route) => false);
                               }
                             }
@@ -122,12 +124,12 @@ class _LoginState extends State<Login> {
                     })),
                     Expanded(
                       child: InTouchLongButton(context, 'Sign Up', null, false, (){
-                        Navigator.of(context).push(fromTheRight(Register()));
+                        Navigator.of(context).push(fromTheRight(const Register()));
                       })),
                   ],
                 ),
-                SizedBox(height:12.0),
-                _isLoading? LinearProgressIndicator() : SizedBox(height :1),
+                const SizedBox(height:12.0),
+                _isLoading? const LinearProgressIndicator() : const SizedBox(height :1),
               ],
             ),
           )

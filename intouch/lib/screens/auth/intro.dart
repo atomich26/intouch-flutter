@@ -47,7 +47,7 @@ class Intro extends StatelessWidget {
                                 null, 
                                 true, 
                                 (){ 
-                                  Navigator.of(context).push(fromTheRight(Login()));
+                                  Navigator.of(context).push(fromTheRight(const Login()));
                                   }),
                               const SizedBox(height: 12.0),
                               InTouchLongButton(

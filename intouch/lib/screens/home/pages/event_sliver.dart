@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
-import 'package:intouch/models/category.dart';
 import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
 import 'package:intouch/screens/home/pages/profile_page.dart';
@@ -33,9 +32,9 @@ class _EventSliverState extends State<EventSliver> {
 
   @override
   Widget build(BuildContext context) {
-    Future<AppUserData>? _user= _userDatabaseService.getUserById(widget.event.userId);
+    Future<AppUserData>? user= _userDatabaseService.getUserById(widget.event.userId);
     return FutureBuilder<AppUserData>(
-      future: _user,
+      future: user,
       builder: (context, user) {
         return Scaffold(
             appBar: AppBar(
@@ -87,18 +86,18 @@ class _EventSliverState extends State<EventSliver> {
                               ),
                             ),
                           Positioned(
+                            bottom: -1,
+                            left: 0,
+                            right: 0,
                             child: Container(
                               height: 30,
                               decoration: BoxDecoration(
                                 color: Colors.purple[50],
-                                borderRadius: BorderRadius.vertical(
+                                borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(50),
                                 ),
                               ),
-                            ),
-                            bottom: -1,
-                            left: 0,
-                            right: 0,)
+                            ),)
                           ]
                         ),
                       ),
@@ -122,12 +121,12 @@ class _EventSliverState extends State<EventSliver> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget> [
-                            user.hasData? ProfileCircle(user: user.data!, radius: 32.0) : CircleAvatar(
+                            user.hasData? ProfileCircle(user: user.data!, radius: 32.0) : const CircleAvatar(
                               radius: 24.0,
                               foregroundColor: Colors.blueAccent,
                             ),
-                            SizedBox(width: 8.0),
-                            Text(user.hasData? user.data!.username! : "", textScaler: TextScaler.linear(1.4),)
+                            const SizedBox(width: 8.0),
+                            Text(user.hasData? user.data!.username! : "", textScaler: const TextScaler.linear(1.4),)
                           ],
                         )
                       
@@ -139,26 +138,26 @@ class _EventSliverState extends State<EventSliver> {
                       children:[
                         Row(
                           children: <Widget> [
-                          Icon(Icons.place, size: 20.0,),
+                          const Icon(Icons.place, size: 20.0,),
                           TextButton(
-                            onPressed:()=> _googleServices.launchMapsUrl(widget.event.address + " " + widget.event.city),
+                            onPressed:()=> _googleServices.launchMapsUrl("${widget.event.address} ${widget.event.city}"),
                             child: Text(widget.event.address))
                             ],
                           ),
-                        SizedBox(height: 12.0),
+                        const SizedBox(height: 12.0),
                         Row(
                           children: <Widget> [
-                          Icon(Icons.calendar_month, size: 20.0,),
-                          SizedBox(width: 4.0),
-                          Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.startAt.toDate()), textScaler: TextScaler.linear(1.2))
+                          const Icon(Icons.calendar_month, size: 20.0,),
+                          const SizedBox(width: 4.0),
+                          Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.startAt.toDate()), textScaler: const TextScaler.linear(1.2))
                             ],
                         ),
-                        SizedBox(height: 8.0,),
+                        const SizedBox(height: 8.0,),
                         Row(
                           children: <Widget> [
-                          Icon(Icons.calendar_month, size: 20.0,),
-                          SizedBox(width: 4.0),
-                          Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.endAt.toDate()), textScaler: TextScaler.linear(1.2))
+                          const Icon(Icons.calendar_month, size: 20.0,),
+                          const SizedBox(width: 4.0),
+                          Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.endAt.toDate()), textScaler: const TextScaler.linear(1.2))
                             ],
                         ),
                         Padding(
@@ -179,7 +178,7 @@ class _EventSliverState extends State<EventSliver> {
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: Container(
-              padding:EdgeInsets.all(8.0),
+              padding:const EdgeInsets.all(8.0),
               color: Colors.purple[50],
               child: InTouchLongButton(
                 context, 

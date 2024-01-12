@@ -82,6 +82,7 @@ Container InTouchLongButton(BuildContext context, String text, IconData? icon, b
                   else {
                     return Theme.of(context).colorScheme.primary;
                   }
+                  return null;
                 }
               ),
               shape: MaterialStateProperty.all(

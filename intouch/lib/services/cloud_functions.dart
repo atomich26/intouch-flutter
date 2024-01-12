@@ -1,7 +1,6 @@
 
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/services.dart';
-import 'package:intouch/models/event.dart';
 import 'package:intouch/models/post.dart';
 import 'package:intouch/models/user.dart';
 

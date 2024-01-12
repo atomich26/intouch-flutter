@@ -5,7 +5,7 @@ import 'package:intouch/screens/home/pages/search_pages/search_page_user.dart';
 
 
 class SearchPage extends StatefulWidget {
-  SearchPage({
+  const SearchPage({
     super.key,});
   
   
@@ -15,7 +15,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController _searchController = new TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   String centerPageString = "Search what you like";
   bool searchDone = false;
@@ -34,12 +34,12 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent, 
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         title: TextField(
           controller: _searchController,
           decoration: InputDecoration(
-            suffixIcon: IconButton(icon: Icon(Icons.search_rounded), onPressed: (){
+            suffixIcon: IconButton(icon: const Icon(Icons.search_rounded), onPressed: (){
               setState(() {
                 if(_searchController.text.startsWith("@")){
                   String search = _searchController.text.substring(1);

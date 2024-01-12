@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intouch/models/event.dart';
-import 'package:intouch/models/user.dart';
 import 'package:intouch/screens/home/pages/event_sliver.dart';
 import 'package:intouch/services/database.dart';
-import '../models/category.dart';
 
 import '../services/firebase_storage.dart';
 
@@ -88,7 +86,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                             overflow: TextOverflow.ellipsis)
                           ),
                         Text(snapshot.hasData? snapshot.data![1] : ""),
-                        SizedBox(height: 5.0),
+                        const SizedBox(height: 5.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget> [
@@ -101,7 +99,7 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                             //PORCO DIEGO
                              Row(
                               children: <Widget> [
-                                Icon(Icons.calendar_month, size: 18.0,),
+                                const Icon(Icons.calendar_month, size: 18.0,),
                                 Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.startAt.toDate()))
                               ],
                             ),

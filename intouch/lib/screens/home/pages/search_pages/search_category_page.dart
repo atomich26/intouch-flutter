@@ -13,18 +13,18 @@ class SearchCategoryPage extends StatelessWidget {
     
     Category category;
     String image;
-    EventDatabaseService _eventDatabaseService = new EventDatabaseService();
+    final EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override
   Widget build(BuildContext context) {
     Future<List<Event>?> eventsByCategory = _eventDatabaseService.getEventsByCategory(category.id);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 200),
+        preferredSize: const Size(double.infinity, 200),
         child: AppBar(
           leading: IconButton.filledTonal(
             onPressed: Navigator.of(context).pop, 
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             color: Colors.white,
             focusColor: Colors.purple[300]!.withOpacity(0.2),),
           flexibleSpace: Stack(
@@ -48,7 +48,7 @@ class SearchCategoryPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   category.name,
-                  style:TextStyle(
+                  style:const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -69,7 +69,7 @@ class SearchCategoryPage extends StatelessWidget {
                 builder: (context, events){
                   if(events.hasData){
                     if(events.data!.isEmpty){
-                      return Center(
+                      return const Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
@@ -97,7 +97,7 @@ class SearchCategoryPage extends StatelessWidget {
                       );
                     }
                   } else {
-                    return Center(
+                    return const Center(
                     child: Column(children: [
                       Text("Loading...")
                     ]),

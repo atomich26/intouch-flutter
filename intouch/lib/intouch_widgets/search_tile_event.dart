@@ -23,8 +23,8 @@ class EventSearchTile extends StatelessWidget {
   String? name;
   String? date;
 
-  StorageService _storageService = new StorageService();
-  EventDatabaseService _eventDatabaseService = EventDatabaseService();
+  final StorageService _storageService = StorageService();
+  final EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +54,12 @@ class EventSearchTile extends StatelessWidget {
                   children: <Widget>[
                     CircleAvatar(
                       radius: 32,
-                      backgroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): AssetImage("assets/images/intouch-default.png") as ImageProvider,
+                      backgroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:<Widget> [
-                        Text(name ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(name ?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
                         Column(
                           children:<Widget>[
                             Text(date.toString()),
@@ -85,17 +85,17 @@ class EventSearchTile extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
                   children: <Widget>[
-                    CircleAvatar(
+                    const CircleAvatar(
                       foregroundColor: Colors.amber,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:<Widget> [
-                        Text(name ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(name ?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
                         Column(
                           children:<Widget>[
                             Text(date.toString()),
-                            Text(address! + " " + city!),
+                            Text("${address!} ${city!}"),
                           ],
                         )
                       ],

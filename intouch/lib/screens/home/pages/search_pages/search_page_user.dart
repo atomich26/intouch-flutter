@@ -13,7 +13,7 @@ class SearchPageUser extends StatelessWidget {
       });
   
   String query;
-  UserDatabaseService _userDatabaseService = UserDatabaseService();
+  final UserDatabaseService _userDatabaseService = UserDatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SearchPageUser extends StatelessWidget {
       builder: (context, users){
         if(users.hasData){
           if(users.data!.isEmpty){
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start ,
                 children: <Widget> [
@@ -57,7 +57,7 @@ class SearchPageUser extends StatelessWidget {
             );
           }
         } else {
-          return Center(
+          return const Center(
           child: Column(children: [
             Text("Loading...")
           ]),

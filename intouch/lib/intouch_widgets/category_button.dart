@@ -26,7 +26,7 @@ class _CategoryButtonState extends State<CategoryButton> {
       _isSelected = !_isSelected;
     });},
     child: Container(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         color: _isSelected? Theme.of(context).colorScheme.primary: Theme.of(context).colorScheme.tertiary ,

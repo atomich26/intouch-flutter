@@ -23,7 +23,7 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
   @override
   bool get wantKeepAlive => true;
   final StorageService _storageRef = StorageService();
-  bool _isSelected = false;
+  final bool _isSelected = false;
   
 
   @override

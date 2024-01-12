@@ -20,7 +20,7 @@ class ProfileCircle extends StatelessWidget  {
   Widget build(BuildContext context) {
     if(user!.img!.isEmpty){
       return CircleAvatar(
-        foregroundImage: AssetImage("assets/images/intouch-default-user.png"),
+        foregroundImage: const AssetImage("assets/images/intouch-default-user.png"),
         radius: radius,
       );
 
@@ -30,7 +30,7 @@ class ProfileCircle extends StatelessWidget  {
           future: imageUrl,
           builder: (context, imageUrl){
             return CircleAvatar(
-              foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): AssetImage("assets/images/intouch-default.png") as ImageProvider,
+              foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,
               radius: radius,
             );
          

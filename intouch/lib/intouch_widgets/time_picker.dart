@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:intl/intl.dart";
 
 class TimePicker extends StatefulWidget {
   TimePicker({
@@ -31,7 +30,7 @@ class _TimePickerState extends State<TimePicker> {
       setState(() {
         String minutes="";
         minutes = picked.minute <= 9?  "0${picked.minute}" : "${picked.minute}";
-        widget.controller.text = "${picked.hour}:${minutes}";
+        widget.controller.text = "${picked.hour}:$minutes";
       });
     }
   }
@@ -62,7 +61,7 @@ class _TimePickerState extends State<TimePicker> {
               
             ),
             onTap:() {
-              FocusScope.of(context).requestFocus(new FocusNode());
+              FocusScope.of(context).requestFocus(FocusNode());
               _selectTime(context);
             },
           ),

@@ -5,7 +5,6 @@ import 'package:intouch/intouch_widgets/post_feed.dart';
 import 'package:intouch/models/event.dart';
 
 import '../../../intouch_widgets/category_empty.dart';
-import '../../../models/category.dart';
 
 class Feed extends StatefulWidget {
   Feed({
@@ -23,21 +22,19 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
   final String title = 'Feed';
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     if(widget.events != null){
     return Scaffold(
-        appBar: inTouchAppBar(context, title, null, (){}),
+        appBar: inTouchAppBar(context, title, null, (){
+          return null;
+        }),
         body: 
               Column(
                 children:[
-                  Expanded(
+                  const Expanded(
                     child: PostFeed()
                     ),
                   Expanded(
@@ -60,7 +57,9 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin {
       }
     else {
       return Scaffold(
-        appBar: inTouchAppBar(context, title, null, (){}),
+        appBar: inTouchAppBar(context, title, null, (){
+          return null;
+        }),
         body: 
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

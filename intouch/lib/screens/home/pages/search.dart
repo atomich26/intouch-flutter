@@ -1,5 +1,4 @@
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/category_box.dart';
 import 'package:intouch/intouch_widgets/category_empty.dart';
@@ -21,13 +20,10 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
+  @override
   bool get wantKeepAlive => true;
   final String title = 'Search';
   
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +32,13 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
     return Scaffold(
         appBar: inTouchAppBar(
           context, 
-          '$title', 
+          title, 
           Icons.search_rounded, 
-          () {Navigator.of(context).push(fromTheRight(SearchPage()));}),
+          () {Navigator.of(context).push(fromTheRight(const SearchPage()));
+return null;}),
         body: 
             GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 0.75),
               itemBuilder: (context, i){
@@ -52,11 +49,14 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
               }, 
               itemCount: widget.categories!.length)
       );}
-    else return Scaffold(
-        appBar: inTouchAppBar(context, '$title', null, (){}),
+    else {
+      return Scaffold(
+        appBar: inTouchAppBar(context, title, null, (){
+          return null;
+        }),
         body: 
             GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 0.75),
               itemBuilder: (context, i){
@@ -64,5 +64,6 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
               }, 
               itemCount: 15)
       );
+    }
   }
 }

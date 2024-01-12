@@ -25,6 +25,7 @@ class UserDatabaseService{
        })
       }
     );
+    return null;
   }
   
   Future<AppUserData> getUserById (String id) async {

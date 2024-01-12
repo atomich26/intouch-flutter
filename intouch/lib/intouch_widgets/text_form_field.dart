@@ -98,7 +98,7 @@ class _inTouchTextFormFieldState extends State<inTouchTextFormField> {
                     _isPasswordVisible = !_isPasswordVisible;
                   });
                 },
-                icon: _isPasswordVisible? Icon(Icons.visibility) : Icon(Icons.visibility_off)): null,
+                icon: _isPasswordVisible? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)): null,
                 
               ),
             ),

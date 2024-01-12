@@ -7,7 +7,6 @@ import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/post.dart';
 import 'package:intouch/screens/home/pages/friends_list_page.dart';
 import 'package:intouch/services/auth_service.dart';
-import 'package:intouch/services/cloud_functions.dart';
 import 'package:intouch/services/database.dart';
 import '../../../models/user.dart';
 
@@ -24,18 +23,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
+  @override
   bool get wantKeepAlive => true;
 
-  @override
-  void initState() {
-    super.initState();
-    
-    
-  }
 
   final String title = 'Profile';
   final AuthService _auth = AuthService();
-  PostDatabaseService _postDatabaseService = PostDatabaseService();
+  final PostDatabaseService _postDatabaseService = PostDatabaseService();
  
   
   
@@ -44,7 +38,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context){
     Future<List<Post>?>? postByAuthor;
     return Scaffold(
-        appBar: inTouchAppBar(context, '$title', Icons.exit_to_app, (){
+        appBar: inTouchAppBar(context, title, Icons.exit_to_app, (){
           _auth.signOut();
             return null;}
             ),
@@ -52,14 +46,14 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                future: widget.user,
                builder: (context, user){
                 return Container(
-                  margin: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child: CustomScrollView (
                     slivers:<Widget>[
                       SliverAppBar(
                         backgroundColor: Colors.white,
                         floating: true,
                         expandedHeight: MediaQuery.of(context).size.height/2,
-                        bottom: PreferredSize(
+                        bottom: const PreferredSize(
                           preferredSize: Size.fromHeight(60), 
                           child: Text('')),
                         flexibleSpace: FlexibleSpaceBar(
@@ -72,7 +66,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget> [
-                                        user.hasData? ProfileCircle(user: user.data, radius: 64.0): CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png") as ImageProvider, radius: 64,),
+                                        user.hasData? ProfileCircle(user: user.data, radius: 64.0): const CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png"), radius: 64,),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: <Widget> [
@@ -91,7 +85,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox( width: 12.0),
+                                                const SizedBox( width: 12.0),
                                                 InkWell(
                                                   onTap: (){},
                                                   child: Column(
@@ -101,7 +95,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox( width: 12.0),
+                                                const SizedBox( width: 12.0),
                                                 InkWell(
                                                   onTap: (){},
                                                   child: Column(
@@ -117,13 +111,13 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                         ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child:Container(
+                                      child:SizedBox(
                                         height: 200,
                                         child: Column(
                                           crossAxisAlignment:CrossAxisAlignment.start,
                                           children: <Widget> [
-                                            Text(user.hasData? user.data!.name!: "", textScaler: TextScaler.linear(1.5),),
-                                            SizedBox(height: 12.0),
+                                            Text(user.hasData? user.data!.name!: "", textScaler: const TextScaler.linear(1.5),),
+                                            const SizedBox(height: 12.0),
                                             Text(user.hasData? user.data!.biography!: "")
                                             ]
                                           
@@ -142,7 +136,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                         builder: (context, snapshot) {
                         return snapshot.hasData?  
                           SliverGrid(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 8.0,
                               mainAxisSpacing: 8.0
@@ -155,13 +149,13 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                               childCount: snapshot.data!.length,
                             ),
                           ) : SliverGrid(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               childAspectRatio: 0.7),
                             delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                                 return Container(
-                                  padding:EdgeInsets.all(8.0),
+                                  padding:const EdgeInsets.all(8.0),
                                   alignment: Alignment.center,
                                   color: Colors.teal[100 * (index % 9)],
                                   child: Text('Grid Item $index'),
@@ -172,13 +166,13 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                           );
                         }
                       ): SliverGrid(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               childAspectRatio: 0.7),
                             delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                                 return Container(
-                                  padding:EdgeInsets.all(8.0),
+                                  padding:const EdgeInsets.all(8.0),
                                   alignment: Alignment.center,
                                   color: Colors.teal[100 * (index % 9)],
                                   child: Text('Grid Item $index'),

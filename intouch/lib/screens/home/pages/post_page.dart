@@ -8,7 +8,7 @@ class PostPage extends StatelessWidget {
     required this.post});
 
     Post post;
-    StorageService _storage =StorageService();
+    final StorageService _storage =StorageService();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class PostPage extends StatelessWidget {
                     fit: BoxFit.cover
                     )
                   ) : 
-                BoxDecoration( color:Colors.black),
+                const BoxDecoration( color:Colors.black),
                 ),
             );
           }

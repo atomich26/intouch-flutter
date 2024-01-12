@@ -1,15 +1,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
-import 'package:intouch/screens/home/pages/event_form.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/search.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 
 
@@ -34,9 +31,9 @@ class _HomeState extends State<Home> {
   late Future<List<Category>?> _categories;
   late Future<AppUserData> _userData;
   late Future<List<Event>?> _events;
-  CategoryDatabaseService _categoryDatabaseService = CategoryDatabaseService();
-  UserDatabaseService _userDatabaseService = UserDatabaseService();
-  EventDatabaseService _eventDatabaseService = EventDatabaseService();
+  final CategoryDatabaseService _categoryDatabaseService = CategoryDatabaseService();
+  final UserDatabaseService _userDatabaseService = UserDatabaseService();
+  final EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override
   void initState() {

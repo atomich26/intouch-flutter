@@ -91,7 +91,9 @@ class _RegisterState extends State<Register> {
     var parser= DateFormat('dd/MM/yyyy');
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: inTouchAppBar(context, 'Register', null, (){}),
+      appBar: inTouchAppBar(context, 'Register', null, (){
+        return null;
+      }),
       body: Form(
           key: _formKey,
           child: Padding(
@@ -286,7 +288,7 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
                const SizedBox(height: 24.0),
-               _isLoading ? LinearProgressIndicator(): SizedBox(height:1),
+               _isLoading ? const LinearProgressIndicator(): const SizedBox(height:1),
               ],
             ),
           )

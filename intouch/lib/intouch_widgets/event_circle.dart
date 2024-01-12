@@ -20,7 +20,7 @@ class EventCircle extends StatelessWidget {
         return Container(
         width: size,
         height: size,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(30)),
           image: DecorationImage(image: AssetImage("assets/images/intouch-default.png"),)
         ),
@@ -34,7 +34,7 @@ class EventCircle extends StatelessWidget {
               width: size,
               height: size,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
                 image: DecorationImage(image: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider )
               ),
             );

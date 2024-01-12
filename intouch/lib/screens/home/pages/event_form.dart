@@ -140,12 +140,12 @@ class _EventFormState extends State<EventForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           height: 300,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.grey[300],
-                            borderRadius: BorderRadius.all(Radius.circular(16.0))
+                            borderRadius: const BorderRadius.all(Radius.circular(16.0))
                           ),
                           
                           child: Container(
@@ -153,7 +153,7 @@ class _EventFormState extends State<EventForm> {
                                 Stack(
                                   alignment: Alignment.topRight,
                                   children: <Widget>[
-                                    Container(
+                                    SizedBox(
                                       width: double.infinity,
                                       child: Image.file(_image!, fit:BoxFit.cover)),
                                     Padding(
@@ -161,7 +161,7 @@ class _EventFormState extends State<EventForm> {
                                       child: FloatingActionButton(
                                         backgroundColor: Colors.white.withOpacity(0.3),
                                         mini: true,
-                                        child: Icon(Icons.cancel),
+                                        child: const Icon(Icons.cancel),
                                         onPressed: (){
                                           setState(() {
                                             _image = null;
@@ -170,7 +170,7 @@ class _EventFormState extends State<EventForm> {
                                     )
                                     ]
                                   ) 
-                              : Center(child: Text("Image not selected")),
+                              : const Center(child: Text("Image not selected")),
                           )
                         ),
                         Row(
