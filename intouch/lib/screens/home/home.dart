@@ -1,17 +1,20 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
+import 'package:intouch/screens/auth/category_selection.dart';
+import 'package:intouch/screens/home/pages/event_form.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
+import 'package:intouch/screens/home/pages/post_form.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/search.dart';
 
 
 
 import '../../models/category.dart';
-import '../../services/cloud_functions.dart';
 import '../../services/database.dart';
 
 class Home extends StatefulWidget {
@@ -92,8 +95,8 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              //Navigator.of(context).push(fromTheBottom(EventForm()));
-              print(getPostByAuthor(FirebaseAuth.instance.currentUser!.uid));
+              Navigator.of(context).push(fromTheBottom(PostForm()));
+              //Navigator.of(context).push(fromTheBottom(CategorySelection()));
             }, 
             icon: const Icon(Icons.add_circle_rounded)
             ),

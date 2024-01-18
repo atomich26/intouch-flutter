@@ -15,11 +15,13 @@ class Comment {
     this.userId
   });
 
-  Comment.fromMap(HashMap<String,dynamic> data){
-    id = data["id"];
-    content = data["content"];
-    createdAt = data["createdAt"];
-    userId = data["userId"];
+  factory Comment.fromFirestore(DocumentSnapshot snapshot, SnapshotOptions? options){
+    final data = snapshot.data() as Map<String,dynamic>;
+    return Comment(
+      id: snapshot.id,
+      content: data["content"],
+      createdAt: data["createdAt"],
+      userId: data["userId"]
+    );
   }
-
 }

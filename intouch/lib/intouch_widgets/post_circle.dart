@@ -50,7 +50,7 @@ class _PostCircleState extends State<PostCircle> {
             children: [
               CircleAvatar(
                 foregroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,
-                radius: 36  ,
+                radius:36,
               ),
               //Text(widget.post.username!)
             ],

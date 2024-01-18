@@ -28,9 +28,9 @@ class _EventFormState extends State<EventForm> {
 
   File? _image;
 
-  // This is the image picker
+  // Image Picker
   final _picker = ImagePicker();
-  // Implementing the image picker
+  // Implementazione Image Picker
   Future<void> _openImagePicker(bool isCamera) async {
     final XFile? pickedImage =
         isCamera ? await _picker.pickImage(source: ImageSource.camera): await _picker.pickImage(source:ImageSource.gallery);

@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intouch/models/category.dart';
+import 'package:intouch/models/comment.dart';
 import 'package:intouch/models/event.dart';
 import 'package:intouch/models/post.dart';
 import 'package:intouch/models/user.dart';
@@ -64,6 +65,11 @@ class PostDatabaseService{
     return postCollection.where('userId', isEqualTo: authorId).orderBy("createdAt").get().then((values){
       return values.docs.map((e) => Post.fromFirestore(e, null)).toList();
     });
+  }
+
+  Future<List<Comment>?>? getCommentOfPost(String id) async {
+    var value = await postCollection.doc(id).collection("comments").orderBy("createdAt").get();
+    return value.docs.map((e)=>Comment.fromFirestore(e, null)).toList();
   }
 
 }

@@ -59,10 +59,10 @@ class EventSearchTile extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:<Widget> [
-                        Text(name ?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text((name ?? "").substring(0, 30)+"...", style: const TextStyle(fontWeight: FontWeight.bold)),
                         Column(
                           children:<Widget>[
-                            Text(date.toString()),
+                            //Text(date.toString()),
                             //Text(address! + " " + city!),
                           ],
                         )
@@ -81,7 +81,7 @@ class EventSearchTile extends StatelessWidget {
               elevation: 0.0,
               borderOnForeground: true,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
                   children: <Widget>[
@@ -91,7 +91,7 @@ class EventSearchTile extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:<Widget> [
-                        Text(name ?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text(name?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
                         Column(
                           children:<Widget>[
                             Text(date.toString()),

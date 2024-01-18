@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
-import 'package:intouch/intouch_widgets/postgrid.dart';
+import 'package:intouch/intouch_widgets/post_grid.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/post.dart';

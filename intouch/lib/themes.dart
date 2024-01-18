@@ -8,7 +8,7 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme(
       brightness: Brightness.light,
       primary: Colors.purple[700]!,
-      onPrimary: Colors.white,
+      onPrimary: Colors.black,
       primaryContainer: Colors.white70 ,
       secondary: Colors.grey[600]!,
       onSecondary: Colors.white,

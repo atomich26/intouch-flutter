@@ -161,17 +161,16 @@ class _EventSliverState extends State<EventSliver> {
                             ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(4.0),
+                          padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 60.0),
                           child: Column(
                             children: [
-                              Text(widget.event.description == null ? "":widget.event.description!)
+                              Text(widget.event.description == null ? "":widget.event.description!),
                             ],
                           ),
                         ),
                       ],
                     ),
-                  ), 
-                  
+                  ),   
                 ]
               )
             ],

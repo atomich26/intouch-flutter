@@ -1,7 +1,5 @@
-
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intouch/models/comment.dart';
 
 class Post{
 
@@ -10,6 +8,7 @@ class Post{
   late String? eventId;
   late String? description;
   late List<dynamic>? album;
+  late List<Comment>? comments;
   late Timestamp? createdAt;
 
   Post({
@@ -19,6 +18,7 @@ class Post{
     this.eventId,
     this.description,
     this.album,
+    this.comments,
     this.createdAt
   });
 
@@ -30,6 +30,7 @@ class Post{
       eventId : data["eventId"],
       description : data["description"],
       album : data["album"],
+      comments : data["comments"],
       createdAt : data["createdAt"],
     );
   }

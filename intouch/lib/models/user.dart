@@ -56,7 +56,6 @@ class AppUserData{
 
       factory  AppUserData.fromFirestore (DocumentSnapshot snapshot){
       final data = snapshot.data() as Map<String,dynamic>;
-      print(data);
       return AppUserData(
         id :snapshot.id,
         name :data['name'] ?? 'Unknown',

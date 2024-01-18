@@ -1,13 +1,18 @@
 
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
-import 'package:intouch/intouch_widgets/postgrid.dart';
+import 'package:intouch/intouch_widgets/post_grid.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/post.dart';
 import 'package:intouch/screens/home/pages/friends_list_page.dart';
 import 'package:intouch/services/auth_service.dart';
 import 'package:intouch/services/database.dart';
+import 'package:intouch/services/firebase_storage.dart';
 import '../../../models/user.dart';
 
 class Profile extends StatefulWidget {
@@ -30,6 +35,9 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   final String title = 'Profile';
   final AuthService _auth = AuthService();
   final PostDatabaseService _postDatabaseService = PostDatabaseService();
+
+
+
  
   
   
@@ -42,8 +50,8 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           _auth.signOut();
             return null;}
             ),
-            body: FutureBuilder<AppUserData?>(
-               future: widget.user,
+            body: StreamBuilder<AppUserData?>(
+               stream: widget.user.asStream(),
                builder: (context, user){
                 return Container(
                   margin: const EdgeInsets.all(8.0),
@@ -66,7 +74,10 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget> [
-                                        user.hasData? ProfileCircle(user: user.data, radius: 64.0): const CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png"), radius: 64,),
+                                        user.hasData? GestureDetector(
+                                          onLongPress: (){ProfilePictureOptions(context, user.data!);},
+                                          child: ProfileCircle(user: user.data, radius: 64.0))
+                                        : const CircleAvatar( foregroundImage: AssetImage("assets/images/intouch-default-user.png"), radius: 64,),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: <Widget> [
@@ -188,4 +199,46 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
             )
           );
         }
+}
+
+  // Image Picker
+  final _picker = ImagePicker();
+  // Implementazione Image Picker
+  Future<void> _openImagePicker(AppUserData user, bool isCamera) async {
+    StorageService _storageRef = StorageService();
+    final XFile? pickedImage =
+        isCamera ? await _picker.pickImage(source: ImageSource.camera): await _picker.pickImage(source:ImageSource.gallery);
+    if (pickedImage != null) {
+      _storageRef.setUserImage(user.id!, File(pickedImage.path));
+    }
+  }
+
+
+
+void ProfilePictureOptions(BuildContext context, AppUserData user){
+  showModalBottomSheet<void>(
+    context: context, 
+    builder: (BuildContext context){
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget> [
+            ProfileCircle(user: user, radius: 72.0),
+            InTouchLongButton(
+              context, 
+              "Take Photo", 
+              null, 
+              true, 
+              (){_openImagePicker(user, true);}),
+            InTouchLongButton(
+              context, 
+              "Add From Gallery", 
+              null, 
+              false, 
+              (){_openImagePicker(user, false);})
+          ]
+        ),
+      );
+    });
 }

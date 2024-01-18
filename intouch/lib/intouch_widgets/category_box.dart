@@ -23,7 +23,6 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
   @override
   bool get wantKeepAlive => true;
   final StorageService _storageRef = StorageService();
-  final bool _isSelected = false;
   
 
   @override
@@ -42,7 +41,7 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
             child: Container( // to modify height, go to Search/gridDelegate/childAspectRatio
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: _isSelected? Colors.purple[300] : Colors.purple[50],
+                color: Colors.purple[50],
                 ),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,12 +69,13 @@ class _CategoryBoxState extends State<CategoryBox> with AutomaticKeepAliveClient
                               widget.category.name, 
                               textAlign: TextAlign.center, 
                               textScaler: const TextScaler.linear(0.8), 
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: _isSelected? Colors.white: Colors.black)),
-                      )
+                                color: Colors.black)
+                      ),
                     )
-                  ],
+                  )
+                ],
               )
             )
           ),
