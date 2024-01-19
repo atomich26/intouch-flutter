@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/comment.dart';
 import 'package:intouch/models/user.dart';
+import 'package:intouch/screens/home/pages/profile_page.dart';
 import 'package:intouch/services/database.dart';
 
 class CommentBox extends StatelessWidget {
@@ -19,12 +21,28 @@ class CommentBox extends StatelessWidget {
       future: userById, 
       builder: (context, user){
         if(user.hasData){
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text("@"+user.data!.username!),
-              Text(comment.content!)
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.black),
+                borderRadius: BorderRadius.circular(10.0)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  InkWell(
+                    onTap: (){Navigator.of(context).push(fromTheRight(ProfilePage(user:user.data!)));},
+                    child: Text("@"+user.data!.username!, 
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Text(comment.content!)
+                ],
+              ),
+            ),
           );
         } else {
           return SizedBox();

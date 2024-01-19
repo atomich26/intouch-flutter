@@ -34,6 +34,7 @@ import '../models/category.dart';
       final result = await callable.call({"query" : query});
       var casted = result.data as List;
       return casted.map((e) => e.toString()).toList();
+      
     } on PlatformException catch (e){
       return Future.error(e);
     }

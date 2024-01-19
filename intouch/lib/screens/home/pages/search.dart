@@ -35,7 +35,7 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
           title, 
           Icons.search_rounded, 
           () {Navigator.of(context).push(fromTheRight(const SearchPage()));
-return null;}),
+              return null;}),
         body: 
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -50,6 +50,7 @@ return null;}),
               itemCount: widget.categories!.length)
       );}
     else {
+    //If internet isn't available (referred to the future at Home level)
       return Scaffold(
         appBar: inTouchAppBar(context, title, null, (){
           return null;
@@ -62,7 +63,7 @@ return null;}),
               itemBuilder: (context, i){
                 return CategoryEmpty();
               }, 
-              itemCount: 15)
+        itemCount: 15)
       );
     }
   }

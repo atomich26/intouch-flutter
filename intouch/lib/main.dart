@@ -7,6 +7,7 @@ import 'package:intouch/wrapper.dart';
 import 'package:provider/provider.dart';
 
 Future <void> main() async {
+  //initialize Firebase services before running the app
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MainApp());
@@ -17,6 +18,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Provider call
     return StreamProvider<AppUser?>.value(
       initialData: null,
       value: AuthService().user,

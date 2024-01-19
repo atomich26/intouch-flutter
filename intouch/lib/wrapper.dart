@@ -10,6 +10,7 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Switch between the main app section and login/register section
     final user = Provider.of<AppUser?>(context);
     if(user == null){
       return Intro();

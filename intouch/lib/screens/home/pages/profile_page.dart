@@ -35,7 +35,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                 body: SafeArea(
                   minimum: const EdgeInsets.all(8.0),
                   child: Container(
-                  
                     child: CustomScrollView (
                       slivers:<Widget>[
                         SliverAppBar(
@@ -97,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child:SizedBox(
-                                          height: 200,
+                                          height: 150,
                                           child: Column(
                                             crossAxisAlignment:CrossAxisAlignment.start,
                                             children: <Widget> [
@@ -105,7 +104,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                                               const SizedBox(height: 12.0),
                                               Text(widget.user.biography!)
                                               ]
-                                            
                                           ),
                                         ),
                                       ),

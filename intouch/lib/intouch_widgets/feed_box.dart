@@ -79,10 +79,11 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
                       children: <Widget>[
                         Text(
                           widget.event.name,
-                          textScaler: const TextScaler.linear(1.7), 
+                          
                           maxLines: 1,
                           style:const TextStyle(
                             fontWeight: FontWeight.bold,
+                            fontSize: 20,
                             overflow: TextOverflow.ellipsis)
                           ),
                         Text(snapshot.hasData? snapshot.data![1] : ""),

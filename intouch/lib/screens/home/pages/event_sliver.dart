@@ -108,8 +108,11 @@ class _EventSliverState extends State<EventSliver> {
                     child: Text(
                       widget.event.name,
                       textAlign: TextAlign.left,
-                      textScaler: const TextScaler.linear(2.5),
-                      style: const TextStyle(fontWeight: FontWeight.bold),),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28
+                        ),
+                      ),
                     ),
                   const SizedBox(height: 8.0),
                   InkWell(
@@ -126,7 +129,7 @@ class _EventSliverState extends State<EventSliver> {
                               foregroundColor: Colors.blueAccent,
                             ),
                             const SizedBox(width: 8.0),
-                            Text(user.hasData? user.data!.username! : "", textScaler: const TextScaler.linear(1.4),)
+                            Text(user.hasData? user.data!.username! : "", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
                           ],
                         )
                       

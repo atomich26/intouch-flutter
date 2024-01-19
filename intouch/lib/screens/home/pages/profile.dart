@@ -1,7 +1,6 @@
 
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
@@ -44,9 +43,12 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context){
+    // vs code bug: this variable is indeed used
+    // ignore: unused_local_variable
     Future<List<Post>?>? postByAuthor;
     return Scaffold(
         appBar: inTouchAppBar(context, title, Icons.exit_to_app, (){
+          //sign out
           _auth.signOut();
             return null;}
             ),
@@ -55,7 +57,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                builder: (context, user){
                 return Container(
                   margin: const EdgeInsets.all(8.0),
-                  child: CustomScrollView (
+                  child: CustomScrollView(
                     slivers:<Widget>[
                       SliverAppBar(
                         backgroundColor: Colors.white,
@@ -141,6 +143,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                             ),
                           ),
                         ),
+                      //Referred to Future in home
                       user.hasData?
                       FutureBuilder(
                         future: postByAuthor = _postDatabaseService.getPostByAuthorId(user.data!.id!) ,
@@ -155,11 +158,10 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                             delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                                 return PostGrid(post: snapshot.data![index]);
-                                
                               },
                               childCount: snapshot.data!.length,
                             ),
-                          ) : SliverGrid(
+                          ) : SliverGrid (
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               childAspectRatio: 0.7),
@@ -203,7 +205,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
 
   // Image Picker
   final _picker = ImagePicker();
-  // Implementazione Image Picker
+  // Implementation
   Future<void> _openImagePicker(AppUserData user, bool isCamera) async {
     StorageService _storageRef = StorageService();
     final XFile? pickedImage =
@@ -214,7 +216,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   }
 
 
-
+//Bottom sheet with the option to change profile picture
 void ProfilePictureOptions(BuildContext context, AppUserData user){
   showModalBottomSheet<void>(
     context: context, 

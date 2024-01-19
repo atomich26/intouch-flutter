@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
-import 'package:intouch/screens/auth/category_selection.dart';
 import 'package:intouch/screens/home/pages/event_form.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
@@ -51,7 +50,9 @@ class _HomeState extends State<Home> {
   
 
   final PageController controller = PageController();
+  //Controller for the navigation bar
   int _destinationIndex = 0;
+  //Controller for the PageView
   int _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,7 @@ class _HomeState extends State<Home> {
                 Notifications(categories: snapshot.data?[0]),
                 Profile(user: _userData),                 
               ],
+              //To sync the bottom navigation bar with pageview
               onPageChanged: (page) {
                 setState(() {
                       _pageIndex = page;
@@ -109,6 +111,7 @@ class _HomeState extends State<Home> {
             label: "Profile",
             ),
           ],
+          //to sync the page with the bottom navigation bar
           onDestinationSelected: (destination) =>setState (()
             {
               if(destination != 2)
