@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/comment_box.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
@@ -30,10 +33,8 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<Event> event = _eventDatabaseService.getEventById(post.eventId!);
-
     Future<AppUserData> user = _userDatabaseService.getUserById(post.userId!);
-    Future<List<Comment>?>? _comments = _postDatabaseService.getCommentOfPost(post.id) ;
-    List<Future<String>> imageUrl = List.generate(post.album!.length, (e) => _storage.getPostImageUrl(post.album![e]));
+    List<Future<NetworkImage>> images = List.generate(post.album!.length, (e) => _storage.getPostImageUrl(post.album![e]).then((e) => NetworkImage(e)));
     return FutureBuilder<AppUserData>(
       future: user,
       builder: (context, user) {
@@ -45,15 +46,15 @@ class PostPage extends StatelessWidget {
             children: [
               PageView.builder(
               itemBuilder: (context, i){
-                return FutureBuilder<String>(
-                  future: imageUrl[i],
+                return FutureBuilder<NetworkImage>(
+                  future: images[i],
                   builder: (context, snapshot) {
                     return SafeArea(
                       child: Container(
                         decoration: snapshot.hasData? 
                         BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(snapshot.data!) ,
+                            image: snapshot.data as ImageProvider,
                             fit: BoxFit.cover
                             )
                           ) : 
@@ -126,7 +127,6 @@ class PostPage extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(8.0, 0, 72.0, 36.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                    
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         FutureBuilder<Event>(
@@ -165,10 +165,9 @@ class PostPage extends StatelessWidget {
                   child: FloatingActionButton(
                     child: Icon(Icons.comment),
                     onPressed: (){
+                      Future<List<Comment>?>? _comments = _postDatabaseService.getCommentOfPost(post.id) ;
                       showModalBottomSheet(
                         //isScrollControlled: true,
-                        
-                        
                         context: context, 
                         builder: (context){
                           return Scaffold(
@@ -202,8 +201,13 @@ class PostPage extends StatelessWidget {
                                 prefixIcon: Icon(Icons.message),
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.arrow_forward),
-                                  onPressed: (){
-                                    print(controller.text);
+                                  onPressed: () async {
+                                    await _postDatabaseService.uploadComment(
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      controller.text, 
+                                      post.id);
+                                    controller.text ="";
+                                    Navigator.pop(context);
                                     },
                                   )
                                 ),

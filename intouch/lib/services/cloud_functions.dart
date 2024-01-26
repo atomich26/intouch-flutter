@@ -6,6 +6,7 @@ import 'package:intouch/models/user.dart';
 
 import '../models/category.dart';
 
+
     Future<List<Category>> getCategories() async {
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('categories-list');
     final result = await callable.call();
@@ -63,13 +64,6 @@ import '../models/category.dart';
           return Future.error(e);
         }
   }
-
-  
-
-
-  
-
-
 
   Future<AppUserData>? getProfileData(String id) async {
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('users-profile');

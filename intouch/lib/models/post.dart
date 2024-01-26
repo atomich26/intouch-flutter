@@ -35,4 +35,14 @@ class Post{
     );
   }
 
+  Map<String, dynamic> toFirestore(){
+    return {
+      if (userId != null) "userId" : userId,
+      if (eventId != null) "eventId" : eventId,
+      if (description != null) "description" : description,
+      if (album != null) "album": album,
+      if (createdAt != null) "createdAt" :createdAt,
+    };
+  }
+
 }

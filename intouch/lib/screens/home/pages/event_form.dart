@@ -22,6 +22,7 @@ class _EventFormState extends State<EventForm> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startController = TextEditingController();
+  final TextEditingController _endController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -33,7 +34,7 @@ class _EventFormState extends State<EventForm> {
   // Implementazione Image Picker
   Future<void> _openImagePicker(bool isCamera) async {
     final XFile? pickedImage =
-        isCamera ? await _picker.pickImage(source: ImageSource.camera): await _picker.pickImage(source:ImageSource.gallery);
+        isCamera ? await _picker.pickImage(source: ImageSource.camera, imageQuality: 10): await _picker.pickImage(source:ImageSource.gallery, imageQuality: 10);
     if (pickedImage != null) {
       setState(() {
         _image = File(pickedImage.path);
@@ -45,6 +46,7 @@ class _EventFormState extends State<EventForm> {
   bool isTitleError = false;
   bool isDateError = false;
   bool isStartError = false;
+  bool isEndError = false;
   bool isAddressError = false;
   bool isCityError = false;
   bool isDescriptionError = false;
@@ -53,6 +55,7 @@ class _EventFormState extends State<EventForm> {
   String titleError = "";
   String dateError = "";
   String startError = "";
+  String endError = "";
   String addressError = "";
   String cityError = "";
   String descriptionError = "";
@@ -92,22 +95,58 @@ class _EventFormState extends State<EventForm> {
                     controller: _titleController, 
                           ),
                     
-                  DatePicker(
-                      context: context, 
-                      title: 'Date',
-                      icon: Icons.calendar_month_outlined,
-                      controller: _dateController,
-                      isError: isDateError,
-                      errorText: dateError,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: DatePicker(
+                            context: context, 
+                            title: 'Start Date',
+                            icon: Icons.calendar_month_outlined,
+                            controller: _dateController,
+                            isError: isDateError,
+                            errorText: dateError,
+                            ),
                       ),
+                      Expanded(
+                        flex: 1,
+                        child: DatePicker(
+                            context: context, 
+                            title: 'End Date',
+                            icon: Icons.calendar_month_outlined,
+                            controller: _dateController,
+                            isError: isDateError,
+                            errorText: dateError,
+                            ),
+                      ),
+                    ],
+                  ),
                     
                     
-                  TimePicker(
-                          title: 'Start Time', 
-                          icon: Icons.access_time_outlined,
-                          controller: _startController, 
-                          isError: isStartError,
-                          errorText: startError),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TimePicker(
+                            title: 'Start Time', 
+                            icon: Icons.access_time_outlined,
+                            controller: _startController, 
+                            isError: isStartError,
+                            errorText: startError),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: TimePicker(
+                            title: 'End Time', 
+                            icon: Icons.access_time_outlined,
+                            controller: _endController, 
+                            isError: isEndError,
+                            errorText: endError),
+                      ),
+                    ],
+                  ),
+
+                  
                     
                   inTouchTextFormField(
                     context: context, 
@@ -260,6 +299,7 @@ class _EventFormState extends State<EventForm> {
                               _titleController.text = "";
                               _dateController.text = "";
                               _startController.text = "";
+                              _endController.text = "";
                               _addressController.text = "";
                               _cityController.text = "";
                               _descriptionController.text = "";

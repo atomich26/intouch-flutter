@@ -47,7 +47,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
     // ignore: unused_local_variable
     Future<List<Post>?>? postByAuthor;
     return Scaffold(
-        appBar: inTouchAppBar(context, title, Icons.exit_to_app, (){
+        appBar: inTouchAppBar(context, title, Icons.logout, (){
           //sign out
           _auth.signOut();
             return null;}

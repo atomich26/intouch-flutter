@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/date_picker.dart';
+import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/screens/auth/category_selection.dart';
 import 'package:intouch/services/cloud_functions.dart';
 import 'package:intouch/wrapper.dart';
 import '../../intouch_widgets/intouch_widgets.dart';
@@ -201,13 +203,15 @@ class _RegisterState extends State<Register> {
                             'birthdate': _birthdayController.text.isNotEmpty ? parser.parse(_birthdayController.text).millisecondsSinceEpoch: null,
                           };
                           try{
+                            //on-field deployment of user-upsert, a cloud function.
                               await FirebaseFunctions.instance.httpsCallable('users-upsert').call(data);
                               FirebaseAuth.instance.signInWithEmailAndPassword(email: data["email"].toString(), password: data["password"].toString())
                               .then((result) {
                                 Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(builder: (BuildContext context) => const Wrapper()),
-                                (route) => false);
+                                  context, 
+                                  MaterialPageRoute(builder: (context) => Wrapper()), 
+                                  (route) => false);
+                                Navigator.of(context).push(fromTheRight(CategorySelection()));
                             });
                             } on FirebaseFunctionsException catch (e){
                           _isLoading = false;
@@ -283,17 +287,19 @@ class _RegisterState extends State<Register> {
                           emailError = "";
                           passwordError = "";
                           birthdayError = "";
+
+                          _isLoading = false;
                         });
                       })),
                   ],
                 ),
                const SizedBox(height: 24.0),
-               _isLoading ? const LinearProgressIndicator(): const SizedBox(height:1),
+               
               ],
             ),
           )
         ),
       
-    );
+    bottomNavigationBar: _isLoading ? const LinearProgressIndicator(): const SizedBox.shrink(),);
   }   
 }

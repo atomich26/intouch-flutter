@@ -10,6 +10,8 @@ import 'package:intouch/screens/home/pages/notifications.dart';
 import 'package:intouch/screens/home/pages/post_form.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/search.dart';
+import 'package:intouch/screens/auth/category_selection.dart';
+
 
 
 
@@ -27,8 +29,9 @@ class Home extends StatefulWidget {
 
 }
 
-class _HomeState extends State<Home> {
-  
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin  {
+  @override 
+bool get wantKeepAlive => true;
   
   late Future<List<Category>?> _categories;
   late Future<AppUserData> _userData;
@@ -56,6 +59,7 @@ class _HomeState extends State<Home> {
   int _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
         body: FutureBuilder(
           future: Future.wait([_categories, _events]),
@@ -97,8 +101,7 @@ class _HomeState extends State<Home> {
             ),
           IconButton(
             onPressed: (){
-              Navigator.of(context).push(fromTheBottom(PostForm()));
-              //Navigator.of(context).push(fromTheBottom(CategorySelection()));
+              Navigator.of(context).push(fromTheBottom(EventForm()));
             }, 
             icon: const Icon(Icons.add_circle_rounded)
             ),

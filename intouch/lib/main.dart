@@ -5,6 +5,7 @@ import 'package:intouch/services/auth_service.dart';
 import 'package:intouch/themes.dart';
 import 'package:intouch/wrapper.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future <void> main() async {
   //initialize Firebase services before running the app
@@ -23,6 +24,15 @@ class MainApp extends StatelessWidget {
       initialData: null,
       value: AuthService().user,
       child: MaterialApp(
+        localizationsDelegates: [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+  ],
+    supportedLocales: [
+      Locale('en'), // English
+      Locale('it'), // Italian
+  ],
         theme: lightTheme,
         home: const Wrapper(),
       ),

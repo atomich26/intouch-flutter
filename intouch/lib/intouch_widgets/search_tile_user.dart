@@ -58,7 +58,7 @@ class UserSearchTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                      username ?? "",
+                      username!.length >15 ? username!.substring(0, 15 )+"..." : username!,
                       style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 24.0),
                       ),
                   Text(

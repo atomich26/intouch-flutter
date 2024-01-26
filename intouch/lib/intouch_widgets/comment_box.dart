@@ -39,7 +39,7 @@ class CommentBox extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text(comment.content!)
+                  Text(comment.content?? "")
                 ],
               ),
             ),

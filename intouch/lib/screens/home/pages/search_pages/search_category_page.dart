@@ -42,7 +42,7 @@ class SearchCategoryPage extends StatelessWidget {
               Container(
                 height: 300,
                 decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.5))
+                color: Colors.black.withOpacity(0.3))
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -88,6 +88,8 @@ class SearchCategoryPage extends StatelessWidget {
                                     id: events.data![i].id,
                                     name: events.data![i].name,
                                     cover: events.data![i].cover,
+                                    address: events.data![i].address,
+                                    city: events.data![i].city,
                                   );
                                 } else {
                                   return const Text("");

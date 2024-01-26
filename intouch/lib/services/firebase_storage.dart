@@ -39,6 +39,18 @@ class StorageService{
       }
     }
 
+    Future<String?> setPostImage (String id, File file) async {
+      final hashed = md5.convert(utf8.encode(id));
+      final imageUrl = "${Timestamp.now().millisecondsSinceEpoch}_${hashed}";
+      final imageRef = storageRef.ref().child("posts/$imageUrl");
+      try{
+        await imageRef.putFile(file);
+        return imageUrl.toString();
+      } on FirebaseException catch (e) {
+        print(e);
+      }
+    }
+
 }
 
 

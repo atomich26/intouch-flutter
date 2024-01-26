@@ -51,7 +51,7 @@ class AppUserData{
       joined = data['joined'] ?? 0;
       created = data['created'] ?? 0;
       //preferences = data['preferences'];
-      posts = data['posts'];
+      posts = data['posts'] ?? 0;
     }
 
       factory  AppUserData.fromFirestore (DocumentSnapshot snapshot){
@@ -68,7 +68,7 @@ class AppUserData{
         joined : data['joined'] ?? List.empty(),
         created : data['created'] ?? List.empty(),
         //preferences = data['preferences'],
-        posts : data['posts'],);
+        posts : data['posts'] ?? List.empty(),);
     }
       
       

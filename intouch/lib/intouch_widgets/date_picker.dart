@@ -33,6 +33,7 @@ class _DatePickerState extends State<DatePicker> {
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
+      locale:const Locale('it'),
       initialDate: DateTime.now(), 
       firstDate: DateTime(1900, 1), 
       lastDate: DateTime(2050, 12));

@@ -1,10 +1,13 @@
 import 'dart:collection';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intouch/models/category.dart';
 import 'package:intouch/models/comment.dart';
 import 'package:intouch/models/event.dart';
 import 'package:intouch/models/post.dart';
 import 'package:intouch/models/user.dart';
+import 'package:intouch/services/firebase_storage.dart';
 
 class UserDatabaseService{
 
@@ -52,6 +55,8 @@ class CategoryDatabaseService{
 
 class PostDatabaseService{
 
+  StorageService _storage = StorageService();
+
   PostDatabaseService();
 
   final CollectionReference postCollection = FirebaseFirestore.instance.collection('posts');
@@ -72,6 +77,32 @@ class PostDatabaseService{
     return value.docs.map((e)=>Comment.fromFirestore(e, null)).toList();
   }
 
+  Future<void> uploadComment(String userId, String comment, String postId) async {
+    var data = <String, dynamic> {
+      "userId" : userId,
+      "content" : comment,
+      "createdAt" : Timestamp.now()
+    };
+    await postCollection.doc(postId).collection("comments").add(data);
+  }
+
+  Future<void> uploadPost (String userId, String eventId, String description, List<File>? files) async {
+    List<String?> filesNames = [];
+    for(File e in files!){
+      filesNames.add(await _storage.setPostImage(userId, e));
+    }
+    var data = <String,dynamic> {
+      "userId" : userId,
+      "eventId" : eventId,
+      "description" : description,
+      "album" : filesNames,
+      "createdAt" : Timestamp.now()
+    };
+    await postCollection.add(data);
+
+    
+  }
+
 }
 
 class EventDatabaseService{
@@ -81,7 +112,7 @@ class EventDatabaseService{
   final CollectionReference eventCollection = FirebaseFirestore.instance.collection('events');
 
   Future<List<Event>> getEventsFirestore() async {
-    return eventCollection.orderBy("startAt").get().then((values){
+    return eventCollection.orderBy("startAt", descending: true).get().then((values){
       return values.docs.map((e) => Event.fromFirestore(e, null)).toList();
     });
   }

@@ -44,6 +44,8 @@ class SearchPageEvent extends StatelessWidget {
                           id: events.data?.id,
                           name: events.data?.name,
                           cover: events.data?.cover,
+                          city: events.data?.city,
+                          address: events.data?.address,
                         );
                       } else {
                         return const Text("");

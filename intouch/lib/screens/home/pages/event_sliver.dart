@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
@@ -5,6 +6,7 @@ import 'package:intouch/intouch_widgets/profile_circle.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
+import 'package:intouch/screens/home/pages/post_form.dart';
 import 'package:intouch/screens/home/pages/profile_page.dart';
 import 'package:intouch/services/database.dart';
 import 'package:intouch/services/google_services.dart';
@@ -29,9 +31,10 @@ class _EventSliverState extends State<EventSliver> {
   bool isSelected = false;
   final UserDatabaseService _userDatabaseService = UserDatabaseService();
   final GoogleServices _googleServices = GoogleServices();
-
+  
   @override
   Widget build(BuildContext context) {
+    print(Timestamp.now());
     Future<AppUserData>? user= _userDatabaseService.getUserById(widget.event.userId);
     return FutureBuilder<AppUserData>(
       future: user,
@@ -178,8 +181,11 @@ class _EventSliverState extends State<EventSliver> {
               )
             ],
           ),
+          
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: Container(
+            floatingActionButton:
+            widget.event.endAt.toDate().isAfter(DateTime.now())?
+            Container(
               padding:const EdgeInsets.all(8.0),
               color: Colors.purple[50],
               child: InTouchLongButton(
@@ -190,6 +196,20 @@ class _EventSliverState extends State<EventSliver> {
                 () {
                   setState(() {
                     isSelected = !isSelected;
+                    });
+                  }),
+            ) : 
+            Container(
+              padding:const EdgeInsets.all(8.0),
+              color: Colors.purple[50],
+              child: InTouchLongButton(
+                context, 
+                "Add Post", 
+                null, 
+                true, 
+                () {
+                  setState(() {
+                    Navigator.of(context).push(fromTheRight(PostForm(event: widget.event)));
                     });
                   }),
             ),

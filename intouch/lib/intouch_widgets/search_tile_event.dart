@@ -50,20 +50,21 @@ class EventSearchTile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     CircleAvatar(
-                      radius: 32,
+                      radius: 48,
                       backgroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,
                     ),
+                    SizedBox(width:24),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children:<Widget> [
-                        Text((name ?? "").substring(0, 30)+"...", style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text(name!.length>=30?(name ?? "").substring(0, 30)+"..." : name!, style: const TextStyle(fontWeight: FontWeight.bold)),
                         Column(
                           children:<Widget>[
                             //Text(date.toString()),
-                            //Text(address! + " " + city!),
+                            Text(address! + " " + city!),
                           ],
                         )
                       ],
