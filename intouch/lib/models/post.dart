@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intouch/models/comment.dart';
 
@@ -21,6 +23,20 @@ class Post{
     this.comments,
     this.createdAt
   });
+
+  
+  factory Post.fromMap(Map<String, dynamic> data){
+    return Post(
+      id : data["id"],
+      userId : data["userId"],
+      eventId : data["eventId"],
+      description : data["description"],
+      album : data["album"],
+      comments : data["comments"],
+      createdAt : data["createdAt"],
+
+    );
+  }
 
   factory  Post.fromFirestore(DocumentSnapshot snapshot, SnapshotOptions? options){
     final data =snapshot.data() as Map<String,dynamic>;

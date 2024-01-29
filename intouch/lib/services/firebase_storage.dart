@@ -31,23 +31,35 @@ class StorageService{
 
     void setUserImage (String id, File file) async {
       final hashed = md5.convert(utf8.encode(id));
-      final imageRef = storageRef.ref().child("users/${Timestamp.now().millisecondsSinceEpoch}_${hashed}");
+      final imageRef = storageRef.ref().child("users/${Timestamp.now().millisecondsSinceEpoch}_$hashed");
       try{
         await imageRef.putFile(file);
       } on FirebaseException catch (e) {
-        print(e);
+        return null;
       }
     }
 
     Future<String?> setPostImage (String id, File file) async {
       final hashed = md5.convert(utf8.encode(id));
-      final imageUrl = "${Timestamp.now().millisecondsSinceEpoch}_${hashed}";
+      final imageUrl = "${Timestamp.now().millisecondsSinceEpoch}_$hashed";
       final imageRef = storageRef.ref().child("posts/$imageUrl");
       try{
         await imageRef.putFile(file);
         return imageUrl.toString();
       } on FirebaseException catch (e) {
-        print(e);
+        return null;
+      }
+    }
+
+    Future<String> setEventImage (String id, File file) async {
+      final hashed = md5.convert(utf8.encode(id));
+      final imageUrl = "${Timestamp.now().millisecondsSinceEpoch}_$hashed";
+      final imageRef = storageRef.ref().child("events/$imageUrl");
+      try{
+        await imageRef.putFile(file);
+        return imageUrl.toString();
+      } on FirebaseException catch (e) {
+        return "error";
       }
     }
 

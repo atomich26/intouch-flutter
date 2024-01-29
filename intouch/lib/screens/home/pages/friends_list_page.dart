@@ -35,12 +35,11 @@ class FriendsListPage extends StatelessWidget {
                           username: users.data?.username,
                           );
                       } else {
-                        return const Text("");
+                        return const SizedBox.shrink();
                       }
                     } 
                   );
-          
-        },
+          },
         itemCount: friendId.length,),
       )
     );

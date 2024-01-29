@@ -8,6 +8,7 @@ import 'package:intouch/intouch_widgets/post_grid.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/post.dart';
+import 'package:intouch/screens/home/pages/event_list_page.dart';
 import 'package:intouch/screens/home/pages/friends_list_page.dart';
 import 'package:intouch/services/auth_service.dart';
 import 'package:intouch/services/database.dart';
@@ -100,7 +101,13 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                                 ),
                                                 const SizedBox( width: 12.0),
                                                 InkWell(
-                                                  onTap: (){},
+                                                  onTap: (){
+                                                    if(user.hasData){
+                                                      if(user.data!.joined!.isNotEmpty){
+                                                        Navigator.of(context).push(fromTheRight(EventsListPage(eventId: user.data!.joined!)));
+                                                      }
+                                                    }
+                                                  },
                                                   child: Column(
                                                     children: <Widget> [
                                                       Text(user.hasData? user.data!.joined!.length.toString(): "0"),
@@ -110,7 +117,13 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                                                 ),
                                                 const SizedBox( width: 12.0),
                                                 InkWell(
-                                                  onTap: (){},
+                                                  onTap: (){
+                                                    if(user.hasData){
+                                                      if(user.data!.created!.isNotEmpty){
+                                                        Navigator.of(context).push(fromTheRight(EventsListPage(eventId: user.data!.created!)));
+                                                      }
+                                                    }
+                                                  },
                                                   child: Column(
                                                     children: <Widget> [
                                                       Text(user.hasData? user.data!.created!.length.toString(): "0"),
@@ -207,11 +220,11 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   final _picker = ImagePicker();
   // Implementation
   Future<void> _openImagePicker(AppUserData user, bool isCamera) async {
-    StorageService _storageRef = StorageService();
+    StorageService storageRef = StorageService();
     final XFile? pickedImage =
         isCamera ? await _picker.pickImage(source: ImageSource.camera): await _picker.pickImage(source:ImageSource.gallery);
     if (pickedImage != null) {
-      _storageRef.setUserImage(user.id!, File(pickedImage.path));
+      storageRef.setUserImage(user.id!, File(pickedImage.path));
     }
   }
 

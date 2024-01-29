@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +29,7 @@ class PostPage extends StatelessWidget {
     void dispose() {
     controller.dispose();
     }
+
   @override
   Widget build(BuildContext context) {
     Future<Event> event = _eventDatabaseService.getEventById(post.eventId!);
@@ -107,10 +107,10 @@ class PostPage extends StatelessWidget {
                       Navigator.of(context).push(fromTheBottom(ProfilePage(user: user.data!)));},
                     child: Row(
                       children: [
-                        user.hasData? ProfileCircle(radius: 18, user: user.data!,) : SizedBox(),
-                        SizedBox(width:8),
-                        Text(user.hasData?"@"+user.data!.username!:"",
-                                      style: TextStyle(
+                        user.hasData? ProfileCircle(radius: 18, user: user.data!,) : const SizedBox.shrink(),
+                        const SizedBox(width:8),
+                        Text(user.hasData?"@${user.data!.username!}":"",
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
                                       
@@ -141,14 +141,14 @@ class PostPage extends StatelessWidget {
                                     Navigator.of(context).push(fromTheBottom(
                                     EventSliver(event: event.data!, image: image.data!,)));} :(){}, 
                                   child: Text(event.hasData? event.data!.name : "", 
-                                              style: TextStyle(color: Colors.white),));
+                                              style: const TextStyle(color: Colors.white),));
                               }
-                            ): SizedBox();
+                            ): const SizedBox.shrink();
                           }
                         ),
                         Text(
                           post.description!,
-                          style: TextStyle(
+                          style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12.0,
                           )
@@ -163,9 +163,9 @@ class PostPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: FloatingActionButton(
-                    child: Icon(Icons.comment),
+                    child: const Icon(Icons.comment),
                     onPressed: (){
-                      Future<List<Comment>?>? _comments = _postDatabaseService.getCommentOfPost(post.id) ;
+                      Future<List<Comment>?>? comments = _postDatabaseService.getCommentOfPost(post.id) ;
                       showModalBottomSheet(
                         //isScrollControlled: true,
                         context: context, 
@@ -176,11 +176,11 @@ class PostPage extends StatelessWidget {
                             body: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: FutureBuilder(
-                                future: _comments!, 
+                                future: comments!, 
                                 builder: (context, comments){
                                   if(comments.hasData){
                                     if(comments.data!.isEmpty){
-                                      return SizedBox(width: double.infinity);
+                                      return const SizedBox(width: double.infinity);
                                     } else {
                                       return ListView.builder(
                                         itemCount: comments.data!.length,
@@ -189,7 +189,7 @@ class PostPage extends StatelessWidget {
                                               
                                         }));
                                     }
-                                  } else return SizedBox();
+                                  } else {return const SizedBox.shrink();}
                                 }),
                             ),
                           bottomNavigationBar: Padding(
@@ -197,10 +197,10 @@ class PostPage extends StatelessWidget {
                             child: TextFormField(
                               controller: controller,
                               decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.message),
+                                border: const OutlineInputBorder(),
+                                prefixIcon: const Icon(Icons.message),
                                 suffixIcon: IconButton(
-                                  icon: Icon(Icons.arrow_forward),
+                                  icon: const Icon(Icons.arrow_forward),
                                   onPressed: () async {
                                     await _postDatabaseService.uploadComment(
                                       FirebaseAuth.instance.currentUser!.uid,

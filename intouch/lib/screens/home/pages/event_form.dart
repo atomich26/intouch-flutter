@@ -1,33 +1,55 @@
 import 'dart:io';
 
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intouch/intouch_widgets/date_picker.dart';
+import 'package:intouch/intouch_widgets/forms/date_picker.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
-import 'package:intouch/intouch_widgets/text_form_field.dart';
-import 'package:intouch/intouch_widgets/time_picker.dart';
+import 'package:intouch/intouch_widgets/forms/text_field_category.dart';
+import 'package:intouch/intouch_widgets/forms/text_form_field.dart';
+import 'package:intouch/intouch_widgets/forms/time_picker.dart';
+import 'package:intouch/models/category.dart';
+import 'package:intouch/services/cloud_functions.dart';
+import 'package:intouch/wrapper.dart';
 
 
 class EventForm extends StatefulWidget {
-  const EventForm({super.key});
-
+  EventForm({
+    super.key,
+    this.categories});
+  Future<List<Category>?>? categories;
   @override
   State<EventForm> createState() => _EventFormState();
 }
 
 class _EventFormState extends State<EventForm> {
 
+    final _formKey = GlobalKey<FormState>();
+    final _errorUtil = ErrorEventUtil();
+
+    bool _isLoading = false;
+    
+
+
+
   //Controller di ogni voce della textview
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _startController = TextEditingController();
-  final TextEditingController _endController = TextEditingController();
+  final TextEditingController _availableCotroller = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _startDateController = TextEditingController();
+  final TextEditingController _endDateController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final ValueNotifier<Category?> _categorySelected = ValueNotifier(null);
 
-  File? _image;
+  File? _image;  
+ 
+  
 
   // Image Picker
   final _picker = ImagePicker();
@@ -44,18 +66,25 @@ class _EventFormState extends State<EventForm> {
 
   //riceve la presenza di errori da parte del server
   bool isTitleError = false;
-  bool isDateError = false;
-  bool isStartError = false;
-  bool isEndError = false;
+  bool isAvailableError = false;
+  bool isCategoryError = false;
+  bool isStartDateError = false;
+  bool isEndDateError = false;
+  bool isStartTimeError = false;
+  bool isEndTimeError = false;
   bool isAddressError = false;
   bool isCityError = false;
   bool isDescriptionError = false;
 
   //riceve il messaggio di errore dal server
   String titleError = "";
-  String dateError = "";
-  String startError = "";
-  String endError = "";
+  String availableError = "";
+  String categoryError = "";
+  String startDateError = "";
+  String endDateError = "";
+  String startTimeError = "";
+  String endTimeError = "";
+  String imageError = "";
   String addressError = "";
   String cityError = "";
   String descriptionError = "";
@@ -64,7 +93,7 @@ class _EventFormState extends State<EventForm> {
 
   @override
   Widget build(BuildContext context) {
-    
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -80,6 +109,7 @@ class _EventFormState extends State<EventForm> {
             Container(
             padding: const EdgeInsets.all(12.0),
             child: Form(
+              key: _formKey,
               child: Column(
                 children: <Widget>[
                     
@@ -94,6 +124,38 @@ class _EventFormState extends State<EventForm> {
                     errorText: titleError,
                     controller: _titleController, 
                           ),
+
+                  inTouchTextFormField(
+                    context: context, 
+                    title: 'Available', 
+                    icon: Icons.person,
+                    isPassword: false, 
+                    isEmail: false,
+                    isMultiline: false,
+                    isError: isAvailableError,
+                    errorText: availableError,
+                    controller: _availableCotroller, 
+                          ),
+
+                  FutureBuilder(
+                    future: widget.categories,
+                    builder: (context, categories) {
+                      return !categories.hasData? SizedBox.shrink() : 
+                      inTouchTextFormFieldCategory(
+                        context: context, 
+                        title: 'Categories', 
+                        icon: Icons.person,
+                        isPassword: false, 
+                        isEmail: false,
+                        isMultiline: false,
+                        isError: isCategoryError,
+                        errorText: categoryError,
+                        controller: _categoryController,
+                        categorySelected: _categorySelected,
+                        categories: categories.data!,
+                              );
+                    }
+                  ),
                     
                   Row(
                     children: [
@@ -103,9 +165,9 @@ class _EventFormState extends State<EventForm> {
                             context: context, 
                             title: 'Start Date',
                             icon: Icons.calendar_month_outlined,
-                            controller: _dateController,
-                            isError: isDateError,
-                            errorText: dateError,
+                            controller: _startDateController,
+                            isError: isStartDateError,
+                            errorText: startDateError,
                             ),
                       ),
                       Expanded(
@@ -114,9 +176,9 @@ class _EventFormState extends State<EventForm> {
                             context: context, 
                             title: 'End Date',
                             icon: Icons.calendar_month_outlined,
-                            controller: _dateController,
-                            isError: isDateError,
-                            errorText: dateError,
+                            controller: _endDateController,
+                            isError: isEndDateError,
+                            errorText: endDateError,
                             ),
                       ),
                     ],
@@ -130,18 +192,18 @@ class _EventFormState extends State<EventForm> {
                         child: TimePicker(
                             title: 'Start Time', 
                             icon: Icons.access_time_outlined,
-                            controller: _startController, 
-                            isError: isStartError,
-                            errorText: startError),
+                            controller: _startTimeController, 
+                            isError: isStartTimeError,
+                            errorText: startTimeError),
                       ),
                       Expanded(
                         flex: 1,
                         child: TimePicker(
                             title: 'End Time', 
                             icon: Icons.access_time_outlined,
-                            controller: _endController, 
-                            isError: isEndError,
-                            errorText: endError),
+                            controller: _endTimeController, 
+                            isError: isEndTimeError,
+                            errorText: endTimeError),
                       ),
                     ],
                   ),
@@ -212,6 +274,7 @@ class _EventFormState extends State<EventForm> {
                               : const Center(child: Text("Image not selected")),
                           )
                         ),
+                        Text(imageError, style:const TextStyle(color: Colors.red)),
                         Row(
                           children: [
                             Expanded(
@@ -284,7 +347,86 @@ class _EventFormState extends State<EventForm> {
                           "Submit",
                           null,
                           true, 
-                          (){}),
+                          ()async{
+                            if(_formKey.currentState!.validate()){
+                          setState(() {
+                          _isLoading = true;
+                        });
+                          if(_image == null){
+                            setState(() {
+                              _isLoading = false;
+                              imageError = "One image is needed";
+                            });
+                           } else{
+                          
+                          var data = <String, dynamic>{
+                            
+                          };
+                          try{
+                            //on-field deployment of user-upsert, a cloud function.
+                              await FirebaseFunctions.instance.httpsCallable('event-upsert').call(data);
+                              FirebaseAuth.instance.signInWithEmailAndPassword(email: data["email"].toString(), password: data["password"].toString())
+                              .then((result) {
+                                Navigator.pushAndRemoveUntil(
+                                  context, 
+                                  MaterialPageRoute(builder: (context) => Wrapper()), 
+                                  (route) => false);
+                            });
+                            } on FirebaseFunctionsException catch (e){
+                          _isLoading = false;
+                          if (e.code == "invalid-argument" && e.details != null){
+                          String errorMessage = e.message.toString();
+                          List errorList = e.details as List;
+                          List<ErrorEventParser> errorParser = errorList.map(
+                            (e) => ErrorEventParser(field: e["field"].toString(), message: e["message"].toString())).toList();
+                          // isUsernameError = false;
+                          // isUserError = false;
+                          // isPasswordError = false;
+                          // isEmailError = false;
+                          // isBirthdayError = false;
+                          for (ErrorEventParser errorItem in errorParser){
+
+                            // if (errorItem.field == "username"){
+                            //   setState(() {
+                            //     usernameError = _errorUtil.getError(errorItem.message);
+                            //     isUsernameError = true;
+                                
+                            //   });
+                            // }
+                            // if (errorItem.field == "name"){
+                            //   setState(() {
+                            //     userError = _errorUtil.getError(errorItem.message);
+                            //     isUserError = true;
+                            //   });
+
+                            // }
+                            // if (errorItem.field == "email"){
+                            //   setState(() {
+                            //     emailError = _errorUtil.getError(errorItem.message);
+                            //     isEmailError = true;
+                            //   });
+                            // }
+                            // if (errorItem.field == "password"){
+                            //   setState(() {
+                            //     passwordError = _errorUtil.getError(errorItem.message);
+                            //     isPasswordError = true;
+                            //   });
+                            // }
+                            // if (errorItem.field == "birthdate"){
+                            //   setState(() {
+                            //     birthdayError = _errorUtil.getError(errorItem.message);
+                            //     isBirthdayError = true;
+                            //   });
+                            // }    
+                          }
+                          ScaffoldMessengerState().showSnackBar(SnackBar(content: Text(errorMessage)));
+                          } else {
+
+                          }
+                        }
+                      }}
+                            
+                          }),
                          ),
                         Expanded(
                         flex: 1,
@@ -297,9 +439,12 @@ class _EventFormState extends State<EventForm> {
                             setState(() {
                               _image = null;
                               _titleController.text = "";
-                              _dateController.text = "";
-                              _startController.text = "";
-                              _endController.text = "";
+                              _startDateController.text = "";
+                              _categoryController.text ="";
+                              _categorySelected.value = null;
+                              _endDateController.text = "";
+                              _startTimeController.text = "";
+                              _endTimeController.text = "";
                               _addressController.text = "";
                               _cityController.text = "";
                               _descriptionController.text = "";
@@ -307,7 +452,7 @@ class _EventFormState extends State<EventForm> {
                           }),
                           )
                         ],
-                        ), 
+                      ), 
                     ],
                   )
                 ),

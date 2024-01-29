@@ -2,15 +2,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
-import 'package:intouch/models/event.dart';
 import 'package:intouch/models/user.dart';
 import 'package:intouch/screens/home/pages/event_form.dart';
 import 'package:intouch/screens/home/pages/feed.dart';
 import 'package:intouch/screens/home/pages/notifications.dart';
-import 'package:intouch/screens/home/pages/post_form.dart';
 import 'package:intouch/screens/home/pages/profile.dart';
 import 'package:intouch/screens/home/pages/search.dart';
-import 'package:intouch/screens/auth/category_selection.dart';
 
 
 
@@ -35,7 +32,7 @@ bool get wantKeepAlive => true;
   
   late Future<List<Category>?> _categories;
   late Future<AppUserData> _userData;
-  late Future<List<Event>?> _events;
+
   final CategoryDatabaseService _categoryDatabaseService = CategoryDatabaseService();
   final UserDatabaseService _userDatabaseService = UserDatabaseService();
   final EventDatabaseService _eventDatabaseService = EventDatabaseService();
@@ -45,7 +42,7 @@ bool get wantKeepAlive => true;
     super.initState();
     _categories = _categoryDatabaseService.getCategoriesFirestore();
     _userData = _userDatabaseService.getUserById(FirebaseAuth.instance.currentUser!.uid);
-    _events = _eventDatabaseService.getEventsFirestore();
+    //
   }
 
 
@@ -62,29 +59,35 @@ bool get wantKeepAlive => true;
     super.build(context);
     return Scaffold(
         body: FutureBuilder(
-          future: Future.wait([_categories, _events]),
-          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-            return PageView(
-              controller: controller,
-              children: <Widget>[
-                Feed(events: snapshot.data?[1],),
-                Search(categories: snapshot.data?[0]),
-                Notifications(categories: snapshot.data?[0]),
-                Profile(user: _userData),                 
-              ],
-              //To sync the bottom navigation bar with pageview
-              onPageChanged: (page) {
-                setState(() {
-                      _pageIndex = page;
-                        if(page > 1)  {
-                        _destinationIndex = page+1;
-                         }
-                       else {
-                       _destinationIndex = page;
-                      }
-                    
-                   });
-              });
+          future: _userData,
+          builder: (context, user) {
+            return !user.hasData? const SizedBox.shrink() :
+            FutureBuilder(
+              future: Future.wait([_categories, _eventDatabaseService.getEventsFirestore(user.data!)]),
+              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                return PageView(
+                  controller: controller,
+                  children: <Widget>[
+                    Feed(events: snapshot.data?[1],),
+                    Search(categories: snapshot.data?[0]),
+                    Notifications(),
+                    Profile(user: _userData),                 
+                  ],
+                  //To sync the bottom navigation bar with pageview
+                  onPageChanged: (page) {
+                    setState(() {
+                          _pageIndex = page;
+                            if(page > 1)  {
+                            _destinationIndex = page+1;
+                             }
+                           else {
+                           _destinationIndex = page;
+                          }
+                        
+                       });
+                  });
+              }
+            );
           }
         ),
       bottomNavigationBar: NavigationBar(
@@ -101,7 +104,7 @@ bool get wantKeepAlive => true;
             ),
           IconButton(
             onPressed: (){
-              Navigator.of(context).push(fromTheBottom(EventForm()));
+              Navigator.of(context).push(fromTheBottom(EventForm(categories: _categories)));
             }, 
             icon: const Icon(Icons.add_circle_rounded)
             ),

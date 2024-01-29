@@ -21,7 +21,7 @@ class AppUserData{
   late List<dynamic>? friends;
   late List<dynamic>? joined;
   late List<dynamic>? created;
-  late List<String>? preferences;
+  late List<dynamic>? preferences;
   late List<Post>? posts;
 
   AppUserData ({
@@ -50,7 +50,7 @@ class AppUserData{
       friends = data['friends'] ?? 0;
       joined = data['joined'] ?? 0;
       created = data['created'] ?? 0;
-      //preferences = data['preferences'];
+      preferences = data['preferences'];
       posts = data['posts'] ?? 0;
     }
 
@@ -67,7 +67,7 @@ class AppUserData{
         friends : data['friends'] ?? List.empty(),
         joined : data['joined'] ?? List.empty(),
         created : data['created'] ?? List.empty(),
-        //preferences = data['preferences'],
+        preferences: data['preferences'],
         posts : data['posts'] ?? List.empty(),);
     }
       

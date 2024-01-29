@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
@@ -34,7 +33,6 @@ class _EventSliverState extends State<EventSliver> {
   
   @override
   Widget build(BuildContext context) {
-    print(Timestamp.now());
     Future<AppUserData>? user= _userDatabaseService.getUserById(widget.event.userId);
     return FutureBuilder<AppUserData>(
       future: user,
@@ -132,7 +130,7 @@ class _EventSliverState extends State<EventSliver> {
                               foregroundColor: Colors.blueAccent,
                             ),
                             const SizedBox(width: 8.0),
-                            Text(user.hasData? user.data!.username! : "", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
+                            Text(user.hasData? user.data!.username! : "", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
                           ],
                         )
                       

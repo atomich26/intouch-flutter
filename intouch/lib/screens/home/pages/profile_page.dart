@@ -5,7 +5,9 @@ import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/intouch_widgets/post_grid.dart';
 import 'package:intouch/intouch_widgets/profile_circle.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
+import 'package:intouch/models/category.dart';
 import 'package:intouch/models/post.dart';
+import 'package:intouch/screens/home/pages/event_list_page.dart';
 import 'package:intouch/screens/home/pages/friends_list_page.dart';
 import 'package:intouch/services/database.dart';
 import '../../../models/user.dart';
@@ -53,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget> [
-                                          ProfileCircle(user: widget.user, radius: 64.0),
+                                          ProfileCircle(user: widget.user, radius: 48.0),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: <Widget> [
@@ -71,7 +73,11 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                                                   ),
                                                   const SizedBox( width: 12.0),
                                                   InkWell(
-                                                    onTap: (){},
+                                                    onTap: (){
+                                                      if(widget.user.joined!.isNotEmpty){
+                                                        Navigator.of(context).push(fromTheRight(EventsListPage(eventId: widget.user.joined!)));
+                                                      }
+                                                    },
                                                     child: Column(
                                                       children: <Widget> [
                                                         Text(widget.user.joined!.length.toString()),
@@ -81,7 +87,11 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                                                   ),
                                                   const SizedBox( width: 12.0),
                                                   InkWell(
-                                                    onTap:(){},
+                                                    onTap:(){
+                                                      if(widget.user.created!.isNotEmpty){
+                                                        Navigator.of(context).push(fromTheRight(EventsListPage(eventId: widget.user.created!)));
+                                                      }
+                                                    },
                                                     child: Column(
                                                       children: <Widget> [
                                                         Text(widget.user.created!.length.toString()),
@@ -113,11 +123,15 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                                         children: <Widget> [
                                         Expanded(
                                           child: InTouchLongButton(
-                                            context, "Ask to be Friends", Icons.add_reaction, true, (){}),
+                                            context, "Friend Request", Icons.add_reaction, true, (){
+                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Function not implemented in Demo version")));
+                                            }),
                                         ) ,
                                         Expanded(
                                           child: InTouchLongButton(
-                                            context, "Favourites", Icons.list_alt, false, (){}),
+                                            context, "Favourites", Icons.list_alt, false, (){
+                                              _showPreferences(context, widget.user);
+                                            }),
                                         )
                                         ],
                                       )
@@ -169,4 +183,34 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
               );
             }
             
+}
+
+void _showPreferences(BuildContext context, AppUserData user){
+  final CategoryDatabaseService categoryDatabaseService =CategoryDatabaseService();
+  List<Future<Category>> preferences = List.generate(user.preferences!.length, (e) => categoryDatabaseService.getCategorybyId(user.preferences?[e]));
+  showModalBottomSheet(
+    context: context, 
+    builder: (context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: SingleChildScrollView(
+              child: Wrap(
+                spacing: 7.5,
+                children: preferences.map((e) => 
+                  FutureBuilder(
+                    future: e, builder:(context, preference){
+                      return !preference.hasData? const SizedBox.shrink() :Chip(label: Text(preference.data!.name));
+                    })).toList()
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+  });
 }

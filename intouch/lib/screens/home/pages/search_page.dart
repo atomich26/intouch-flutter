@@ -17,7 +17,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
   //initial setting
-  String centerPageString = "Search what you like";
+  String centerPageString = "Search @users or events";
   //controller if first search is made
   bool searchDone = false;
   //switch between user search and event search

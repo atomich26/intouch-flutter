@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
-import 'package:intouch/intouch_widgets/text_form_field.dart';
+import 'package:intouch/intouch_widgets/forms/text_form_field.dart';
 import 'package:intouch/models/event.dart';
-import 'package:intouch/services/auth_service.dart';
 import 'package:intouch/services/database.dart';
 
 class PostForm extends StatefulWidget {
@@ -27,8 +26,8 @@ class _PostFormState extends State<PostForm> {
   final TextEditingController _descriptionController = TextEditingController();
   bool isDescriptionError = false;
   String descriptionError = "";
-  List<File> _images = <File>[];
-  PostDatabaseService _postDatabaseService = PostDatabaseService();
+  final List<File> _images = <File>[];
+  final PostDatabaseService _postDatabaseService = PostDatabaseService();
 
 
    // Image Picker
@@ -50,7 +49,7 @@ class _PostFormState extends State<PostForm> {
         if(_images.length<4){
         _images.add(File(pickedImage.path));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Too many images, please choose one to remove")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Too many images, please choose one to remove")));
       }});
     }
   }
@@ -82,12 +81,12 @@ class _PostFormState extends State<PostForm> {
                           alignment: Alignment.topRight,
                           children: [
                             Container(
-                              padding: EdgeInsets.all(12.0),
+                              padding: const EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 
                               ),
-                              child: SizedBox(child: Image.file(e!)),),
+                              child: SizedBox(child: Image.file(e)),),
                             FloatingActionButton(
                               child: const Icon(Icons.cancel),
                               onPressed: (){
@@ -137,7 +136,7 @@ class _PostFormState extends State<PostForm> {
         children: [
           Row(
             children: <Widget>[
-              Expanded(
+              const Expanded(
                 child: SizedBox(width: double.infinity)),
               Expanded(
                 child: InTouchLongButton(
@@ -146,8 +145,8 @@ class _PostFormState extends State<PostForm> {
                   null, 
                   true, 
                   () async {
-                    if(_images.length == 0){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Add at least one image to the post")));
+                    if(_images.isEmpty){
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Add at least one image to the post")));
                     }
                     else {
                         setState(() {
@@ -166,7 +165,7 @@ class _PostFormState extends State<PostForm> {
                 )
               ]
             ),
-          _isLoading ? const LinearProgressIndicator(): SizedBox(height: 1,)
+          _isLoading ? const LinearProgressIndicator(): const SizedBox.shrink()
           ],
         ),
       )

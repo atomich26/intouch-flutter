@@ -2,13 +2,12 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
-import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/models/category.dart';
 import 'package:intouch/services/database.dart';
 import 'package:intouch/wrapper.dart';
 
 class CategorySelection extends StatefulWidget {
-  CategorySelection({super.key});
+  const CategorySelection({super.key});
 
   @override
   State<CategorySelection> createState() => _CategorySelectionState();
@@ -32,16 +31,15 @@ class _CategorySelectionState extends State<CategorySelection> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      
       child: Scaffold(
         appBar: inTouchAppBar(context, 'Preferences', null, () => null),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text('Choose the categories you are interested in', style: TextStyle(fontSize: 24.0)),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             FutureBuilder(
               future: _categories, 
               builder: (context, categories){
@@ -52,17 +50,17 @@ class _CategorySelectionState extends State<CategorySelection> {
                     spacing: 5.0,
                     children: categories.hasData? categories.data!.map(
                         (e) => FilterChip(
-                            avatarBorder: RoundedRectangleBorder(),
+                            avatarBorder: const RoundedRectangleBorder(),
                             selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
                             selectedShadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-                            label: Text(e.name, style: TextStyle(fontSize: 16.0),),
+                            label: Text(e.name, style: const TextStyle(fontSize: 16.0),),
                             selected: categorySelected.contains(e),
                             onSelected: (bool selected){
                               setState(() {
                                 selected? categorySelected.add(e): categorySelected.remove(e);
                                 });
                               }))
-                            .toList() : <Widget> [SizedBox()]
+                            .toList() : <Widget> [const SizedBox.shrink()]
                           ),
                         );
                       }
@@ -88,10 +86,10 @@ class _CategorySelectionState extends State<CategorySelection> {
                         'preferences': categorySelected.map((e) => e.id).toList()};
                       try {
                       await FirebaseFunctions.instance.httpsCallable('users-preferences').call(data).then((value) => 
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Wrapper()),(route) => false));
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Wrapper()),(route) => false));
               
                       } on FirebaseFunctionsException catch (e){
-                        print(e);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
                       }
                     }
                     )
@@ -108,7 +106,7 @@ class _CategorySelectionState extends State<CategorySelection> {
                     }))
                   ],
                 ),
-            _isLoading ? const LinearProgressIndicator(): SizedBox(height: 1,)],
+            _isLoading ? const LinearProgressIndicator(): const SizedBox.shrink()],
             )    
           ],
         )

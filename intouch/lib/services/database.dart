@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intouch/models/category.dart';
 import 'package:intouch/models/comment.dart';
 import 'package:intouch/models/event.dart';
@@ -19,8 +18,9 @@ class UserDatabaseService{
   //final CollectionReference eventsReference = FirebaseFirestore.instance.collection('events');
 
 
-  Future<String?> getUserNameById (String id) async {
-    var value = await userCollection.where('id', isEqualTo: id).get().then((value) => {
+  Future<String>? getUserNameById (String id) async {
+    
+       await userCollection.where('id', isEqualTo: id).get().then((value) => {
        value.docs.map((doc){
         final casted = doc.data() as HashMap<String, dynamic>;
         final user = AppUserData.fromJson(casted);
@@ -29,7 +29,8 @@ class UserDatabaseService{
        })
       }
     );
-    return null;
+    return "Unknown";
+    
   }
   
   Future<AppUserData> getUserById (String id) async {
@@ -51,11 +52,16 @@ class CategoryDatabaseService{
      return values.docs.map((e) => Category.fromFirestore(e, null)).toList();
     });
   }
+
+  Future<Category> getCategorybyId (String id)async{
+    var value = await categoryCollection.doc(id).get();
+    return Category(id: id, name: value['name'], cover: value['cover']);
+  }
 }
 
 class PostDatabaseService{
 
-  StorageService _storage = StorageService();
+  StorageService storage = StorageService();
 
   PostDatabaseService();
 
@@ -89,7 +95,7 @@ class PostDatabaseService{
   Future<void> uploadPost (String userId, String eventId, String description, List<File>? files) async {
     List<String?> filesNames = [];
     for(File e in files!){
-      filesNames.add(await _storage.setPostImage(userId, e));
+      filesNames.add(await storage.setPostImage(userId, e));
     }
     var data = <String,dynamic> {
       "userId" : userId,
@@ -111,12 +117,19 @@ class EventDatabaseService{
 
   final CollectionReference eventCollection = FirebaseFirestore.instance.collection('events');
 
-  Future<List<Event>> getEventsFirestore() async {
-    return eventCollection.orderBy("startAt", descending: true).get().then((values){
+  Future<List<Event>> getEventsFirestore(AppUserData userData) async {
+    return userData.preferences!.isNotEmpty?
+    eventCollection
+      .where("startAt", isGreaterThan:Timestamp.now())
+      .where("categoryId", whereIn:userData.preferences!)
+      //.where("userId", isNotEqualTo: userData.id!)
+      .orderBy("startAt", descending: false).get().then((values){
       return values.docs.map((e) => Event.fromFirestore(e, null)).toList();
-    });
+    })  :
+    eventCollection.orderBy("startAt", descending: false).get().then((values){
+      return values.docs.map((e) => Event.fromFirestore(e, null)).toList();
+  });
   }
-
   Future<Event> getEventById(String id) async {
     var value = await eventCollection.doc(id).get();
     return Event.fromFirestore(value, null);

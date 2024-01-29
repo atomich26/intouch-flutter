@@ -12,7 +12,7 @@ class CommentBox extends StatelessWidget {
     });
   
   Comment comment;
-  UserDatabaseService _userDatabaseService = UserDatabaseService();
+  final UserDatabaseService _userDatabaseService = UserDatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class CommentBox extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.black),
@@ -35,8 +35,8 @@ class CommentBox extends StatelessWidget {
                 children: <Widget>[
                   InkWell(
                     onTap: (){Navigator.of(context).push(fromTheRight(ProfilePage(user:user.data!)));},
-                    child: Text("@"+user.data!.username!, 
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Text("@${user.data!.username!}", 
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(comment.content?? "")
@@ -45,7 +45,7 @@ class CommentBox extends StatelessWidget {
             ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox.shrink();
         }
       }
     );

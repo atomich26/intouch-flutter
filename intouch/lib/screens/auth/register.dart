@@ -3,13 +3,13 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:intouch/intouch_widgets/date_picker.dart';
+import 'package:intouch/intouch_widgets/forms/date_picker.dart';
 import 'package:intouch/intouch_widgets/route_animations.dart';
 import 'package:intouch/screens/auth/category_selection.dart';
 import 'package:intouch/services/cloud_functions.dart';
 import 'package:intouch/wrapper.dart';
 import '../../intouch_widgets/intouch_widgets.dart';
-import '../../intouch_widgets/text_form_field.dart';
+import '../../intouch_widgets/forms/text_form_field.dart';
 
 
 class Register extends StatefulWidget {
@@ -77,6 +77,7 @@ class _RegisterState extends State<Register> {
   @override
   void dispose() {
     _usernameController.dispose();
+    _nameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
     _birthdayController.dispose();

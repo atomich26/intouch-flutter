@@ -14,13 +14,12 @@ class PostFeed extends StatefulWidget {
 
 class _PostFeedState extends State<PostFeed> {
   
-  Future<List<Post>?>? posts;
+  Future<List<Future<Post>?>?>? posts;
 
   @override
   void initState() {
     super.initState();
     posts = feedPost();
-
   }
 
   @override
@@ -29,27 +28,22 @@ class _PostFeedState extends State<PostFeed> {
       future: posts, 
       builder: (context, posts){
         if(posts.hasData && posts.data!.isNotEmpty){ 
+          print(posts.data!.length);
             return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: posts.data!.length,
             itemBuilder: (context, i){
-              return PostCircle(post :posts.data![i]);
+              return FutureBuilder(
+                future: posts.data![i],
+                builder: (context, post) {
+                  return !post.hasData? const SizedBox.shrink():
+                  PostCircle(post : post.data!);
+                }
+              );
             },
           );
         } else {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount : 10,
-            itemBuilder: (context, i){
-              return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            radius: 40.0,
-                            foregroundColor: Colors.grey[150],
-                            ),
-                            );
-
-            });
+          return const SizedBox.shrink();
         }
       });
   }
