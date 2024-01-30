@@ -3,15 +3,15 @@ import 'package:intouch/models/category.dart';
 
 
 class CategoryButton extends StatefulWidget {
-  CategoryButton({
+  const CategoryButton({
     super.key,
     required this.context,
     required this.category,
     required this.onTap});
 
-  BuildContext context;
-  Category category;
-  Function onTap;
+  final BuildContext context;
+  final Category category;
+  final Function onTap;
   @override
   State<CategoryButton> createState() => _CategoryButtonState();
 }

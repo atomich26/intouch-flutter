@@ -5,7 +5,7 @@ class Notifications extends StatelessWidget {
   Notifications({
     super.key,
     this.categories});
-  List<Category>? categories;
+  final List<Category>? categories;
   
   final String title = 'Notifications';
 

@@ -7,25 +7,28 @@ class inTouchTextFormField extends StatefulWidget {
     required this.context,
     required this.title,
     this.icon,
+    required this.isNumber,
     required this.isPassword,
     required this.isEmail,
     required this.controller,
     required this.errorText,
     required this.isError,
     required this.isMultiline,
+
     this.validator,
   });
 
-  BuildContext context;
-  String title;
-  IconData? icon;
-  bool isPassword;
-  bool isEmail;
-  bool isError;
-  bool isMultiline;
-  TextEditingController controller;
-  FormFieldValidator<String>? validator;
-  String errorText;
+  final BuildContext context;
+  final String title;
+  final IconData? icon;
+  final bool isPassword;
+  final bool isEmail;
+  final bool isError;
+  final bool isMultiline;
+  final bool isNumber;
+  final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
+  final String errorText;
 
   
   
@@ -67,7 +70,7 @@ class _inTouchTextFormFieldState extends State<inTouchTextFormField> {
             validator: widget.validator,
             style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             obscureText: _isPasswordVisible,
-            keyboardType: widget.isEmail ? TextInputType.emailAddress : null,
+            keyboardType: widget.isEmail ? TextInputType.emailAddress : widget.isNumber ? TextInputType.number : null,
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(

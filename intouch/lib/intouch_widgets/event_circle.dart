@@ -4,8 +4,8 @@ import 'package:intouch/services/firebase_storage.dart';
 
 class EventCircle extends StatelessWidget {
   
-  Event? event;
-  double size;
+  final Event? event;
+  final double size;
   
   EventCircle({
     super.key,

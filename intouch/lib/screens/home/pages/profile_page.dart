@@ -13,7 +13,7 @@ import 'package:intouch/services/database.dart';
 import '../../../models/user.dart';
 
 class ProfilePage extends StatefulWidget {
-  AppUserData user;
+  final AppUserData user;
   ProfilePage({
     super.key,
     required this.user});
@@ -32,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context){
+    super.build(context);
     Future<List<Post>?>? postByAuthor = _postDatabaseService.getPostByAuthorId(widget.user.id!);
     return Scaffold(         
                 body: SafeArea(

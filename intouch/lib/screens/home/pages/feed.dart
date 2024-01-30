@@ -11,7 +11,7 @@ class Feed extends StatefulWidget {
     super.key,
     this.events});
 
-  List<Event>? events;
+  final List<Event>? events;
 
   @override
   State<Feed> createState() => _FeedState();

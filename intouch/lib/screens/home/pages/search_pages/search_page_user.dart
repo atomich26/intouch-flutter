@@ -12,7 +12,7 @@ class SearchPageUser extends StatelessWidget {
       required this.query
       });
   
-  String query;
+  final String query;
   final UserDatabaseService _userDatabaseService = UserDatabaseService();
 
   @override

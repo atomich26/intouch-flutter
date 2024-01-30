@@ -4,11 +4,11 @@ import 'package:intl/intl.dart';
 
 class EventCard extends StatelessWidget {
   
-  BuildContext context;
-  String title;
-  String image;
-  DateTime date;
-  String city;
+  final BuildContext context;
+  final String title;
+  final String image;
+  final DateTime date;
+  final String city;
   
   EventCard({
     super.key,

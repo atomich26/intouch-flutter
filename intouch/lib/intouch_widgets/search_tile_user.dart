@@ -14,11 +14,11 @@ class UserSearchTile extends StatelessWidget {
     this.img,
     this.username});
 
-  BuildContext? context;
-  String? id;
-  String? name;
-  String? img;
-  String? username;
+  final BuildContext? context;
+  final String? id;
+  final String? name;
+  final String? img;
+  final String? username;
 
   final StorageService _storageService = StorageService();
   final UserDatabaseService _userDatabaseService = UserDatabaseService();

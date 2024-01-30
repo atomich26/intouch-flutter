@@ -8,10 +8,10 @@ import '../services/firebase_storage.dart';
 
 class FeedBox extends StatefulWidget {
   
-  BuildContext context;
-  Event event;
+  final BuildContext context;
+  final Event event;
 
-  FeedBox({
+  const FeedBox({
     super.key,
     required this.context,
     required this.event});
@@ -35,9 +35,9 @@ class _FeedBoxState extends State<FeedBox> with AutomaticKeepAliveClientMixin {
     return FutureBuilder(
       future: Future.wait([imageUrl, userId]),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
-        print(snapshot.data?[1]);
         return GestureDetector(
           onTap:() {
+            !snapshot.hasData? null :
             Navigator.push(
               context,
               MaterialPageRoute(builder: (BuildContext context) => EventSliver(event: widget.event, image: snapshot.data![0])));

@@ -10,11 +10,11 @@ import 'package:intouch/models/event.dart';
 import 'package:intouch/services/database.dart';
 
 class PostForm extends StatefulWidget {
-   PostForm({
+   const PostForm({
     super.key,
     required this.event});
 
-  Event event;
+  final Event event;
   
 
   @override
@@ -39,11 +39,11 @@ class _PostFormState extends State<PostForm> {
         isCamera ? 
         await _picker.pickImage(
           source: ImageSource.camera,
-          imageQuality: 10)
+          imageQuality: 25)
           : 
         await _picker.pickImage(
           source: ImageSource.gallery,
-          imageQuality: 10);
+          imageQuality: 25);
     if (pickedImage != null) {
       setState(() {
         if(_images.length<4){
@@ -98,12 +98,12 @@ class _PostFormState extends State<PostForm> {
                           )).toList(),
                     ),
 
-                    InTouchLongButton(
-                      context, 
-                      "Take Photo", 
-                      null, 
-                      true, 
-                      (){_openImagePicker(true);}),
+                    // InTouchLongButton(
+                    //   context, 
+                    //   "Take Photo", 
+                    //   null, 
+                    //   true, 
+                    //   (){_openImagePicker(true);}),
                     
                     InTouchLongButton(
                       context, 
@@ -117,6 +117,7 @@ class _PostFormState extends State<PostForm> {
                       title: "Description", 
                       isPassword: false, 
                       isEmail: false, 
+                      isNumber: false,
                       controller: _descriptionController, 
                       errorText: descriptionError, 
                       isError: isDescriptionError, 

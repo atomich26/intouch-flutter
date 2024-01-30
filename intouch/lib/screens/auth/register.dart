@@ -110,6 +110,7 @@ class _RegisterState extends State<Register> {
                 icon: Icons.near_me,
                 isPassword: false, 
                 isEmail: false,
+                isNumber: false,
                 isMultiline: false,
                 isError: isUsernameError,
                 errorText: usernameError,
@@ -125,6 +126,7 @@ class _RegisterState extends State<Register> {
                   icon: Icons.person_2_rounded, 
                   isPassword: false, 
                   isEmail: false, 
+                  isNumber: false,
                   isMultiline: false,
                   isError: isUserError,
                   errorText: userError,
@@ -140,6 +142,7 @@ class _RegisterState extends State<Register> {
                   icon: Icons.alternate_email_rounded, 
                   isPassword: false, 
                   isEmail: false, 
+                  isNumber: false,
                   isMultiline: false,
                   isError: isEmailError,
                   errorText: emailError,
@@ -155,6 +158,7 @@ class _RegisterState extends State<Register> {
                   icon: Icons.password_rounded, 
                   isPassword: true, 
                   isEmail: false,
+                  isNumber: false,
                   isMultiline: false,
                   isError: isPasswordError,
                   errorText: passwordError,
@@ -163,17 +167,6 @@ class _RegisterState extends State<Register> {
                   ),
 
                 const SizedBox(height: 12.0),
-
-                /*inTouchTextFormField(
-                  context: context, 
-                  title: 'Confirm Password', 
-                  icon: Icons.password_rounded, 
-                  isPassword: true, 
-                  isEmail: false, 
-                  controller: _confirmPasswordController, 
-                  validator: (value) => value == _passwordController.text ? null: 'Please enter the same password'),
-
-                SizedBox(height: 12.0),*/
 
                 DatePicker(
                   context: context, 

@@ -16,7 +16,8 @@ import 'package:intouch/services/firebase_storage.dart';
 import '../../../models/user.dart';
 
 class Profile extends StatefulWidget {
-  Future<AppUserData> user;
+  final Future<AppUserData> user;
+
   Profile({
     super.key,
     required this.user});
@@ -44,6 +45,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context){
+    super.build(context);
     // vs code bug: this variable is indeed used
     // ignore: unused_local_variable
     Future<List<Post>?>? postByAuthor;

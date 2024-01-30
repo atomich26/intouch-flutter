@@ -15,12 +15,12 @@ class DatePicker extends StatefulWidget {
     //required this.validator,
   });
 
-  BuildContext context;
-  String title;
-  IconData? icon;
-  TextEditingController controller;
-  String errorText;
-  bool isError;
+  final BuildContext context;
+  final String title;
+  final IconData? icon;
+  final TextEditingController controller;
+  final String errorText;
+  final bool isError;
   //FormFieldValidator<String> validator;
 
   @override

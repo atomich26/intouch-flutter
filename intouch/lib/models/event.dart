@@ -10,11 +10,12 @@ class Event{
   late String cover;
   late String userId;
   late Timestamp startAt;
-  late Timestamp endAt;
+  late Timestamp? endAt;
   late String? description;
   late String name;
   late GeoPoint? place;
   late bool restricted;
+  late List<String> attendees;
 
   Event({
     required this.id,
@@ -23,11 +24,12 @@ class Event{
     required this.cover,
     required this.userId,
     required this.startAt,
-    required this.endAt,
+    this.endAt,
     this.description,
     required this.name,
     this.place,
-    required this.restricted
+    required this.restricted,
+    required this.attendees
 
   });
 
@@ -60,6 +62,7 @@ class Event{
       description : data['description'],
       name : data['name'],
       place : data['place'],
-      restricted : data['restricted'],);
+      restricted : data['restricted'],
+      attendees: data['attendees']);
   }
 }

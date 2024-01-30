@@ -5,7 +5,7 @@ import 'package:intouch/services/database.dart';
 
 class EventsListPage extends StatelessWidget {
   
-  List<dynamic>eventId;
+  final List<dynamic>eventId;
   final EventDatabaseService _eventDatabaseService = EventDatabaseService();
   
   EventsListPage({

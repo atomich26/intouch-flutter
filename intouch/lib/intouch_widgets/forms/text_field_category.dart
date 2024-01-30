@@ -19,18 +19,18 @@ class inTouchTextFormFieldCategory extends StatefulWidget {
     this.validator,
   });
 
-  BuildContext context;
-  String title;
-  IconData? icon;
-  bool isPassword;
-  bool isEmail;
-  bool isError;
-  bool isMultiline;
-  TextEditingController controller;
-  ValueNotifier<Category?> categorySelected;
-  FormFieldValidator<String>? validator;
-  String errorText;
-  List<Category> categories;
+  final BuildContext context;
+  final String title;
+  final IconData? icon;
+  final bool isPassword;
+  final bool isEmail;
+  final bool isError;
+  final bool isMultiline;
+  final TextEditingController controller;
+  final ValueNotifier<Category?> categorySelected;
+  final FormFieldValidator<String>? validator;
+  final String errorText;
+  final List<Category> categories;
 
   
   

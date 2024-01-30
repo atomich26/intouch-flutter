@@ -6,7 +6,7 @@ import 'package:intouch/services/database.dart';
 
 class FriendsListPage extends StatelessWidget {
   
-  List<dynamic> friendId;
+  final List<dynamic> friendId;
   final UserDatabaseService _userDatabaseService = UserDatabaseService();
   
   FriendsListPage({

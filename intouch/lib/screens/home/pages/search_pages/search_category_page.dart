@@ -11,8 +11,8 @@ class SearchCategoryPage extends StatelessWidget {
     required this.image});
 
     
-    Category category;
-    String image;
+    final Category category;
+    final String image;
     final EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override

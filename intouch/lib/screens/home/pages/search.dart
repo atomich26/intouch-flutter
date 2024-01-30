@@ -13,7 +13,7 @@ class Search extends StatefulWidget {
     super.key,
     this.categories});
 
-  List<Category>? categories;
+  final List<Category>? categories;
 
   @override
   State<Search> createState() => _SearchState();

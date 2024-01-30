@@ -11,7 +11,7 @@ class CommentBox extends StatelessWidget {
     required this.comment,
     });
   
-  Comment comment;
+  final Comment comment;
   final UserDatabaseService _userDatabaseService = UserDatabaseService();
 
   @override

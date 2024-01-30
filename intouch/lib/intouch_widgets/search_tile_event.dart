@@ -16,12 +16,12 @@ class EventSearchTile extends StatelessWidget {
     this.date
     });
 
-  String? id;
-  String? address;
-  String? city;
-  String? cover;
-  String? name;
-  String? date;
+  final String? id;
+  final String? address;
+  final String? city;
+  final String? cover;
+  final String? name;
+  final String? date;
 
   final StorageService _storageService = StorageService();
   final EventDatabaseService _eventDatabaseService = EventDatabaseService();
@@ -53,7 +53,7 @@ class EventSearchTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     CircleAvatar(
-                      radius: 48,
+                      radius: 32,
                       backgroundImage: imageUrl.hasData? NetworkImage(imageUrl.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,
                     ),
                     SizedBox(width:24),

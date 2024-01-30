@@ -9,7 +9,7 @@ import 'package:intouch/services/firebase_storage.dart';
 
 class PostCircle extends StatefulWidget {
   
-  Post post;
+  final Post post;
   
   PostCircle({
     super.key,

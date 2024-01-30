@@ -9,7 +9,7 @@ class PostGrid extends StatelessWidget {
     super.key,
     required this.post});
 
-  Post post;
+  final Post post;
   final StorageService _storage = StorageService();
 
   @override

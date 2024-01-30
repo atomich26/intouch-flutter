@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:intouch/intouch_widgets/forms/date_picker.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
 import 'package:intouch/intouch_widgets/forms/text_field_category.dart';
@@ -12,14 +13,15 @@ import 'package:intouch/intouch_widgets/forms/text_form_field.dart';
 import 'package:intouch/intouch_widgets/forms/time_picker.dart';
 import 'package:intouch/models/category.dart';
 import 'package:intouch/services/cloud_functions.dart';
+import 'package:intouch/services/firebase_storage.dart';
 import 'package:intouch/wrapper.dart';
 
 
 class EventForm extends StatefulWidget {
-  EventForm({
+  const EventForm({
     super.key,
     this.categories});
-  Future<List<Category>?>? categories;
+  final Future<List<Category>?>? categories;
   @override
   State<EventForm> createState() => _EventFormState();
 }
@@ -47,7 +49,10 @@ class _EventFormState extends State<EventForm> {
   final TextEditingController _descriptionController = TextEditingController();
   final ValueNotifier<Category?> _categorySelected = ValueNotifier(null);
 
-  File? _image;  
+  final StorageService _storageService = StorageService();
+
+  File? _image;
+  String? imageName; 
  
   
 
@@ -94,6 +99,7 @@ class _EventFormState extends State<EventForm> {
   @override
   Widget build(BuildContext context) {
 
+    var dateParser= DateFormat('dd/MM/yyyy HH:mm');
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -119,6 +125,7 @@ class _EventFormState extends State<EventForm> {
                     icon: Icons.title_rounded,
                     isPassword: false, 
                     isEmail: false,
+                    isNumber: false,
                     isMultiline: false,
                     isError: isTitleError,
                     errorText: titleError,
@@ -131,6 +138,7 @@ class _EventFormState extends State<EventForm> {
                     icon: Icons.person,
                     isPassword: false, 
                     isEmail: false,
+                    isNumber: true,
                     isMultiline: false,
                     isError: isAvailableError,
                     errorText: availableError,
@@ -140,7 +148,7 @@ class _EventFormState extends State<EventForm> {
                   FutureBuilder(
                     future: widget.categories,
                     builder: (context, categories) {
-                      return !categories.hasData? SizedBox.shrink() : 
+                      return !categories.hasData? const SizedBox.shrink() : 
                       inTouchTextFormFieldCategory(
                         context: context, 
                         title: 'Categories', 
@@ -216,6 +224,7 @@ class _EventFormState extends State<EventForm> {
                     icon: Icons.location_on,
                     isPassword: false, 
                     isEmail: false,
+                    isNumber: false,
                     isMultiline: false,
                     isError: isAddressError,
                     errorText: addressError,
@@ -228,6 +237,7 @@ class _EventFormState extends State<EventForm> {
                     icon: Icons.maps_home_work,
                     isPassword: false, 
                     isEmail: false,
+                    isNumber: false,
                     isMultiline: false,
                     isError: isCityError,
                     errorText: cityError,
@@ -313,6 +323,7 @@ class _EventFormState extends State<EventForm> {
                     icon: Icons.description,
                     isPassword: false, 
                     isEmail: false,
+                    isNumber: false,
                     isMultiline: true,
                     isError: isDescriptionError,
                     errorText: descriptionError,
@@ -357,15 +368,26 @@ class _EventFormState extends State<EventForm> {
                               _isLoading = false;
                               imageError = "One image is needed";
                             });
-                           } else{
-                          
+                           } else {
+                          imageName = await _storageService.setEventImage(FirebaseAuth.instance.currentUser!.uid, _image!);
+                          print(imageName);
+                          print(dateParser.parse("${_startDateController.text} ${_startTimeController.text}"));
                           var data = <String, dynamic>{
-                            
+                            "name" : _titleController.text,
+                            "available" : int.parse(_availableCotroller.text),
+                            "categoryId" : _categorySelected.value?.id,
+                            "startAt": _startDateController.text.isNotEmpty && _startTimeController.text.isNotEmpty ? dateParser.parse(_startDateController.text+ " " + _startTimeController.text).millisecondsSinceEpoch : null,
+                            "endAt": _endDateController.text.isNotEmpty && _endTimeController.text.isNotEmpty? dateParser.parse(_endDateController.text+" "+_endTimeController.text).millisecondsSinceEpoch : null,
+                            "address": _addressController.text,
+                            "city": _cityController.text,
+                            "description": _descriptionController.text,
+                            "restricted": private,
+                            "cover": imageName,
+                            "geo": [0, 0],
                           };
                           try{
                             //on-field deployment of user-upsert, a cloud function.
-                              await FirebaseFunctions.instance.httpsCallable('event-upsert').call(data);
-                              FirebaseAuth.instance.signInWithEmailAndPassword(email: data["email"].toString(), password: data["password"].toString())
+                              await FirebaseFunctions.instance.httpsCallable('events-upsert').call(data)
                               .then((result) {
                                 Navigator.pushAndRemoveUntil(
                                   context, 
@@ -373,6 +395,7 @@ class _EventFormState extends State<EventForm> {
                                   (route) => false);
                             });
                             } on FirebaseFunctionsException catch (e){
+                              await _storageService.deleteEventImage(imageName!);
                           _isLoading = false;
                           if (e.code == "invalid-argument" && e.details != null){
                           String errorMessage = e.message.toString();

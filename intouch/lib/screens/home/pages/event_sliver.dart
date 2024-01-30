@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intouch/intouch_widgets/intouch_widgets.dart';
@@ -14,8 +15,8 @@ import 'package:intouch/services/google_services.dart';
 
 class EventSliver extends StatefulWidget {
   
-  Event event;
-  String image;
+  final Event event;
+  final String image;
 
   EventSliver({
     super.key,
@@ -27,12 +28,13 @@ class EventSliver extends StatefulWidget {
 }
 
 class _EventSliverState extends State<EventSliver> {
-  bool isSelected = false;
+  
   final UserDatabaseService _userDatabaseService = UserDatabaseService();
   final GoogleServices _googleServices = GoogleServices();
   
   @override
   Widget build(BuildContext context) {
+    bool isSelected = widget.event.attendees.contains(FirebaseAuth.instance.currentUser!.uid);
     Future<AppUserData>? user= _userDatabaseService.getUserById(widget.event.userId);
     return FutureBuilder<AppUserData>(
       future: user,
@@ -157,11 +159,12 @@ class _EventSliverState extends State<EventSliver> {
                             ],
                         ),
                         const SizedBox(height: 8.0,),
+                        widget.event.endAt == null? SizedBox.shrink() :
                         Row(
                           children: <Widget> [
                           const Icon(Icons.calendar_month, size: 20.0,),
                           const SizedBox(width: 4.0),
-                          Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.endAt.toDate()), textScaler: const TextScaler.linear(1.2))
+                          Text(DateFormat('dd/MM/yyyy HH:mm').format(widget.event.endAt!.toDate()), textScaler: const TextScaler.linear(1.2))
                             ],
                         ),
                         Padding(
@@ -182,7 +185,7 @@ class _EventSliverState extends State<EventSliver> {
           
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton:
-            widget.event.endAt.toDate().isAfter(DateTime.now())?
+            widget.event.startAt.toDate().isAfter(DateTime.now())?
             Container(
               padding:const EdgeInsets.all(8.0),
               color: Colors.purple[50],

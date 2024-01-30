@@ -10,11 +10,11 @@ class TimePicker extends StatefulWidget {
     required this.isError});
 
 
-    String title;
-    IconData? icon;
-    TextEditingController controller;
-    String errorText;
-    bool isError;
+    final String title;
+    final IconData? icon;
+    final TextEditingController controller;
+    final String errorText;
+    final bool isError;
 
   @override
   State<TimePicker> createState() => _TimePickerState();

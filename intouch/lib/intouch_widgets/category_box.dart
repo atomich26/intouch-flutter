@@ -6,8 +6,8 @@ import 'package:intouch/services/firebase_storage.dart';
 
 class CategoryBox extends StatefulWidget {
   
-  BuildContext context;
-  Category category;
+  final BuildContext context;
+  final Category category;
   
   CategoryBox({
     super.key,

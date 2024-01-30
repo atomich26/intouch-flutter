@@ -10,7 +10,7 @@ class SearchPageEvent extends StatelessWidget {
     required this.query
     });
 
-  String query;
+  final String query;
   final EventDatabaseService _eventDatabaseService = EventDatabaseService();
 
   @override

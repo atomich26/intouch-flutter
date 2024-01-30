@@ -51,6 +51,16 @@ class StorageService{
       }
     }
 
+    Future<void> deleteEventImage(String id) async {
+      final imageRef = storageRef.ref("events/$id");
+      try{
+        await imageRef.delete();
+        print ("Image Deleted");
+      } on FirebaseException catch (e) {
+        print(e);
+      }
+    }
+
     Future<String> setEventImage (String id, File file) async {
       final hashed = md5.convert(utf8.encode(id));
       final imageUrl = "${Timestamp.now().millisecondsSinceEpoch}_$hashed";

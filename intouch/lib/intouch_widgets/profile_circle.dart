@@ -4,8 +4,8 @@ import 'package:intouch/services/firebase_storage.dart';
 
 class ProfileCircle extends StatelessWidget  {
   
-  AppUserData? user;
-  double radius;
+  final AppUserData? user;
+  final double radius;
 
   ProfileCircle({
     super.key,

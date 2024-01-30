@@ -82,8 +82,14 @@ class _CategorySelectionState extends State<CategorySelection> {
                       setState(() {
                         _isLoading = !_isLoading;
                       });
+                      
                       var data = <String, List<String>>{
                         'preferences': categorySelected.map((e) => e.id).toList()};
+                        if (categorySelected.isEmpty){
+                          data = {
+                            'preferences' : await _categories.then((value) => value!.map((e) => e.id).toList())
+                          };
+                        }
                       try {
                       await FirebaseFunctions.instance.httpsCallable('users-preferences').call(data).then((value) => 
                         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Wrapper()),(route) => false));

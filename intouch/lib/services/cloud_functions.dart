@@ -80,6 +80,8 @@ import '../models/category.dart';
 
   }
 
+  
+
  
 
   
@@ -112,7 +114,7 @@ import '../models/category.dart';
     "EMPTY_USERNAME" : "Il nome utente non può essere vuoto",	
 
     "INVALID_NAME" : "La lunghezza del nome deve essere compresa fra i 3 e i 40 caratteri",
-    "INVALID_SPECIAL_CHARS_NAME" : "Il nome non può contenere caratteri speciali",
+    "INVALID_SPECIAL_CHARS_NAME" : "Il nome non può contenere numeri o caratteri",
     "EMPTY_NAME" : "Il nome non può esser vuoto",
 
     "INVALID_EMAIL_LENGTH" : "L'indirizzo email può contenere massimo 90 caratteri",
