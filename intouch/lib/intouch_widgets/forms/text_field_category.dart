@@ -53,7 +53,7 @@ class _inTouchTextFormFieldCategoryState extends State<inTouchTextFormFieldCateg
   late bool _isPasswordVisible = widget.isPassword;
 
 
-Category? _selectCategory(BuildContext context , List<Category> categories) {
+void _selectCategory(BuildContext context , List<Category> categories) {
   showModalBottomSheet(context: context, builder: (context){
     return Padding(
       padding: const EdgeInsets.all(8.0),

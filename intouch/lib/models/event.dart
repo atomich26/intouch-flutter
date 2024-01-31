@@ -15,7 +15,7 @@ class Event{
   late String name;
   late GeoPoint? place;
   late bool restricted;
-  late List<String> attendees;
+
 
   Event({
     required this.id,
@@ -29,7 +29,7 @@ class Event{
     required this.name,
     this.place,
     required this.restricted,
-    required this.attendees
+  
 
   });
 
@@ -63,6 +63,6 @@ class Event{
       name : data['name'],
       place : data['place'],
       restricted : data['restricted'],
-      attendees: data['attendees']);
+      );
   }
 }

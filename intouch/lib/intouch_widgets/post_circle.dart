@@ -57,7 +57,7 @@ class _PostCircleState extends State<PostCircle> {
                 future: _storage.getUserImageUrl(user.data!.img!),
                 builder: (context, user) {
                   return CircleAvatar(
-                    backgroundColor: widget.post.createdAt!.millisecondsSinceEpoch >= Timestamp.now().millisecondsSinceEpoch-86400?  Colors.purple[500] : Colors.grey[500],
+                    backgroundColor: widget.post.createdAt!.millisecondsSinceEpoch >= Timestamp.now().millisecondsSinceEpoch-86400000?  Colors.purple[500] : Colors.grey[500],
                     radius:36,
                     child: CircleAvatar(
                       foregroundImage: user.hasData? NetworkImage(user.data!): const AssetImage("assets/images/intouch-default.png") as ImageProvider,

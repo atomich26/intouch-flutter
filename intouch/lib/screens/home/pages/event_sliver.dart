@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -30,12 +32,24 @@ class EventSliver extends StatefulWidget {
 class _EventSliverState extends State<EventSliver> {
   
   final UserDatabaseService _userDatabaseService = UserDatabaseService();
+  final EventDatabaseService _eventDatabaseService = EventDatabaseService();
   final GoogleServices _googleServices = GoogleServices();
+  //late final Future<dynamic> _attendees;
+
+  bool _isSelected = false;
+  @override
+  void initState(){
+    //_attendees = FirebaseFirestore.instance.collection('events').doc(widget.event.id).collection('attendees').snapshots().first.then((value) => value.docs.first.get('users'));
+    super.initState();
+    
+  }
   
   @override
   Widget build(BuildContext context) {
-    bool isSelected = widget.event.attendees.contains(FirebaseAuth.instance.currentUser!.uid);
     Future<AppUserData>? user= _userDatabaseService.getUserById(widget.event.userId);
+    Future<dynamic> _attendees = FirebaseFirestore.instance.collection('events').doc(widget.event.id).collection('attendees').snapshots().first.then((value) => value.docs.first.get('users'));
+    
+  
     return FutureBuilder<AppUserData>(
       future: user,
       builder: (context, user) {
@@ -186,19 +200,45 @@ class _EventSliverState extends State<EventSliver> {
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton:
             widget.event.startAt.toDate().isAfter(DateTime.now())?
-            Container(
-              padding:const EdgeInsets.all(8.0),
-              color: Colors.purple[50],
-              child: InTouchLongButton(
-                context, 
-                isSelected? "I'll Pass": "I'll be there!", 
-                null, 
-                isSelected? false: true, 
-                () {
-                  setState(() {
-                    isSelected = !isSelected;
-                    });
-                  }),
+            
+            FutureBuilder<dynamic>(
+              future: _attendees,
+              builder: (context, attendees) {
+                return !attendees.hasData ? 
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.purple[50],
+                  child: InTouchLongButton(
+                    context, "Connectivity issues", null, false, (){}),
+                ) :
+                  Container(
+                  padding:const EdgeInsets.all(8.0),
+                  color: Colors.purple[50],
+                  child: InTouchLongButton(
+                    context, 
+                    !attendees.data!.contains(FirebaseAuth.instance.currentUser!.uid)? "I'll pass" : "I'll be there",
+                    null, 
+                    !attendees.data!.contains(FirebaseAuth.instance.currentUser!.uid) ? false: true, 
+                    ()async{
+                        {
+                        bool confirm = attendees.data!.contains(FirebaseAuth.instance.currentUser!.uid);
+                        var data = <String, dynamic> {
+                          'join' : confirm,
+                          'eventId' : widget.event.id,
+                          //'userId' : FirebaseAuth.instance.currentUser!.uid,
+                        };
+                        await FirebaseFunctions.instance.httpsCallable('events-join').call(data).then(
+                          (value){
+                            setState(() {
+                              _attendees = FirebaseFirestore.instance.collection('events').doc(widget.event.id).collection('attendees').snapshots().first.then((value) => value.docs.first.get('users'));
+                            });
+                          }
+                        );}
+                            
+                         
+                      }),
+                );
+              }
             ) : 
             Container(
               padding:const EdgeInsets.all(8.0),
