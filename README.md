@@ -1,2 +1,1 @@
-# intouch-flutter
-Progetto per il corso di Programmazione Mobile, Univpm 
+This project is no longer supported and maintained by the developer.
